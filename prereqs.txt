@@ -1,0 +1,35 @@
+Invite the TU coach through BEPsys.
+Request approval to start through Bepsys.
+Give guidelines to client at the start of project (Perhaps not for TU personel clients).
+
+Start by creating a "plan van aanpak".
+Research phase.
+Write research report (10 pages).
+
+Midterm meeting.
+Document any changes made in the assignment.
+
+Friday June 24th: Presentation (lots of people welcome).
+Friday June 17th: Deadline Report (Does not state what report) and Infosheet (1 page).
+
+Report:
+30 - 50 pages
+Contains at least: foreword, table of contents, summary, introduction, problem definition and problem analysis, design and implementation, conclusions, discussion and recommendations, and references
+
+Reminders:
+Include the name of your BSc project in the subject line of email correspondence.
+Cc all the members of the team on correspondence.
+Send a version of the final report to the committee 7 days before the presentation (= on June 17th)
+
+After June 24th:
+Please upload your thesis to the repository and to BEPsys, only then your grade will be entered in Osiris.
+You will be asked to give your own opinion using a form on how the project went. We are constantly working to improve the Bachelor project.
+
+SIG:
+May 27th deadline first upload
+May 31st feedback received
+June 17th deadline second upload
+June 17th deadline report
+June 23th feedback received at the latest
+
+BEP is obsessed with the guidelines.

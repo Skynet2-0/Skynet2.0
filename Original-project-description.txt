@@ -1,0 +1,54 @@
+Autonomous Self-replicating CodeLeave this project
+Project description
+
+You will create an Internet-deployed system which can earn money, replicate itself, and which has no human control.
+
+In the past humanity has created chess programs that it can no longer beat. The distant future of an omniscient computer system that on day chooses to exterminate humanity in the Terminator films is the not focus of your project. You will create software that is beyond human control and includes breathtaking features such as earning money (Bitcoin) and self-replicating code (software buys a server+spawn clone).
+
+Earning money consists of helping others become anonymous using the Tor-like protocols developed at TUDelft and our own cybercurrency designed for this purpose, called Multichain coins. You Python software is able to accomplish the following:
+
+ - Earn income in a form of cybercurrency (existing code, see below)
+
+ - Sell this cybercurrency on a market for Bitcoins (another BEP team)
+
+ - Buy a server using Bitcoins fully automatically
+
+ - Login to this Linux server and install itself from the Github repository
+
+ - BONUS: As a sign of life its sends a birth certificate to its makers (using postcardservices.com, modernpostcard.com)
+
+The software also should be able to have a simplistic form of genetic evolution. Key parameters will be inherited to offspring and altered with a mutation probability. For instance, what software version of yourself to use (latest release?), what type of server to prefer buying (quad core, 4GB mem, etc), and if you offer Tor exit node services for income. Bitcoins owned by TUDelft will be used to bootstrap your research.
+
+WARNING: this project is challenging and recommended for students experienced in software development and/or honor students.
+
+Company description
+
+Tribler Team. Creating disruptive cooperative software since 1999.
+
+Read about the team at these URLs:
+
+http://http://www.foxnews.com/tech/2012/02/10/forget-megaupload-researchers-call-new-file-sharing-network-invincible.html, http://http://www.ee.princeton.edu/events/anonymous-hd-video-streaming-and-reputations , http://news.harvard.edu/gazette/story/2007/08/creating-a-computer-currency , http://tweakers.net/nieuws/98175/torrentclient-tribler-gebruikt-
+
+onderdelen-tor-voor-anonieme-downloads.html, http://http://www.elsevier.nl/Tech/blogs/2014/12/Johan-Pouwelse-Tribler-Mijn-ideaal-is-mensen-aan-de-macht-1674399W/
+
+Multichain coins documentation: http://repository.tudelft.nl/view/ir/uuid%3A59723e98-ae48-4fac-b258-2df99d11012c/
+
+Auxiliary information
+
+Company Tribler Team / Distributed Systems group
+Presentation time Unknown
+Presentation place Unknown
+Presiding coordinator Unknown
+TU Delft coach Johan Pouwelse
+TU Delft coach email address j.a.pouwelse@tudelft.nl
+Company contact Johan Pouwelse
+Company contact email peer2peer@gmail.com
+Company contact phone 01512782539
+Repository link Unknown
+Participants
+Name	Email
+Niels Bakker	n.c.bakker@student.tudelft.nl
+Rob van den Berg	r.s.vandenberg-1@student.tudelft.nl
+Stefan Boodt	s.a.boodt@student.tudelft.nl
+TU coach: Johan Pouwelse
+ ...

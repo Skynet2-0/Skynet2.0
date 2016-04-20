@@ -48,9 +48,9 @@ generator = BogusFormBuilder()
 fillInElement('firstname', generator.getFirstName())
 fillInElement('lastname', generator.getSurname())
 fillInElement('email', generator.getEmail())
-fillInElement('address1', generator.getRAString(randint(10, 20)) + generator.getRNString(randint(1, 2)))
+fillInElement('address1', generator.getRAString(randint(8, 15)) + ' ' + generator.getRNString(randint(1, 2)))
 fillInElement('city', generator.getCity())
-fillInElement('postcode', generator.getZipCode())
+fillInElement('postcode', generator.getZipcode())
 
 clickRandomSelectElement('country')
 

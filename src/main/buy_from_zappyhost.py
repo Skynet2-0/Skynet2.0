@@ -2,6 +2,9 @@ from random import randint
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.support.select import Select
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
 
 from main.BogusFormBuilder import BogusFormBuilder
 
@@ -13,7 +16,10 @@ def getFormValue(name):
 
 
 def fillInElement(fieldname, value):
-    driver.find_element_by_css_selector("input[name='" + fieldname + "']").send_keys(value)
+    #driver.find_element_by_css_selector("input[name='" + fieldname + "']").send_keys(value)
+    
+    # ^ send_keys has some issues, using javascript to set an attribute instead:
+    driver.execute_script('arguments[0].setAttribute("value", "' + value + '")', driver.find_element_by_css_selector("input[name='" + fieldname + "']"))
     
 def clickRandomSelectElement(fieldId):
     el = driver.find_element_by_id(fieldId)
@@ -25,7 +31,7 @@ def clickRandomSelectElement(fieldId):
 
 driver = webdriver.Remote(
    command_executor='http://127.0.0.1:4444/wd/hub',
-   desired_capabilities=DesiredCapabilities.CHROME)
+   desired_capabilities=DesiredCapabilities.FIREFOX)
 
 driver.get("https://billing.zappiehost.com/cart.php?a=confproduct&i=0")
 
@@ -54,20 +60,16 @@ fillInElement('postcode', generator.getZipcode())
 
 clickRandomSelectElement('country')
 
-print '-1'
 select = Select(driver.find_element_by_id('country'))
+selected_text = select.first_selected_option.text;
 
-print '0'
-if select.first_selected_option.text == 'United States' or select.first_selected_option.text == 'Spain' or select.first_selected_option.text == 'Australia' or select.first_selected_option.text == 'Brazil' or select.first_selected_option.text == 'Canada' or select.first_selected_option.text == 'France' or select.first_selected_option.text == 'Germany' or select.first_selected_option.text == 'India' or select.first_selected_option.text == 'Italy' or select.first_selected_option.text == 'Netherlands' or select.first_selected_option.text == 'New Zealand' or select.first_selected_option.text == 'United Kingdom':
+if selected_text == 'United States' or selected_text == 'Spain' or selected_text == 'Australia' or selected_text == 'Brazil' or selected_text == 'Canada' or selected_text == 'France' or selected_text == 'Germany' or selected_text == 'India' or selected_text == 'Italy' or selected_text == 'Netherlands' or selected_text == 'New Zealand' or selected_text == 'United Kingdom':
     # For US, Brazil, Canada, France, Germany, India, Italia, Netherlands, New Zealand and United Kingdom select state option in a select
     clickRandomSelectElement('stateselect')
-    print 'a'
 else:
     # For all other countries, fill in string
-    fillInElement('state', getFormValue('state'))
-    print 'b'
+    fillInElement('state', generator.getRAString(randint(6, 12)))
     
-print 'c'
 
 fillInElement('phonenumber', generator.getPhoneNum())
 
@@ -76,3 +78,16 @@ fillInElement('password', password)
 fillInElement('password2', password)
 
 driver.find_element_by_css_selector("input[type='submit'][class='cartbutton green ui-button ui-widget ui-state-default ui-corner-all']").click() # Submit the form
+
+driver.find_element_by_css_selector("input[type='submit'][value='Pay Now']").click()
+
+
+driver.implicitly_wait(10)
+
+bitcoinAmount = driver.find_element_by_css_selector(".ng-binding.payment__details__instruction__btc-amount").text
+toWallet = driver.find_element_by_css_selector(".payment__details__instruction__btc-address.ng-binding").text
+
+print "Bitcoin amount to transfer: " + bitcoinAmount
+
+print "To wallet: " + toWallet
+

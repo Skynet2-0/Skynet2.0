@@ -17,7 +17,7 @@ class BogusFormBuilder(object):
     '''
     returns a 10 sized phone number
     '''
-    def genPhoneNum(self):
+    def getPhoneNum(self):
         if self.phoneNum is not None:
             return self.phoneNum
         

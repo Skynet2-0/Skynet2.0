@@ -18,6 +18,7 @@
 bin/**
 tmp/**
 tmp/**/*
+__pycache__/**
 *.tmp
 *.bak
 *.swp

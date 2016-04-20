@@ -18,31 +18,52 @@ class bogusFormBuilder(object):
     returns a 10 sized phone number
     '''
     def genPhoneNum(self):
-        result = ""
+        if self.phoneNum is not None:
+            return self.phoneNum
+        
+        self.phoneNum = ""
         for _ in range(0,10):
-            result+=randrange(0,9)
-        return result
+            self.phoneNum+=randrange(0,9)
+
+        return self.phoneNum
     
     '''
     returns a random email adress. this email adress is bogus and cannot be accessed
     '''
     def getEmail(self):
+        if self.email is not None:
+            return self.email
+        
         tlds = [".com", ".co.uk", ".eu", ".ch", ".org"]
-        return self.getRAString(randrange(3,10))+"@"+self.getRAString(randrange(3,10))+tlds[randrange(0,len(tlds))]
+        
+        self.email = self.getRAString(randrange(3,10))+"@"+self.getRAString(randrange(3,10))+tlds[randrange(0,len(tlds))]        
+        return self.email
     
     '''
     returns a bogus firstname
     '''
     def getFirstName(self):
-        return self.getRAString(randrange(3,10))
+        if self.firstName is not None:
+            return self.firstName
+        
+        self.firstName = self.getRAString(randrange(3,10)) 
+        return self.firstName
     
     'returns a bogus surname'
     def getSurname(self):
-        return self.getRAString(randrange(3,10))
+        if self.surname is not None:
+            return self.surname
+        
+        self.surname = self.getRAString(randrange(3,10)) 
+        return self.surname
     
     'returns a bogus city'
     def getCity(self):
-        return self.getRAString(randrange(3,10))
+        if self.city is not None:
+            return self.city
+        
+        self.city = self.getRAString(randrange(3,10)) 
+        return self.city
     
     '''
     returns a american zipcode

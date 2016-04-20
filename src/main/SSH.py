@@ -3,7 +3,7 @@ Created on Apr 19, 2016
 
 @author: Niels
 '''
-from pip._vendor.distlib._backport.tarfile import pwd
+from paramiko.client import *
 
 class SSH(object):
     '''
@@ -17,6 +17,7 @@ class SSH(object):
         self.ip = ip
         self.username = username
         self.pwd = pwd
+        self.client = SSHClient()
         
         
     def run(self, command):

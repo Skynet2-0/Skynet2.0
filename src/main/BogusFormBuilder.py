@@ -23,9 +23,7 @@ class BogusFormBuilder(object):
         if hasattr(self, 'phoneNum'):
             return self.phoneNum
         
-        self.phoneNum = ""
-        for _ in range(0,10):
-            self.phoneNum+=randrange(0,9)
+        self.phoneNum = self.getRNString(10)
 
         return self.phoneNum
     

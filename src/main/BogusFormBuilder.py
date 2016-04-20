@@ -15,11 +15,11 @@ class BogusFormBuilder(object):
     
     def __init__(self):
         pass
-        
-    '''
-    returns a 10 sized phone number
-    '''
-    def getPhoneNum(self):
+    
+    def getPhoneNum(self):    
+        '''
+        returns a 10 sized phone number
+        '''
         if hasattr(self, 'phoneNum'):
             return self.phoneNum
         
@@ -39,70 +39,70 @@ class BogusFormBuilder(object):
         self.email = self.getRAString(randrange(3,10))+"@"+self.getRAString(randrange(3,10))+tlds[randrange(0,len(tlds))]        
         return self.email
     
-    '''
-    returns a bogus firstname
-    '''
     def getFirstName(self):
+        '''
+        returns a bogus firstname
+        '''
         if hasattr(self, 'firstName'):
             return self.firstName
         
         self.firstName = self.getRAString(randrange(3,10)) 
         return self.firstName
     
-    'returns a bogus surname'
     def getSurname(self):
+        'returns a bogus surname'
         if hasattr(self, 'surname'):
             return self.surname
         
         self.surname = self.getRAString(randrange(3,10)) 
         return self.surname
     
-    'returns a bogus city'
     def getCity(self):
+        'returns a bogus city'
         if hasattr(self, 'city'):
             return self.city
         
         self.city = self.getRAString(randrange(3,10)) 
         return self.city
-    
-    '''
-    returns a american zipcode
-    '''    
+      
     def getZipcode(self):
+        '''
+        returns a american zipcode
+        '''  
         if hasattr(self, 'zipcode'):
             return self.zipcode
         self.zipcode = self.getRNString(5)
         return self.zipcode
     
-    'generates a password, do store it yourself'
     def getPassword(self):
+        'generates a password, do store it yourself'
         if hasattr(self, 'password'):
             return self.password
         self.password =  self.getRString(randrange(15,30))
         return self.password
-        
-    '''
-    returns a random string with size length. contains just alphabetical characters
-    '''    
+           
     def getRAString(self, length):
+        '''
+        returns a random string with size length. contains just alphabetical characters
+        ''' 
         result = ""
         for _ in range(0,length):
             result+=random.choice(string.ascii_letters)
         return result
     
-    '''
-    returns a random numerical string with size length.
-    '''
     def getRNString(self, length):
+        '''
+        returns a random numerical string with size length.
+        '''
         result = ""
         for _ in range(0,length):
             result+=random.choice(string.digits)
         return result
     
-    '''
-    returns a random string with size length (numerical, alphabetical and some random other signs)
-    '''
     def getRString(self, length):
+        '''
+        returns a random string with size length (numerical, alphabetical and some random other signs)
+        '''
         result = ""
         for _ in range(0,length):
             result+=random.choice(string.printable)

@@ -17,7 +17,7 @@ class SSH(object):
         self.ip = ip
         self.username = username
         self.pwd = pwd
-        self.client = SSHClient()
+        #self.client = SSHClient()
         
         
     def run(self, command):

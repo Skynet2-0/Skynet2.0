@@ -3,7 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.support.select import Select
 
-import BogusFormBuilder
+from main.BogusFormBuilder import BogusFormBuilder
 
 
 

@@ -4,13 +4,13 @@ Created on Apr 20, 2016
 @author: Niels
 '''
 import unittest
-from main.bogusFormBuilder import bogusFormBuilder
+from main.BogusFormBuilder import BogusFormBuilder
 
 
 class Test(unittest.TestCase):
         
     def setUp(self):
-        self.that = bogusFormBuilder()
+        self.that = BogusFormBuilder()
 
     def testPassword(self):
         pwd = self.that.getPassword()

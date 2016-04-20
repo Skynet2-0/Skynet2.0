@@ -7,7 +7,7 @@ from random import randrange
 import string
 import random
 
-class bogusFormBuilder(object):
+class BogusFormBuilder(object):
     '''
     this class can be used to generate common values for registry forms on websites
     '''

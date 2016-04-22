@@ -3,6 +3,6 @@ of https://bitcoin.org/nl/kies-uw-portemonnee voor andere portoneeen.
 
 bitcoin python interactie http://laanwj.github.io/bitcoin-python/doc/bitcoinrpc.html#bitcoinrpc.connect_to_remote
 Probeer http://bitcoin.stackexchange.com/questions/10010/how-to-install-a-bitcoin-client-on-ubuntu-server en https://scottlinux.com/2013/09/09/how-to-setup-bitcoin-wallet-headless-on-debian-or-ubuntu-linux/
-bitcoind can be installed by running apt-get install bitcoind.
+bitcoind can be installed by running apt-get install bitcoind. Then run bitcoind (takes 8+ hours).
 
 Een andere client is https://developers.coinbase.com

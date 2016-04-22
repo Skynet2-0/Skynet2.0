@@ -12,6 +12,7 @@ class Test(unittest.TestCase):
     def setUp(self):
         """Does some set up."""
         self.SUT = Wallet()
+        pass
 
 
     def tearDown(self):

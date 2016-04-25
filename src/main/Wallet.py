@@ -4,6 +4,8 @@ Created on April 20, 2016.
 @author: Stefan
 """
 
+import bitcoinrpc
+
 
 class Wallet(object):
     """This class enables bitcoin transactions."""
@@ -11,7 +13,25 @@ class Wallet(object):
     def __init__(self):
         """Initialize the bitcoin wallet."""
         self.connection = bitcoinrpc.connect_to_local()
-        self.address = None
+        self.address = self.connection.getnewaddress()
+
+    def __init__(self, address):
+        """
+        Initialize the bitcoin wallet with the given address.
+        address is the address to use.
+        """
+        self.connection = bitcoinrpc.connect_to_local()
+        self.address = address
+
+    def __init__(self, address, connection):
+        """
+        Initialize the bitcoin wallet with the given address.
+        This version is used for testing purposes.
+        address is the address to use.
+        connection is the connection to use.
+        """
+        self.connection = connection
+        self.address = address
 
     def getSaldo(self):
         """Checks the saldo of the wallet."""
@@ -19,8 +39,6 @@ class Wallet(object):
 
     def getAddress(self):
         """This method gets the wallets address."""
-        if self.hasattr(address):
-            self.address = self.connection.getAddress()
         return self.address
 
     def transfer(self, amount, recipient):

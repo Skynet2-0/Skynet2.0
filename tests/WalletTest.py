@@ -19,7 +19,7 @@ class WalletTest(unittest.TestCase):
         port = int(config.get('rpcport', '18332' if config.get('testnet') else '8332'))
         self.remote_conn = bitcoinrpc.connect_to_remote(
                 user=config['rpcuser'], password=config['rpcpassword'],
-                host='127.0.0.1', port=port, use_https=False)
+                host='localhost', port=port, use_https=False)
         self.address = self.remote_conn.getnewaddress()
         self.SUT = Wallet(self.address, self.remote_conn)
         assert(self.remote_conn.getinfo().testnet) #prevent testing on production networks.

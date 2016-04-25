@@ -27,12 +27,23 @@ class Test(unittest.TestCase):
     def tearDown(self):
         """Does some clean up."""
         super().tearDown()
-        pass
 
     def testAddress(self):
         """Tests if the address is as expected."""
         self.assertEquals(SUT.getAddress(), self.address)
 
+    def testBalancePositive(self):
+        """Tests if the balance is positive."""
+        self.assertTrue(self.SUT.getBalance() >= 0)
+
+    def testTransfer():
+        """Tests the transfer method."""
+        #self.assertTrue(self.SUT.transfer("", 0.0))
+        pass
+
+    def testTransferInvalid():
+        """Tests the transfer method to a non existing transfer."""
+        self.assertFalse(self.SUT.transfer("_super invalid_", 0.0))
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

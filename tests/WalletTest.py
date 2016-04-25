@@ -9,7 +9,7 @@ from src.main.Wallet import *
 from bitcoinrpc.config import read_config_file
 
 
-class Test(unittest.TestCase):
+class WalletTest(unittest.TestCase):
     """This class tests the wallet class."""
 
     def setUp(self):
@@ -19,9 +19,9 @@ class Test(unittest.TestCase):
         port = int(config.get('rpcport', '18332' if config.get('testnet') else '8332'))
         self.remote_conn = bitcoinrpc.connect_to_remote(
                 user=config['rpcuser'], password=config['rpcpassword'],
-                host='localhost', port=port, use_https=False)
+                host='127.0.0.1', port=port, use_https=False)
         self.address = self.remote_conn.getnewaddress()
-        self.SUT = Wallet(address, remote_conn)
+        self.SUT = Wallet(self.address, self.remote_conn)
         assert(self.remote_conn.getinfo().testnet) #prevent testing on production networks.
 
     def tearDown(self):
@@ -30,7 +30,7 @@ class Test(unittest.TestCase):
 
     def testAddress(self):
         """Tests if the address is as expected."""
-        self.assertEquals(SUT.getAddress(), self.address)
+        self.assertEquals(self.SUT.getAddress(), self.address)
 
     def testBalancePositive(self):
         """Tests if the balance is positive."""

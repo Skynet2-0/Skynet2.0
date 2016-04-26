@@ -10,32 +10,22 @@ import bitcoinrpc
 class Wallet(object):
     """This class enables bitcoin transactions."""
 
-    def __init__(self):
-        """Initialize the bitcoin wallet."""
-        self.connection = bitcoinrpc.connect_to_local()
-        self.address = self.connection.getnewaddress()
-
-    def __init__(self, address):
+    def __init__(self, address = None, config = None):
         """
-        Initialize the bitcoin wallet with the given address.
+        Initialize the bitcoin wallet.
         address is the address to use.
+        connection is the connection to use. Setting the connection is
+        useful for testing purposes or high control.
         """
-        self.connection = bitcoinrpc.connect_to_local()
-        self.address = address
-
-    def __init__(self, address, connection):
-        """
-        Initialize the bitcoin wallet with the given address.
-        This version is used for testing purposes.
-        address is the address to use.
-        connection is the connection to use.
-        """
-        self.connection = connection
-        self.address = address
+        self.connection = bitcoinrpc.connect_to_local(config)
+        if address is None:
+            self.address = self.connection.getnewaddress()
+        else:
+            self.address = address
 
     def getSaldo(self):
         """Checks the saldo of the wallet."""
-        self.connection.getBalance()
+        self.connection.getbalance()
 
     def getAddress(self):
         """This method gets the wallets address."""
@@ -47,9 +37,9 @@ class Wallet(object):
         Returns True iff the method to transfer is called.
         Returns False iff the address of the recipient is invalid.
         """
-        valid = self.validateaddress(recipient)
+        valid = self.connection.validateaddress(recipient)
         if valid.isvalid():
-            self.send_to_address(recipient, amount)
+            self.connection.send_to_address(recipient, amount)
             return True
         else:
             return False

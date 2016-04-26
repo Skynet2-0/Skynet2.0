@@ -1,3 +1,3 @@
 apt-get install python
 
-run.sh
+sh run.sh

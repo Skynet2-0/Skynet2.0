@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
-pip install -r requirements.txt
-python src/main/__init__.py
+pip3 install -r requirements.txt
+python3 src/main/__init__.py

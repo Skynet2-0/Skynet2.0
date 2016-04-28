@@ -25,14 +25,14 @@ class BogusFormBuilderTest(unittest.TestCase):
         self.assertEqual(number, self.that.getPhoneNum())
 
     def testEmailDuplicate(self):
-        email = selt.that.getEmail()
+        email = self.that.getEmail()
         self.assertEqual(email, self.that.getEmail())
 
     def testEmailDot(self):
-        self.assertTrue(self.that.getEmail().contains("."))
+        self.assertTrue("." in self.that.getEmail())
 
     def testEmailAt(self):
-        self.assertTrue(self.that.getEmail().contains("@"))
+        self.assertTrue("@" in self.that.getEmail())
 
     def testFirstNameDuplicate(self):
         name = self.that.getFirstName()
@@ -54,7 +54,7 @@ class BogusFormBuilderTest(unittest.TestCase):
         self.assertEqual(len(self.that.getZipcode()), 5)
 
     def testZipCodeNumberical(self):
-        self.assertTrue(self.that.getZipCode().isdigit())
+        self.assertTrue(self.that.getZipcode().isdigit())
 
     def testPhoneNumberNumberical(self):
         self.assertTrue(self.that.getPhoneNum().isdigit())
@@ -67,18 +67,18 @@ class BogusFormBuilderTest(unittest.TestCase):
 
     def testCityLength(self):
         city = self.that.getCity()
-        assertTrue(len(city) >= 3)
-        assertTrue(len(city) <= 10)
+        self.assertTrue(len(city) >= 3)
+        self.assertTrue(len(city) <= 10)
 
     def testFirstNameLength(self):
         name = self.that.getFirstName()
-        assertTrue(len(name) >= 3)
-        assertTrue(len(name) <= 10)
+        self.assertTrue(len(name) >= 3)
+        self.assertTrue(len(name) <= 10)
 
     def testSurnameLength(self):
         name = self.that.getSurname()
-        assertTrue(len(name) >= 3)
-        assertTrue(len(name) <= 10)
+        self.assertTrue(len(name) >= 3)
+        self.assertTrue(len(name) <= 10)
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

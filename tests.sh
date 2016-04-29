@@ -1,3 +1,5 @@
+#!/usr/bin/env sh
+
 #currentdir=$(pwd)
 currentdir=.
 if [ -z $PYTHONPATH ]; then

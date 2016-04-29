@@ -6,12 +6,13 @@ else
   PYTHONPATH=$currentdir:..:$PYTHONPATH
 fi
 
-testdir=src/main/tests
-topdir=src
+testdir=tests
+topdir=$currentdir
 
 # Echo the PYTHONPATH and testdir for debugging the path.
 echo "PYTHONPATH = $PYTHONPATH"
 echo "test directory = $testdir"
+echo "Top directory = $topdir"
 
 #python3 -m "src.main.tests" #PYTHONPATH="$PYTHONPATH"
 #python3 "src/main/tests/WalletTest.py" #PYTHONPATH="$PYTHONPATH"

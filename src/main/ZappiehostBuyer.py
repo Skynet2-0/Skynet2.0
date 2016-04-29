@@ -31,7 +31,7 @@ class ZappiehostBuyer(VPSBuyer):
             
         self.SSHUsername = "root"
         pass
-        
+    
     
     '''
     Walks through the entire process of buying a VPS from Zappiehost. Returns True if it succeeded, returns False otherwise

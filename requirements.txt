@@ -1,2 +1,3 @@
 Selenium==2.53.1
 paramiko==1.16.0
+pexpect-u==2.5.1

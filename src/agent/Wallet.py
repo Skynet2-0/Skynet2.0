@@ -23,7 +23,7 @@ class Wallet(object):
         Constructor
         '''
         
-        output = pexpect.run('electrum listaddresses').decode('ascii')
+        output = pexpect.run('electrum listaddresses')#.decode('ascii')
         print(output)
         pattern = re.compile(r"[A-z0-9]+") #the specific output for electrum if 1 adress exists
         

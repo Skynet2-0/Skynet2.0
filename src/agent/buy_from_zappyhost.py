@@ -20,7 +20,7 @@ generator = BogusFormBuilder()
 
 SSHPassword = generator.getRAString(32)
 
-zhb = ZappiehostBuyer(email, password)
+zhb = ZappiehostBuyer('xKlupfS@XEF.org', 'qnrmHRNxCZWLskFtiDSUGkSyUoHJBSpj')
 #zhb.placeOrder('abc', 'def')
 
 zhb.setSSHPassword()

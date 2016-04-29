@@ -23,7 +23,7 @@ class Wallet(object):
         Constructor
         '''
         
-        output = pexpect.run('electrum listaddresses').decode('ascii')
+        output = pexpect.run('electrum listaddresses')#.decode('ascii')
         print(output)
         pattern = re.compile(r"[A-z0-9]+") #the specific output for electrum if 1 adress exists
         
@@ -70,15 +70,28 @@ class Wallet(object):
         '''
         make a payment using an automatically calculated fee
         '''
-        return self.payTo(address, amount, '0.0001')
+        #return self.payTo(address, amount, '0.0001')
+        if self.canPay(amount,'0.0'):
+            payment = str(subprocess.check_output(['electrum', 'payto', address, amount]))
+        
+            #filter out the hex code from the payment and broadcast this
+            hex = re.search('hex": "([A-z0-9]+)"', payment).group(1)
+            subprocess.run(['electrum', 'broadcast', hex])
+            
+            return True
+        return False
     
     def payTo(self, address, amount, fee):
         '''
         If funds allow, transfer amount in Btc to Address. With a fee for processor
         '''
         if self.canPay(amount, fee):
-            #child = pexpect.spawn('electrum payto -f ' + fee + ' ' + address + ' '+ amount)
-            #child.expect(pexpect.EOF)
-            print(str(subprocess.run(['electrum', 'payto', '-f', fee, address, amount])))
+            payment = str(subprocess.check_output(['electrum', 'payto', '-f', fee, address, amount]))
+            #filter out the hex code from the payment and broadcast this
+            hex = re.search('hex": "([A-z0-9]+)"', payment).group(1)
+            subprocess.run(['electrum', 'broadcast', hex])
+            
+            
+            
             return True
         return False

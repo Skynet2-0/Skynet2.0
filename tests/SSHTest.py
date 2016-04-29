@@ -7,6 +7,7 @@ import unittest
 from src.agent.SSH import *
 from socket import socket
 from threading import Thread
+import time
 
 
 class SSHTest(unittest.TestCase):
@@ -16,14 +17,21 @@ class SSHTest(unittest.TestCase):
         Plays the server for the connections.
         '''
         def __init__(self, hostname, port):
-            super(SSHTest.Server, self).__init__()
+            #super(SSHTest.Server, self).__init__()
             #super(Thread, self)
+            Thread.__init__(self)
             self.server = socket()
             self.server.bind((hostname, port))
             self.server.listen(1)
 
         def run(self):
             self.server.accept()
+            time.sleep(2)
+            self.close()
+
+        def close(self):
+            self.server.shutdown(socket.SHUT_RDWR)
+            self.server.close()
 
 
     def setUp(self):
@@ -32,7 +40,9 @@ class SSHTest(unittest.TestCase):
         self.server = SSHTest.Server(hostname, port)
         self.server.deamon = False
         self.server.start()
+        time.sleep(2)
         self.that = SSH(hostname, None, None, port)
+        self.that.set_missing_host_key_policy(WarningPolicy())
 
     def tearDown(self):
         self.that.close_connection()

@@ -4,6 +4,7 @@ Created on Apr 29, 2016
 @author: Stefan
 '''
 from paramiko.client import *
+import time
 
 class SSH(object):
     '''
@@ -31,9 +32,10 @@ class SSH(object):
         that can be set when using the underlying layer instead of this one.
         '''
         if port:
-            self.client.connect(sshhost, username = user, password = pwd, port=port)
+            self.client.connect(sshhost, username = user, password = pwd, port=port)#(, timeout = 60)
         else:
             self.client.connect(sshhost, username = user, password = pwd)
+        time.sleep(1)
 
 
     def run(self, command):

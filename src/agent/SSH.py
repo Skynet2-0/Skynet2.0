@@ -1,7 +1,7 @@
 '''
-Created on Apr 19, 2016
+Created on Apr 29, 2016
 
-@author: Niels
+@author: Stefan
 '''
 from paramiko.client import *
 
@@ -10,26 +10,30 @@ class SSH(object):
     This class enables the execution of SSH commands on a child server
     '''
 
-    def __init__(self, ip, username, pwd):
+    def __init__(self, sshhost, username, pwd, port = None):
         '''
         Constructor
         '''
-        self.ip = ip
+        self.sshhost = sshhost
         self.username = username
         self.pwd = pwd
         self.client = SSHClient()
         self.client.set_missing_host_key_policy(AutoAddPolicy())
         self.client.load_system_host_keys()
-        self.connect(self.ip, self.username, self.pwd)
+        self.connect(self.sshhost, self.username, self.pwd, port)
 
-    def connect(self, sshhost, user = None, pwd = None):
+    def connect(self, sshhost, user = None, pwd = None, port = None):
         '''
         Connects this instance with the instance sshhost over SSH.
         username is the user and pwd is the password.
+        Port is the port number to connect to.
         See SSHClient.connect for more information on optional parameters
         that can be set when using the underlying layer instead of this one.
         '''
-        self.client.connect(sshhost, username = user, password = pwd)
+        if port:
+            self.client.connect(sshhost, username = user, password = pwd, port=port)
+        else:
+            self.client.connect(sshhost, username = user, password = pwd)
 
 
     def run(self, command):

@@ -14,9 +14,6 @@ class VPSBuyer(object):
     This is the standard class to buy a VPS host. By itself, it does nothing; this class is supposed to be extended by other classes, each for a specific VPS Provider
     '''
     def __init__(self):
-        self.driver = webdriver.Remote(
-            command_executor='http://127.0.0.1:4444/wd/hub',
-            desired_capabilities=DesiredCapabilities.FIREFOX)
         self.generator = BogusFormBuilder()
         
         self.email = self.generator.getEmail()
@@ -31,6 +28,11 @@ class VPSBuyer(object):
     def getFormValue(self, name):
        "function_docstring"
        return "To be implemented: " + name
+   
+    def spawnBrowser(self):
+        self.driver = webdriver.Remote(
+            command_executor='http://127.0.0.1:4444/wd/hub',
+            desired_capabilities=DesiredCapabilities.FIREFOX)
     
     
     '''
@@ -73,5 +75,5 @@ class VPSBuyer(object):
     def getPassword(self):
         return self.password
     
-    def close(self):
+    def closeBrowser(self):
         self.driver.quit()

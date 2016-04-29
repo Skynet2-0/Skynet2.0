@@ -50,8 +50,6 @@ class ZappiehostBuyer(VPSBuyer):
         if succeeded == False:
             return False
         return True
-    
-        self.close()
         
         
     '''
@@ -59,7 +57,7 @@ class ZappiehostBuyer(VPSBuyer):
     '''
     def placeOrder(self):
         try:
-            
+            self.spawnBrowser()
             self.driver.get("https://billing.zappiehost.com/cart.php?a=confproduct&i=0")
             
             #Click the to cart button for the cheapest VPS
@@ -128,11 +126,12 @@ class ZappiehostBuyer(VPSBuyer):
             # Wait for the transaction to be accepted
             wait = ui.WebDriverWait(self.driver, 666)
             wait.until(lambda driver: driver.find_element_by_css_selector('.payment--paid'))
-            
+            self.closeBrowser()
         
         except Exception as e:
             print("Could not complete the transaction because an error occurred:")
             print(e)
+            self.closeBrowser()
             return False
             #raise # Raise the exception that brought you here 
             
@@ -146,6 +145,7 @@ class ZappiehostBuyer(VPSBuyer):
             SSHPassword = self.SSHPassword
         self.SSHPassword = SSHPassword
         try:
+            self.spawnBrowser()
             self.driver.get("https://billing.zappiehost.com/clientarea.php")
             
             #Click the to cart button for the cheapest VPS
@@ -178,11 +178,13 @@ class ZappiehostBuyer(VPSBuyer):
             self.driver.find_element_by_css_selector(".form-actions").find_element_by_css_selector(".btn.btn-primary").click()
         
             print("New SSH Password: " + self.SSHPassword)
+            self.closeBrowser()
             
         except Exception as e:
             print("Could not complete the transaction because an error occurred:")
             print(e)
             #raise # Raise the exception that brought you here 
+            self.closeBrowser()
             return False
         
         return True

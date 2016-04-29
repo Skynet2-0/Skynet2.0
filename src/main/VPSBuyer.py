@@ -51,8 +51,14 @@ class VPSBuyer(object):
         option = options[num]
         option.click()
         
+    '''
+    Returns the SSH Username to log in on the bought VPS
+    '''
     def getSSHUsername(self):
         return self.SSHUsername
     
+    '''
+    Returns the SSH Password to log in on the bought VPS
+    '''
     def getSSHPassword(self):
         return self.SSHPassword

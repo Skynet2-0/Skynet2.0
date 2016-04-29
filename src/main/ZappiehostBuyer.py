@@ -1,3 +1,5 @@
+from random import randint
+from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.ui import WebDriverWait
@@ -30,18 +32,24 @@ class ZappiehostBuyer(VPSBuyer):
         self.SSHUsername = "root"
         pass
         
-        
+    
+    '''
+    Walks through the entire process of buying a VPS from Zappiehost. Returns True if it succeeded, returns False otherwise
+    '''
     def buy(self):
         succeeded = self.placeOrder() # places the order
         if succeeded == False:
             return False
         # pay the amount here
-        succeeded = self.setSSHPassword()
+        succeeded = self.setSSHPassword(self.SSHPassword)
         if succeeded == False:
             return False
         return True
         
         
+    '''
+    Places an order on Zappiehost for a new VPS
+    '''
     def placeOrder(self):
         try:
             
@@ -109,9 +117,12 @@ class ZappiehostBuyer(VPSBuyer):
             
         return True
     
-    def setSSHPassword(self):
+    '''
+    Re-installs the VPS on Zappiehost with a new password. This is handy, so we don't have to fetch the password from an email
+    '''
+    def setSSHPassword(self, SSHPassword):
+        self.SSHPassword = SSHPassword
         try:
-            
             self.driver.get("https://billing.zappiehost.com/clientarea.php")
             
             #Click the to cart button for the cheapest VPS

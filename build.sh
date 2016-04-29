@@ -1,3 +1,5 @@
+#!/usr/bin/env sh
+
 ###########################
 #initialize the submodules#
 ###########################
@@ -10,4 +12,3 @@ apt-get install python3
 apt-get install pip3
 
 #sh run.sh
-

@@ -13,6 +13,8 @@ from agent.VPSBuyer import VPSBuyer
 from agent.Wallet import Wallet
 
 import selenium.webdriver.support.ui as ui
+
+import time
     
     
 class ZappiehostBuyer(VPSBuyer):
@@ -45,6 +47,7 @@ class ZappiehostBuyer(VPSBuyer):
         if succeeded == False:
             return False
         
+        time.sleep(30) # Wait for half a minute so Zappiehost can process the payment
         
         succeeded = self.setSSHPassword(self.SSHPassword)
         if succeeded == False:

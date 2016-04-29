@@ -18,6 +18,7 @@ class SSH(object):
         self.username = username
         self.pwd = pwd
         self.client = SSHClient()
+        self.client.set_missing_host_key_policy(AutoAddPolicy())
         self.client.load_system_host_keys()
         self.connect(self.ip, self.username, self.pwd)
 

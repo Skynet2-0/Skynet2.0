@@ -19,7 +19,7 @@ class SSH(object):
         self.pwd = pwd
         self.client = SSHClient()
         self.client.load_system_host_keys()
-        self.connect(self.ip)
+        self.connect(self.ip, self.username, self.pwd)
 
     def connect(self, sshhost, user = None, pwd = None):
         '''

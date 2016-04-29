@@ -6,9 +6,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
-from main.BogusFormBuilder import BogusFormBuilder
+from agent.BogusFormBuilder import BogusFormBuilder
 
-from main.VPSBuyer import VPSBuyer
+from agent.VPSBuyer import VPSBuyer
+
+from agent.Wallet import Wallet
     
     
 class ZappiehostBuyer(VPSBuyer):
@@ -108,6 +110,13 @@ class ZappiehostBuyer(VPSBuyer):
             print "Bitcoin amount to transfer: " + bitcoinAmount
             
             print "To wallet: " + toWallet
+            
+            
+            wallet = Wallet()
+            paymentSucceeded = wallet.payTo(toWallet, bitcoinAmount)
+            if paymentSucceeded == False:
+                return False
+            
         
         except Exception as e:
             print "Could not complete the transaction because an error occurred:"
@@ -120,7 +129,9 @@ class ZappiehostBuyer(VPSBuyer):
     '''
     Re-installs the VPS on Zappiehost with a new password. This is handy, so we don't have to fetch the password from an email
     '''
-    def setSSHPassword(self, SSHPassword):
+    def setSSHPassword(self, SSHPassword = ''):
+        if SSHPassword == '':
+            SSHPassword = self.SSHPassword
         self.SSHPassword = SSHPassword
         try:
             self.driver.get("https://billing.zappiehost.com/clientarea.php")

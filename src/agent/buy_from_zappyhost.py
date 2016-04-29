@@ -6,10 +6,10 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
-from main.BogusFormBuilder import BogusFormBuilder
+from agent.BogusFormBuilder import BogusFormBuilder
 
-from main.VPSBuyer import VPSBuyer
-from main.ZappiehostBuyer import ZappiehostBuyer
+from agent.VPSBuyer import VPSBuyer
+from agent.ZappiehostBuyer import ZappiehostBuyer
 
 
 #temporary, for testing:

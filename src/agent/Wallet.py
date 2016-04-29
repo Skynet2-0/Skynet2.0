@@ -63,11 +63,22 @@ class Wallet(object):
         '''
         return float('inf')
     
-    def payTo(self, address, fee, amount):
+    def canPay(self, amount, fee):
+         return float(amount)+float(fee)<=self.balance()
+    
+    def payToAutomatically(self, address, amount):
+        '''
+        make a payment using an automatically calculated fee
+        '''
+        return self.payTo(address, amount, '0.0001')
+    
+    def payTo(self, address, amount, fee):
         '''
         If funds allow, transfer amount in Btc to Address. With a fee for processor
         '''
-        if float(amount)+float(fee)<=self.balance():
+        if self.canPay(amount, fee):
             #child = pexpect.spawn('electrum payto -f ' + fee + ' ' + address + ' '+ amount)
             #child.expect(pexpect.EOF)
             print(str(subprocess.run(['electrum', 'payto', '-f', fee, address, amount])))
+            return True
+        return False

@@ -11,6 +11,8 @@ from agent.BogusFormBuilder import BogusFormBuilder
 from agent.VPSBuyer import VPSBuyer
 
 from agent.Wallet import Wallet
+
+import selenium.webdriver.support.ui as ui
     
     
 class ZappiehostBuyer(VPSBuyer):
@@ -42,11 +44,14 @@ class ZappiehostBuyer(VPSBuyer):
         succeeded = self.placeOrder() # places the order
         if succeeded == False:
             return False
-        # pay the amount here
+        
+        
         succeeded = self.setSSHPassword(self.SSHPassword)
         if succeeded == False:
             return False
         return True
+    
+        self.close()
         
         
     '''
@@ -120,6 +125,10 @@ class ZappiehostBuyer(VPSBuyer):
             if paymentSucceeded == False:
                 return False
             
+            # Wait for the transaction to be accepted
+            wait = ui.WebDriverWait(self.driver, 666)
+            wait.until(lambda driver: driver.find_element_by_css_selector('.payment--paid'))
+            
         
         except Exception as e:
             print("Could not complete the transaction because an error occurred:")
@@ -147,6 +156,15 @@ class ZappiehostBuyer(VPSBuyer):
             
             self.driver.get("https://billing.zappiehost.com/clientarea.php?action=products")
             self.driver.find_element_by_css_selector(".table.table-striped.table-framed").find_element_by_css_selector(".btn-group").find_element_by_css_selector(".btn").click()
+            
+            # GET THE IP ADDRESS
+            a = self.driver.find_elements_by_xpath("//*[contains(text(), 'IP Address:')]").pop()
+            rawtext = a.find_elements_by_xpath("..").pop().text
+            text1 = rawtext.split('IP Address:\n', 1)
+            text2 = text1[1].split('\n', 1)
+            self.ip = text2[0]
+            # END OF GET IP ADDRESS
+            
             
             self.driver.find_element_by_css_selector(".icon-btn.icon-reinstall").click()
             

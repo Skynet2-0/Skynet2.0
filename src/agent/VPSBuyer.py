@@ -25,6 +25,7 @@ class VPSBuyer(object):
         
         self.SSHUsername = ""
         self.SSHPassword = ""
+        self.IP = ""
         pass
     
     def getFormValue(self, name):
@@ -62,3 +63,15 @@ class VPSBuyer(object):
     '''
     def getSSHPassword(self):
         return self.SSHPassword
+    
+    def getIP(self):
+        return self.IP
+    
+    def getEmail(self):
+        return self.email
+    
+    def getPassword(self):
+        return self.password
+    
+    def close(self):
+        self.driver.quit()

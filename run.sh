@@ -1,4 +1,6 @@
 #!/usr/bin/env sh
 
-pip install -r requirements.txt
-python src/main/__init__.py
+pip3 install -r requirements.txt
+
+PYTHONPATH=~/Skynet2.0/src python3 src/agent/agentCore.py
+

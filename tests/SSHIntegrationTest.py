@@ -11,6 +11,9 @@ import time
 class SSHTest(unittest.TestCase):
     '''
     Does an Integration test of the SSH class.
+    To succesfully run this test fill in the parameters below with
+    values corresponding to an SSH server. This can be any SSH server
+    that you can log into. It should even work when the SSH server is local.
     '''
 
     port = None # the port

@@ -48,7 +48,7 @@ class SSHTest(unittest.TestCase):
         (_, out, _) = self.that.run('ls')
         output = out.read().decode()
         self.assertIsNotNone(output)
-        print("\nls returned %s" % output)
+        #print("\nls returned %s" % output)
 
     def testEchoStringReturned(self):
         '''
@@ -57,7 +57,7 @@ class SSHTest(unittest.TestCase):
         string = 'The reply'
         (_, out, _) = self.that.run('echo -n ' + string)
         output = out.read().decode()
-        print("\necho returned %s" % output)
+        #print("\necho returned %s" % output)
         self.assertEqual(output, string)
 
 if __name__ == "__main__":

@@ -21,9 +21,9 @@ class SSH(object):
         self.client = SSHClient()
         self.client.set_missing_host_key_policy(WarningPolicy())
         self.client.load_system_host_keys()
-        self.connect(self.sshhost, self.username, self.pwd, port)
+        self.connect(port=port)
 
-    def connect(self, sshhost, user = None, pwd = None, port = None):
+    def connect(self, sshhost = None, user = None, pwd = None, port = None):
         '''
         Connects this instance with the instance sshhost over SSH.
         username is the user and pwd is the password.
@@ -31,7 +31,13 @@ class SSH(object):
         See SSHClient.connect for more information on optional parameters
         that can be set when using the underlying layer instead of this one.
         '''
-        if port:
+        if sshhost is None:
+            sshhost = self.sshhost
+        if user is None:
+            user = self.username
+        if pwd is None:
+            pwd = self.pwd
+        if port is not None:
             self.client.connect(sshhost, username = user, password = pwd, port=port)#(, timeout = 60)
         else:
             self.client.connect(sshhost, username = user, password = pwd)

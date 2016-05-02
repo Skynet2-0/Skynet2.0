@@ -5,34 +5,21 @@ Created on Apr 29, 2016
 '''
 import unittest
 from src.agent.SSH import *
-#from MockSSH import Server
 import time
 
-@unittest.skip("Not working test.")
+
 class SSHTest(unittest.TestCase):
+    '''
+    Does an Integration test of the SSH class.
+    '''
 
-    port = 1050
-    hostname = 'localhost'
-
-    @classmethod
-    def setUpClass(cls):
-        users = {'testadmin': 'x'}
-        MockSSH.startThreadedServer(
-            commands,
-            prompt="[root@hostname:Active] testadmin # ",
-            interface=SSHTest.hostname,
-            port=SSHTest.port,
-            **users)
-        time.sleep(0.5)
-
-    @classmethod
-    def tearDownClass(cls):
-        print("tearDownClass")
-        MockSSH.stopThreadedServer()
+    port = None # the port
+    hostname = None # the host
+    user = None # the user
+    pwd = None # the password'
 
     def setUp(self):
-        self.that = SSH(SSHTest.hostname, None, None, SSHTest.port)
-        self.that.set_missing_host_key_policy(WarningPolicy())
+        self.that = SSH(SSHTest.hostname, SSHTest.user, SSHTest.pwd, SSHTest.port)
 
     def tearDown(self):
         self.that.close_connection()

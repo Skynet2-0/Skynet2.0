@@ -49,13 +49,13 @@ class Wallet(object):
             child.waitnoecho()
             child.sendline('')
             child.expect(pexpect.EOF)
-        subprocess.run(['electrum', 'daemon', 'start'])
+        subprocess.call(['electrum', 'daemon', 'start'])
     
    # def __del__(self):
    #     '''
    #     clear up the electrum service
    #     '''
-   #     subprocess.run(['electrum', 'daemon', 'stop'])
+   #     subprocess.call(['electrum', 'daemon', 'stop'])
     
     def balance(self):
         '''
@@ -70,4 +70,4 @@ class Wallet(object):
         if float(amount)+float(fee)<=self.balance():
             #child = pexpect.spawn('electrum payto -f ' + fee + ' ' + address + ' '+ amount)
             #child.expect(pexpect.EOF)
-            print(str(subprocess.run(['electrum', 'payto', '-f', fee, address, amount])))
+            print(str(subprocess.call(['electrum', 'payto', '-f', fee, address, amount])))

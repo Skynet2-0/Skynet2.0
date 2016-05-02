@@ -113,12 +113,12 @@ class ZappiehostBuyer(VPSBuyer):
             bitcoinAmount = self.driver.find_element_by_css_selector(".ng-binding.payment__details__instruction__btc-amount").text
             toWallet = self.driver.find_element_by_css_selector(".payment__details__instruction__btc-address.ng-binding").text
             
-            print("Bitcoin amount to transfer: " + bitcoinAmount)
+            #print("Bitcoin amount to transfer: " + bitcoinAmount)
             
-            print("To wallet: " + toWallet)
+            #print("To wallet: " + toWallet)
             
-            print("Username:" + self.email)
-            print("Password:" + self.password)
+            #print("Username:" + self.email)
+            #print("Password:" + self.password)
             
             
             wallet = Wallet()
@@ -180,7 +180,7 @@ class ZappiehostBuyer(VPSBuyer):
             
             self.driver.find_element_by_css_selector(".form-actions").find_element_by_css_selector(".btn.btn-primary").click()
         
-            print("New SSH Password: " + self.SSHPassword)
+            # print("New SSH Password: " + self.SSHPassword)
             self.closeBrowser()
             
         except Exception as e:

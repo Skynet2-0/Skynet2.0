@@ -115,6 +115,9 @@ class OffshoredediBuyer(VPSBuyer):
             bitcoinAmount = firstlinesplit[2]
             toWallet = lines[2]
             
+            print("amount: " + bitcoinAmount)
+            print("to wallet: " + toWallet)
+            
             wallet = Wallet()
             paymentSucceeded = wallet.payToAutomatically(toWallet, bitcoinAmount)
             if paymentSucceeded == False:

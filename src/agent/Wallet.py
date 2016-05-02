@@ -23,7 +23,7 @@ class Wallet(object):
         Constructor
         '''
         
-        output = pexpect.run('electrum listaddresses').decode('ascii')
+        output = pexpect.run('electrum listaddresses')#.decode('ascii')
         print(output)
         pattern = re.compile(r"[A-z0-9]+") #the specific output for electrum if 1 adress exists
         
@@ -59,9 +59,16 @@ class Wallet(object):
     
     def balance(self):
         '''
-        Return the balance of the Btc wallet
+        Return the balance of the Btc wallet (i.e. confirmed balance+unconfirmed balance)
         '''
-        return float('inf')
+        balancesheet = str(subprocess.check_output(['electrum', 'getbalance']))
+        
+        result = re.findall('"confirmed": "([0-9.]+)"[\W n]*"unconfirmed": "([0-9.\-]+)"', balancesheet)[0]
+        sum=0.0
+        for val in result:
+            sum+=float(val)
+        
+        return sum
     
     def payTo(self, address, fee, amount):
         '''

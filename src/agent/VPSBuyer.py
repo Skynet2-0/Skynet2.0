@@ -54,6 +54,15 @@ class VPSBuyer(object):
         option = options[num]
         option.click()
         
+        
+    '''
+    Chooses one of the elements in a select list, by its visible text
+    '''
+    def chooseSelectElement(self, fieldName, fieldText):
+        select = Select(self.driver.find_element_by_name(fieldName));
+        #select.deselect_all()
+        select.select_by_visible_text(fieldText)
+        
     '''
     Returns the SSH Username to log in on the bought VPS
     '''

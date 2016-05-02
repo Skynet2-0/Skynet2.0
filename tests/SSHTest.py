@@ -5,7 +5,7 @@ Created on Apr 29, 2016
 '''
 import unittest
 from src.agent.SSH import *
-from socket import socket
+from socket import socket, SHUT_RDWR
 from threading import Thread
 import time
 
@@ -22,15 +22,15 @@ class SSHTest(unittest.TestCase):
             Thread.__init__(self)
             self.server = socket()
             self.server.bind((hostname, port))
-            self.server.listen(1)
+            self.server.listen()
 
         def run(self):
             self.server.accept()
             time.sleep(2)
-            self.close()
+            #self.close()
 
         def close(self):
-            self.server.shutdown(socket.SHUT_RDWR)
+            self.server.shutdown(SHUT_RDWR)
             self.server.close()
 
 

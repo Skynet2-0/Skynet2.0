@@ -25,5 +25,6 @@ class Installer(object):
         It also starts running the class.
         '''
         self.ssh.run('git clone https://github.com/Skynet2-0/Skynet2.0.git')
+        self.ssh.run('cd Skynet2.0')
         self.ssh.run('sh build.sh')
         self.ssh.run('sh run.sh')

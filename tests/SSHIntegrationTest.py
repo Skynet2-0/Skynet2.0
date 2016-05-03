@@ -4,25 +4,27 @@ Created on Apr 29, 2016
 @author: Stefan
 '''
 import unittest
-from src.agent.SSH import *
+from src.ssh.SSH import *
 import time
 
 
+port = None # the port
+hostname = None # the host
+user = None # the user
+pwd = None # the password
+
+@unittest.skipIf(hostname is None, 'Integration test requires a hostname.')
 class SSHTest(unittest.TestCase):
     '''
     Does an Integration test of the SSH class.
-    To succesfully run this test fill in the parameters below with
+    To succesfully run this test fill in the parameters above with
     values corresponding to an SSH server. This can be any SSH server
     that you can log into. It should even work when the SSH server is local.
+    After running please reset all the parameters to None.
     '''
 
-    port = None # the port
-    hostname = None # the host
-    user = None # the user
-    pwd = None # the password'
-
     def setUp(self):
-        self.that = SSH(SSHTest.hostname, SSHTest.user, SSHTest.pwd, SSHTest.port)
+        self.that = SSH(hostname, user, pwd, port)
 
     def tearDown(self):
         self.that.close_connection()

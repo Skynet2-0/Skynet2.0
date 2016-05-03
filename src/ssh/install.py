@@ -1,4 +1,4 @@
-from src.ssh import SSH
+from src.ssh.SSH import SSH
 
 
 class Installer(object):
@@ -25,12 +25,32 @@ class Installer(object):
         Makes the class install itself through SSH.
         It also starts running the class.
         '''
-        self.ssh.run('git clone https://github.com/Skynet2-0/Skynet2.0.git')
-        self.ssh.run('cd Skynet2.0')
-        self.ssh.run('sh build.sh')
-        self.ssh.run('sh run.sh')
+        (_, out0, err0) = self.ssh.run('apt-get update')
+        self._checkStreams(out0, err0, 'apt update failed')
+        (_, out0, err0) = self.ssh.run('apt-get install git')
+        self._checkStreams(out0, err0, 'git install failed')
+        (_, out0, err0) = self.ssh.run('git clone https://github.com/Skynet2-0/Skynet2.0.git')
+        self._checkStreams(out0, err0, 'Clone failed')
+        (_, out0, err0) = self.ssh.run('cd Skynet2.0')
+        self._checkStreams(out0, err0, 'cd Skynet2.0 failed')
+        (_, out0, err0) = self.ssh.run('sh build.sh')
+        self._checkStreams(out0, err0, 'build failed')
+        (_, out0, err0) = self.ssh.run('sh run.sh')
+        self._checkStreams(out0, err0, 'run failed')
 
-    def finalized(self):
+    def _checkStreams(self, out, err, startmessage = ''):
+        '''
+        Checks the streams for error message and exit code.
+        out is the output stream.
+        err is the error stream.
+        startmessage is the message at the start after error.
+        '''
+        errstr = err.read().decode()
+        if errstr is not None:
+            print("Error %s: %s\nexit status: %i" % (startmessage, errstr,
+                                        out.channel.recv_exit_status()))
+
+    def finish(self):
         '''
         Does some clean up.
         '''

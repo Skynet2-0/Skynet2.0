@@ -1,4 +1,5 @@
 from src.ssh.SSH import SSH
+import time
 
 
 class Installer(object):
@@ -25,30 +26,42 @@ class Installer(object):
         Makes the class install itself through SSH.
         It also starts running the class.
         '''
-        (_, out0, err0) = self.ssh.run('apt-get update')
-        self._checkStreams(out0, err0, 'apt update failed')
-        (_, out0, err0) = self.ssh.run('apt-get install git')
-        self._checkStreams(out0, err0, 'git install failed')
+        print('Start installing.')
+        (_, out0, err0) = self.ssh.run('apt install git')
+        self._checkStreams(out0, err0, 'git install failed', 'git installed.')
         (_, out0, err0) = self.ssh.run('git clone https://github.com/Skynet2-0/Skynet2.0.git')
-        self._checkStreams(out0, err0, 'Clone failed')
+        self._checkStreams(out0, err0, 'Clone failed', 'project cloned.')
         (_, out0, err0) = self.ssh.run('cd Skynet2.0')
-        self._checkStreams(out0, err0, 'cd Skynet2.0 failed')
+        self._checkStreams(out0, err0, 'cd Skynet2.0 failed', 'Inside the Skynet2.0 directory')
         (_, out0, err0) = self.ssh.run('sh build.sh')
-        self._checkStreams(out0, err0, 'build failed')
-        (_, out0, err0) = self.ssh.run('sh run.sh')
-        self._checkStreams(out0, err0, 'run failed')
+        self._checkStreams(out0, err0, 'build failed', 'build succeeded.')
+        #(_, out0, err0) = self.ssh.run('sh run.sh')
+        #self._checkStreams(out0, err0, 'run failed')
+        print('Installation finished.')
 
-    def _checkStreams(self, out, err, startmessage = ''):
+    def _checkStreams(self, out, err, errmessage = '', succesmessage = None):
         '''
         Checks the streams for error message and exit code.
         out is the output stream.
         err is the error stream.
-        startmessage is the message at the start after error.
+        errmessage is the message at the start after error.
+        succesmessage is the message on succes.
         '''
-        errstr = err.read().decode()
-        if errstr is not None:
-            print("Error %s: %s\nexit status: %i" % (startmessage, errstr,
-                                        out.channel.recv_exit_status()))
+        print("_checkStream called.")
+        timeout = time.time() + 120
+        done = False
+        while time.time() <= timeout and not done:
+            if out.channel.exit_status_ready():
+                exitcode = out.channel.recv_exit_status()
+                if exitcode != 0:
+                    print("Error %s: %s\nexit status: %i" % (errmessage, err.read().decode(),
+                                                exitcode))
+                elif succesmessage is not None:
+                    print(succesmessage)
+                done = True
+            else:
+                time.sleep(1)
+        print("_checkStream finished.")
 
     def finish(self):
         '''

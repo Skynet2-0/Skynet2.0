@@ -27,12 +27,16 @@ class Installer(object):
         It also starts running the class.
         '''
         print('Start installing.')
-        (_, out0, err0) = self.ssh.run('apt install git')
+        (_, out0, err0) = self.ssh.run('apt-get update')
+        self._checkStreams(out0, err0, 'apt update failed', 'apt updated.')
+        (_, out0, err0) = self.ssh.run('apt-get install -y git')
         self._checkStreams(out0, err0, 'git install failed', 'git installed.')
         (_, out0, err0) = self.ssh.run('git clone https://github.com/Skynet2-0/Skynet2.0.git')
         self._checkStreams(out0, err0, 'Clone failed', 'project cloned.')
         (_, out0, err0) = self.ssh.run('cd Skynet2.0')
         self._checkStreams(out0, err0, 'cd Skynet2.0 failed', 'Inside the Skynet2.0 directory')
+        (_, out0, err0) = self.ssh.run('chmod a+rx ~/Skynet2.0/build.sh')
+        self._checkStreams(out0, err0, 'Mode change failed', 'Succesfully changed modes.')
         (_, out0, err0) = self.ssh.run('sh build.sh')
         self._checkStreams(out0, err0, 'build failed', 'build succeeded.')
         #(_, out0, err0) = self.ssh.run('sh run.sh')
@@ -47,8 +51,8 @@ class Installer(object):
         errmessage is the message at the start after error.
         succesmessage is the message on succes.
         '''
-        print("_checkStream called.")
-        timeout = time.time() + 120
+        #print("_checkStream called.")
+        timeout = time.time() + 300
         done = False
         while time.time() <= timeout and not done:
             if out.channel.exit_status_ready():
@@ -61,7 +65,7 @@ class Installer(object):
                 done = True
             else:
                 time.sleep(1)
-        print("_checkStream finished.")
+        #print("_checkStream finished.")
 
     def finish(self):
         '''

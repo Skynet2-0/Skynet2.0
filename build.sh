@@ -21,7 +21,7 @@ dpkg -i python-cryptography_0.8-1ubuntu2_amd64.deb
 
 #install other tribler requirements
 sudo apt-get install -y libav-tools libjs-excanvas libjs-mootools libx11-6 python-apsw python-cherrypy3 python-crypto python-feedparser python-leveldb python-libtorrent python-m2crypto python-netifaces python-pil python-pyasn1 python-requests python-twisted python-wxgtk2.8 python2.7 vlc python-pip python-decorator python-gmpy gconf2 python-cffi python-enum34
-pip install decorator
+pip install decorator==4.0.9
 
 #install tribler itself
 rm tribler_6.5.1_all.deb

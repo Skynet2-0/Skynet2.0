@@ -2,4 +2,3 @@ Selenium==2.53.1
 paramiko==1.17.0
 electrum==2.6.4
 pexpect-u==2.5.1
-decorator==4.0.9

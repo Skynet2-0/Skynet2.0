@@ -10,9 +10,9 @@ import time
 
 
 port = None # the port
-hostname = '185.99.132.241' # the host
-user = 'root' # the user
-pwd = 'thepassword' # the password
+hostname = None # the host
+user = None # the user
+pwd = None # the password
 
 @unittest.skipIf(hostname is None, 'Installation test requires a hostname to install on.')
 class InstallTest(unittest.TestCase):

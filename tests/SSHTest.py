@@ -4,7 +4,7 @@ Created on Apr 29, 2016
 @author: Stefan
 '''
 import unittest
-from src.agent.SSH import *
+from src.ssh.SSH import *
 #from MockSSH import Server
 import time
 

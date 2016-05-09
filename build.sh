@@ -7,6 +7,8 @@
 
 #ensure wxgtk2.8 and all requirements are available for 16.04
 sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu vivid main"
+
+# update the apt-get folder.
 sudo apt-get update
 
 #install libsodium13 which does not exist anymore under 14.04
@@ -35,7 +37,13 @@ apt-get install -y -f
 ###########################
 git submodule add https://github.com/Tribler/tribler
 git submodule add https://github.com/prusnak/addrgen
-#git submodule init --recursive 
-#git submodule update --recursive 
+#git submodule init --recursive
+#git submodule update --recursive
+
+apt-get install -y python3
+#apt-get install -y pip3
+
+# Necessities only available through apt-get
+#apt-get install -y firefox
 
 #sh run.sh

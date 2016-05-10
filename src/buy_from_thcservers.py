@@ -9,27 +9,10 @@ from selenium.common.exceptions import TimeoutException
 from agent.BogusFormBuilder import BogusFormBuilder
 
 from agent.VPSBuyer import VPSBuyer
-from agent.OffshoredediBuyer import OffshoredediBuyer
+from agent.ThcserversBuyer import ThcserversBuyer
 
 
-#temporary, for testing:
-#email = "ncb21992@hotmail.com"
-#password = "2Rxub#21l8oR#$niEd#L08J9*MK3IiLP"
-
-#generator = BogusFormBuilder()
-
-#SSHPassword = generator.getRAString(32)
-
-#zhb = ZappiehostBuyer('xKlupfS@XEF.org', 'qnrmHRNxCZWLskFtiDSUGkSyUoHJBSpj')
-#zhb.placeOrder('abc', 'def')
-
-#zhb.setSSHPassword()
-
-
-
-# The code here will actually buy a VPS from Zappiehost
-buyer = OffshoredediBuyer()
-#result = buyer.placeOrder()
+buyer = ThcserversBuyer()
 result = buyer.placeOrder()
 
 

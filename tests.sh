@@ -3,25 +3,28 @@
 #currentdir=$(pwd)
 currentdir=.
 if [ -z $PYTHONPATH ]; then
-  PYTHONPATH=$currentdir:..
+  PYTHONPATH=$currentdir
 else
-  PYTHONPATH=$currentdir:..:$PYTHONPATH
+  PYTHONPATH=$currentdir:$PYTHONPATH
 fi
 
-testdir=tests
-topdir=$currentdir
+testdir="$currentdir/tests"
+topdir="$currentdir"
 
 # Echo the PYTHONPATH and testdir for debugging the path.
 echo "PYTHONPATH = $PYTHONPATH"
 echo "test directory = $testdir"
 echo "Top directory = $topdir"
 
+#Install test requirements.
+pip install -r tests/testrequirements.txt
+
 #python3 -m "src.main.tests" #PYTHONPATH="$PYTHONPATH"
 #python3 "src/main/tests/WalletTest.py" #PYTHONPATH="$PYTHONPATH"
 #python3 "src/main/tests/BogusFormBuilderTest.py" #PYTHONPATH="$PYTHONPATH"
 
 # Official python naming.
-python3 -m unittest discover -s $testdir -p '*_test.py' -t $topdir
+python -m unittest discover -s "$testdir" -p '*_test.py' -t "$topdir"
 
 # Java style test names.
-python3 -m unittest discover -s $testdir -p '*Test.py' -t $topdir
+python -m unittest discover -s "$testdir" -p '*Test.py' -t "$topdir"

@@ -17,7 +17,7 @@ echo "test directory = $testdir"
 echo "Top directory = $topdir"
 
 #Install test requirements.
-pip install -r tests/testrequirements.txt
+#pip install -r tests/testrequirements.txt
 
 #python3 -m "src.main.tests" #PYTHONPATH="$PYTHONPATH"
 #python3 "src/main/tests/WalletTest.py" #PYTHONPATH="$PYTHONPATH"

@@ -25,7 +25,7 @@ class Wallet(object):
         
 		output = pexpect.run('electrum listaddresses')#.decode('ascii')
 		print(output)
-		pattern = re.compile(r"[A-z0-9]+") #the specific output for electrum if 1 adress exists
+		pattern = re.compile(r'\[\W*"[A-z0-9]+"\W*\]') #the specific output for electrum if 1 adress exists
         
 		print(pattern.search(output))#r"\[\n    \"([A-z0-9]+)\"\n\]\n", output))
         

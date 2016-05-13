@@ -166,7 +166,7 @@ class ZappiehostBuyer(VPSBuyer):
             rawtext = a.find_elements_by_xpath("..").pop().text
             text1 = rawtext.split('IP Address:\n', 1)
             text2 = text1[1].split('\n', 1)
-            self.ip = text2[0]
+            self.IP = text2[0]
             # END OF GET IP ADDRESS
             
             

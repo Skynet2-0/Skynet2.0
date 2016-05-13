@@ -124,6 +124,7 @@ class ZappiehostBuyer(VPSBuyer):
             wallet = Wallet()
             paymentSucceeded = wallet.payToAutomatically(toWallet, bitcoinAmount)
             if paymentSucceeded == False:
+                print "payment failed"
                 return False
             
             # Wait for the transaction to be accepted

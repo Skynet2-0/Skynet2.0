@@ -43,7 +43,7 @@ class ExitNode(object):
 		upgrader = self.session.prestart()
 		while not upgrader.is_done:
 			time.sleep(0.1)
-		self.session.prestart()
+		#self.session.prestart()
 		#logger.info("Using port %d" % self.session.get_dispersy_port())
       
-		self.session.start()
+		#self.session.start()

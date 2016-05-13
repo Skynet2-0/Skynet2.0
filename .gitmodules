@@ -4,3 +4,6 @@
 [submodule "addrgen"]
 	path = addrgen
 	url = https://github.com/prusnak/addrgen
+[submodule "docs"]
+	path = docs
+	url = https://git.overleaf.com/5049466xzvfzv

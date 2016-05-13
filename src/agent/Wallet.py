@@ -49,49 +49,33 @@ class Wallet(object):
             child.waitnoecho()
             child.sendline('')
             child.expect(pexpect.EOF)
-        subprocess.run(['electrum', 'daemon', 'start'])
+        subprocess.call(['electrum', 'daemon', 'start'])
     
    # def __del__(self):
    #     '''
    #     clear up the electrum service
    #     '''
-   #     subprocess.run(['electrum', 'daemon', 'stop'])
+   #     subprocess.call(['electrum', 'daemon', 'stop'])
     
     def balance(self):
         '''
-        Return the balance of the Btc wallet
+        Return the balance of the Btc wallet (i.e. confirmed balance+unconfirmed balance)
         '''
-        return float('inf')
-    
-    def canPay(self, amount, fee):
-         return float(amount)+float(fee)<=self.balance()
-    
-    def payToAutomatically(self, address, amount):
-        '''
-        make a payment using an automatically calculated fee
-        '''
-        #return self.payTo(address, amount, '0.0001')
-        if self.canPay(amount,'0.0'):
-            payment = str(subprocess.check_output(['electrum', 'payto', address, amount]))
+        balancesheet = str(subprocess.check_output(['electrum', 'getbalance']))
         
-            #filter out the hex code from the payment and broadcast this
-            hex = re.search('hex": "([A-z0-9]+)"', payment).group(1)
-            subprocess.run(['electrum', 'broadcast', hex])
-            
-            return True
-        return False
+        result = re.findall('"confirmed": "([0-9.]+)"[\W n]*"unconfirmed": "([0-9.\-]+)"', balancesheet)[0]
+        sum=0.0
+        for val in result:
+            sum+=float(val)
+        
+        return sum
     
-    def payTo(self, address, amount, fee):
+    def payTo(self, address, fee, amount):
         '''
         If funds allow, transfer amount in Btc to Address. With a fee for processor
         '''
-        if self.canPay(amount, fee):
-            payment = str(subprocess.check_output(['electrum', 'payto', '-f', fee, address, amount]))
-            #filter out the hex code from the payment and broadcast this
-            hex = re.search('hex": "([A-z0-9]+)"', payment).group(1)
-            subprocess.run(['electrum', 'broadcast', hex])
-            
-            
-            
-            return True
-        return False
+        if float(amount)+float(fee)<=self.balance():
+            #child = pexpect.spawn('electrum payto -f ' + fee + ' ' + address + ' '+ amount)
+            #child.expect(pexpect.EOF)
+            print(str(subprocess.call(['electrum', 'payto', '-f', fee, address, amount])))
+

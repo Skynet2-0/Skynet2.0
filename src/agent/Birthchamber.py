@@ -8,6 +8,9 @@ from src.ssh.install import Installer
 from src.ssh.starter import Starter
 
 class Birthchamber(object):
+	def __init__(self):
+		pass
+
 	def getChild(self):
 			#do a startup message
 			print("Starting up a child server")

@@ -34,7 +34,7 @@ apt-get install -y -f
 ###########################
 #Install java for selenium#
 ###########################
-apt install default-jre
+apt-get install -y gnome-terminal default-jre
 
 ###########################
 #initialize the submodules#
@@ -44,14 +44,12 @@ git submodule add https://github.com/weex/addrgen addrgen-master
 #git submodule init --recursive
 #git submodule update --recursive
 
-apt-get install -y python3
+apt-get install -y python
 #apt-get install -y pip3
 
 # Necessities only available through apt-get
 #apt-get install -y firefox
 
+pip install -r requirements.txt
+
 #sh run.sh
-###########################
-#Start the selenium server#
-###########################
-gnome-terminal -e "bash -c java -jar selenium-server-standalone-2.53.0;bash"

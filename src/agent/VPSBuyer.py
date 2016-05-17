@@ -35,45 +35,59 @@ class VPSBuyer(object):
             desired_capabilities=DesiredCapabilities.FIREFOX)
     
     
-    '''
-    Automatically fills ina form element by executing a piece of javascript that sets the value attribute of the form element
-    '''
     def fillInElement(self, fieldname, value):
+        '''
+        Automatically fills ina form element by executing a piece of javascript that sets the value attribute of the form element
+        '''
         #driver.find_element_by_css_selector("input[name='" + fieldname + "']").send_keys(value)
         
         # ^ send_keys has some issues, using javascript to set an attribute instead:
         self.driver.execute_script('arguments[0].setAttribute("value", "' + value + '")', self.driver.find_element_by_css_selector("input[name='" + fieldname + "']"))
         
-    '''
-    Chooses one of the elements in a select list randomly, except for the first element
-    '''
     def clickRandomSelectElement(self, fieldId):
+        '''
+        Chooses one of the elements in a select list randomly, except for the first element
+        '''
         el = self.driver.find_element_by_id(fieldId)
         options = el.find_elements_by_tag_name('option')
         num = randint(1, len(options) - 1)
         option = options[num]
         option.click()
         
-    '''
-    Returns the SSH Username to log in on the bought VPS
-    '''
+    
     def getSSHUsername(self):
+        '''
+        Returns the SSH Username to log in on the bought VPS
+        '''
         return self.SSHUsername
     
-    '''
-    Returns the SSH Password to log in on the bought VPS
-    '''
+    
     def getSSHPassword(self):
+        '''
+        Returns the SSH Password to log in on the bought VPS
+        '''
         return self.SSHPassword
     
     def getIP(self):
+        '''
+        Returns the IP Address that the VPS is installed on
+        '''
         return self.IP
     
     def getEmail(self):
+        '''
+        Returns the email address to log in on the VPS provider
+        '''
         return self.email
     
     def getPassword(self):
+        '''
+        Returns the password to log in on the VPS provider
+        '''
         return self.password
     
     def closeBrowser(self):
+        '''
+        Closes the current browser instance of Selenium
+        '''
         self.driver.quit()

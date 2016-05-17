@@ -4,7 +4,7 @@ It will then occasionally check it's wallet
 and if it's wallet has enough money it will procure, install and start exactly 1 child
 '''
 
-from ExitNode import ExitNode
+#from ExitNode import ExitNode
 from src.agent.Birthchamber import Birthchamber
 from src.agent.Wallet import Wallet
 from time import sleep

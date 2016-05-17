@@ -48,35 +48,35 @@ class TriblerServiceMaker(object):
         """
         Main method to startup Tribler.
         """
-		
-		def signal_handler(sig, _):
-			msg("Received shut down signal %s" % sig)
-			if not self._stopping:
-				self._stopping = True
-				self.session.shutdown()
-				msg("Tribler shut down")
-				reactor.stop()
-				self.process_checker.remove_lock_file()
-		signal.signal(signal.SIGINT, signal_handler)
-		signal.signal(signal.SIGTERM, signal_handler)
+        
+        def signal_handler(sig, _):
+            msg("Received shut down signal %s" % sig)
+            if not self._stopping:
+                self._stopping = True
+                self.session.shutdown()
+                msg("Tribler shut down")
+                reactor.stop()
+                self.process_checker.remove_lock_file()
+        signal.signal(signal.SIGINT, signal_handler)
+        signal.signal(signal.SIGTERM, signal_handler)
 
-		config = SessionStartupConfig()
-		config.set_torrent_checking(False)
-		config.set_multicast_local_peer_discovery(False)
-		config.set_megacache(False)
-		config.set_dispersy(True)
-		config.set_mainline_dht(True)
-		config.set_torrent_collecting(False)
-		config.set_libtorrent(True)
-		config.set_dht_torrent_collecting(False)
-		config.set_enable_torrent_search(False)
-		config.set_videoplayer(False)
-		#config.set_dispersy_port(self.dispersy_port)
-		config.set_enable_torrent_search(False)
-		config.set_enable_channel_search(False)
-		config.set_enable_multichain(True)		
-		config.set_tunnel_community_exitnode_enabled(True)
-		
+        config = SessionStartupConfig()
+        config.set_torrent_checking(False)
+        config.set_multicast_local_peer_discovery(False)
+        config.set_megacache(False)
+        config.set_dispersy(True)
+        config.set_mainline_dht(True)
+        config.set_torrent_collecting(False)
+        config.set_libtorrent(True)
+        config.set_dht_torrent_collecting(False)
+        config.set_enable_torrent_search(False)
+        config.set_videoplayer(False)
+        #config.set_dispersy_port(self.dispersy_port)
+        config.set_enable_torrent_search(False)
+        config.set_enable_channel_search(False)
+        config.set_enable_multichain(True)      
+        config.set_tunnel_community_exitnode_enabled(True)
+        
 
         # Check if we are already running a Tribler instance
         self.process_checker = ProcessChecker()

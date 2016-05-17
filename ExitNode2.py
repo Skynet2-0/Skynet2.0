@@ -1,6 +1,5 @@
 """
 This twistd plugin enables to start Tribler headless using the twistd command.
-Starts the program with exitnode and multichain enabled. heavily based on tribler\twisted\twisted\plugins\tribler_plugin
 """
 import logging
 import os
@@ -28,8 +27,8 @@ class Options(usage.Options):
 
 class TriblerServiceMaker(object):
     implements(IServiceMaker, IPlugin)
-    tapname = "tribler_exit_node"
-    description = "Tribler exit node twistd plugin, starts Tribler exit node as a service"
+    tapname = "tribler"
+    description = "Tribler twistd plugin, starts Tribler as a service"
     options = Options
 
     def __init__(self):
@@ -48,7 +47,7 @@ class TriblerServiceMaker(object):
         """
         Main method to startup Tribler.
         """
-        
+
         def signal_handler(sig, _):
             msg("Received shut down signal %s" % sig)
             if not self._stopping:
@@ -61,22 +60,7 @@ class TriblerServiceMaker(object):
         signal.signal(signal.SIGTERM, signal_handler)
 
         config = SessionStartupConfig()
-        config.set_torrent_checking(False)
-        config.set_multicast_local_peer_discovery(False)
-        config.set_megacache(False)
-        config.set_dispersy(True)
-        config.set_mainline_dht(True)
-        config.set_torrent_collecting(False)
-        config.set_libtorrent(True)
-        config.set_dht_torrent_collecting(False)
-        config.set_enable_torrent_search(False)
-        config.set_videoplayer(False)
-        #config.set_dispersy_port(self.dispersy_port)
-        config.set_enable_torrent_search(False)
-        config.set_enable_channel_search(False)
-        config.set_enable_multichain(True)      
-        config.set_tunnel_community_exitnode_enabled(True)
-        
+        config.set_http_api_enabled(True)
 
         # Check if we are already running a Tribler instance
         self.process_checker = ProcessChecker()
@@ -92,16 +76,16 @@ class TriblerServiceMaker(object):
             self.shutdown_process("The upgrader failed: .Tribler directory backed up, aborting")
         else:
             self.session.start()
-            msg("Tribler Exit Node started")
+            msg("Tribler started")
 
     def makeService(self, options):
         """
         Construct a Tribler service.
         """
         tribler_service = MultiService()
-        tribler_service.setName("Tribler_ExitNode")
+        tribler_service.setName("Tribler")
 
-        '''manhole_namespace = {}
+        manhole_namespace = {}
         if options["manhole"]:
             port = options["manhole"]
             manhole = manhole_tap.makeService({
@@ -110,7 +94,7 @@ class TriblerServiceMaker(object):
                 'sshPort': None,
                 'passwd': os.path.join(os.path.dirname(__file__), 'passwd'),
             })
-            tribler_service.addService(manhole)'''
+            tribler_service.addService(manhole)
 
         reactor.callWhenRunning(self.start_tribler)
 

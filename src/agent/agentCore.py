@@ -13,9 +13,12 @@ from time import sleep
 
 wallet = Wallet()
 
+print("succesfull instantiation")
+
 #this should actually compare with the current necessary bitcoins plus a small margin
 while(wallet.balance()<0.01):
 	sleep(600)
+	print("waiting for money to arrive")
 
 bc = Birthchamber()
 bc.getChild()

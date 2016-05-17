@@ -31,6 +31,10 @@ wget https://github.com/Tribler/tribler/releases/download/v6.5.1/tribler_6.5.1_a
 dpkg -i tribler_6.5.1_all.deb
 apt-get install -y -f
 
+###########################
+#Install java for selenium#
+###########################
+apt install default-jre
 
 ###########################
 #initialize the submodules#
@@ -47,3 +51,7 @@ apt-get install -y python3
 #apt-get install -y firefox
 
 #sh run.sh
+###########################
+#Start the selenium server#
+###########################
+gnome-terminal -e "bash -c java -jar selenium-server-standalone-2.53.0;bash"

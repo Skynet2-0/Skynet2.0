@@ -12,26 +12,26 @@ class Birthchamber(object):
 		pass
 
 	def getChild(self):
-			#do a startup message
-			print("Starting up a child server")
+		#do a startup message
+		print("Starting up a child server")
 
-			#buy a server
-			zhb = ZappiehostBuyer()
-			result = zhb.buy()
+		#buy a server
+		zhb = ZappiehostBuyer()
+		result = zhb.buy()
 
-			if result == True:
-				print("VPS BOUGHT! Details:")
-				print("Zappiehost email: " + zhb.getEmail())
-				print("Zappiehost password: " + zhb.getPassword())
-				print("SSH IP: " + zhb.getIP())
-				print("SSH Username: " + zhb.getSSHUsername())
-				print("SSH Password: " + zhb.getSSHPassword())
-			else:
-				print("Failed to buy VPS from Zappiehost...")
-				#maybe do an alternative vps?
+		if result == True:
+			print("VPS BOUGHT! Details:")
+			print("Zappiehost email: " + zhb.getEmail())
+			print("Zappiehost password: " + zhb.getPassword())
+			print("SSH IP: " + zhb.getIP())
+			print("SSH Username: " + zhb.getSSHUsername())
+			print("SSH Password: " + zhb.getSSHPassword())
+		else:
+			print("Failed to buy VPS from Zappiehost...")
+			#maybe do an alternative vps?
 			
-			#run installation on vps
-			Installer(zhb.getIP(),zhb.getSSHUsername(),zhb.getSSHPassword(), 21)
+		#run installation on vps
+		Installer(zhb.getIP(),zhb.getSSHUsername(),zhb.getSSHPassword(), 21)
 
-			#start the core program on child
-			Starter(zhb.getIP(),zhb.getSSHUsername(),zhb.getSSHPassword(), 21)
+		#start the core program on child
+		Starter(zhb.getIP(),zhb.getSSHUsername(),zhb.getSSHPassword(), 21)

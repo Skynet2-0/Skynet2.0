@@ -5,8 +5,8 @@ and if it's wallet has enough money it will procure, install and start exactly 1
 '''
 
 #from ExitNode import ExitNode
-from src.agent.Birthchamber import Birthchamber
-from src.agent.Wallet import Wallet
+from Birthchamber import Birthchamber
+from Wallet import Wallet
 from time import sleep
 
 #en = ExitNode()

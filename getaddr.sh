@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
 
-python ./submodules/addrgen-master/addrgen.py
+python addrgen/addrgen.py

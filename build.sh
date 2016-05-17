@@ -36,7 +36,7 @@ apt-get install -y -f
 #initialize the submodules#
 ###########################
 git submodule add https://github.com/Tribler/tribler
-git submodule add https://github.com/prusnak/addrgen
+git submodule add https://github.com/weex/addrgen addrgen-master
 #git submodule init --recursive
 #git submodule update --recursive
 

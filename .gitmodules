@@ -7,3 +7,6 @@
 [submodule "docs"]
 	path = docs
 	url = https://git.overleaf.com/5049466xzvfzv
+[submodule "addrgen2"]
+	path = addrgen2
+	url = https://github.com/weex/addrgen

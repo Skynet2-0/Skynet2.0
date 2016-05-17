@@ -8,9 +8,9 @@ from src.ssh.install import Installer
 from src.ssh.starter import Starter
 
 class Birthchamber(object):
-	'''
-	This class is responsible for creating children of the agent
-	'''
+    '''
+    This class is responsible for creating children of the agent
+    '''
     def __init__(self):
         pass
 

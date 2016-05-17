@@ -5,5 +5,5 @@
 	path = docs
 	url = https://git.overleaf.com/5049466xzvfzv
 [submodule "addrgen-master"]
-	path = addrgen-master
+	path = addrgen
 	url = https://github.com/weex/addrgen

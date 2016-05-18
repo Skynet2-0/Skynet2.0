@@ -16,9 +16,10 @@ wallet = Wallet()
 print("succesfull instantiation")
 
 #this should actually compare with the current necessary bitcoins plus a small margin
-while(wallet.balance()<0.01):
+'''while(wallet.balance()<0.01):
+    print("Not enough bitcoins, waiting for money to arrive")
 	sleep(600)
-	print("waiting for money to arrive")
+	'''
 
 bc = Birthchamber()
 bc.getChild()

@@ -4,8 +4,8 @@ and then installs a copy of itself from github unto that server
 '''
 from VPSBuyer import VPSBuyer
 from ZappiehostBuyer import ZappiehostBuyer
-from src.ssh.install import Installer
-from src.ssh.starter import Starter
+from ssh.install import Installer
+from ssh.starter import Starter
 
 class Birthchamber(object):
     '''
@@ -17,7 +17,7 @@ class Birthchamber(object):
     def getChild(self):
         #do a startup message
         print("Starting up a child server")
-
+        '''
         #buy a server
         zhb = ZappiehostBuyer()
         result = zhb.buy()
@@ -31,10 +31,16 @@ class Birthchamber(object):
             print("SSH Password: " + zhb.getSSHPassword())
         else:
             print("Failed to buy VPS from Zappiehost...")
-            #maybe do an alternative vps?
+            #maybe do an alternative vps?'''
             
         #run installation on vps
-        Installer(zhb.getIP(),zhb.getSSHUsername(),zhb.getSSHPassword(), 21)
+        print("starting the installation procedure")
+        #Installer(zhb.getIP(),zhb.getSSHUsername(),zhb.getSSHPassword(), 21)
+        i = Installer("103.208.86.62","root","HEzbhNeAfPBTyQbrzpzaMzyEEhEzNfVg", 22)
+        i.install()
 
         #start the core program on child
-        Starter(zhb.getIP(),zhb.getSSHUsername(),zhb.getSSHPassword(), 21)
+        print("starting the agent node")
+        #Starter(zhb.getIP(),zhb.getSSHUsername(),zhb.getSSHPassword(), 21)
+        s = Starter("103.208.86.62","root","HEzbhNeAfPBTyQbrzpzaMzyEEhEzNfVg", 22)
+        s.start()

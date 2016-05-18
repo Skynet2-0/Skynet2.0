@@ -1,0 +1,662 @@
+09:10:10.010 INFO - Launching a standalone Selenium Server
+09:10:10.086 INFO - Java: Oracle Corporation 25.91-b14
+09:10:10.086 INFO - OS: Linux 4.4.0-22-generic amd64
+09:10:10.097 INFO - v2.53.0, with Core v2.53.0. Built from revision 35ae25b
+09:10:10.172 INFO - Driver provider org.openqa.selenium.ie.InternetExplorerDriver registration is skipped:
+registration capabilities Capabilities [{ensureCleanSession=true, browserName=internet explorer, version=, platform=WINDOWS}] does not match the current platform LINUX
+09:10:10.172 INFO - Driver provider org.openqa.selenium.edge.EdgeDriver registration is skipped:
+registration capabilities Capabilities [{browserName=MicrosoftEdge, version=, platform=WINDOWS}] does not match the current platform LINUX
+09:10:10.172 INFO - Driver class not found: com.opera.core.systems.OperaDriver
+09:10:10.172 INFO - Driver provider com.opera.core.systems.OperaDriver is not registered
+09:10:10.173 INFO - Driver provider org.openqa.selenium.safari.SafariDriver registration is skipped:
+registration capabilities Capabilities [{browserName=safari, version=, platform=MAC}] does not match the current platform LINUX
+09:10:10.173 INFO - Driver class not found: org.openqa.selenium.htmlunit.HtmlUnitDriver
+09:10:10.173 INFO - Driver provider org.openqa.selenium.htmlunit.HtmlUnitDriver is not registered
+09:10:10.372 INFO - RemoteWebDriver instances should connect to: http://127.0.0.1:4444/wd/hub
+09:10:10.372 INFO - Selenium Server is up and running
+09:10:56.981 INFO - Launching a standalone Selenium Server
+09:10:57.007 INFO - Java: Oracle Corporation 25.91-b14
+09:10:57.007 INFO - OS: Linux 4.4.0-22-generic amd64
+09:10:57.017 INFO - v2.53.0, with Core v2.53.0. Built from revision 35ae25b
+09:10:57.065 INFO - Driver provider org.openqa.selenium.ie.InternetExplorerDriver registration is skipped:
+registration capabilities Capabilities [{ensureCleanSession=true, browserName=internet explorer, version=, platform=WINDOWS}] does not match the current platform LINUX
+09:10:57.065 INFO - Driver provider org.openqa.selenium.edge.EdgeDriver registration is skipped:
+registration capabilities Capabilities [{browserName=MicrosoftEdge, version=, platform=WINDOWS}] does not match the current platform LINUX
+09:10:57.065 INFO - Driver class not found: com.opera.core.systems.OperaDriver
+09:10:57.066 INFO - Driver provider com.opera.core.systems.OperaDriver is not registered
+09:10:57.067 INFO - Driver provider org.openqa.selenium.safari.SafariDriver registration is skipped:
+registration capabilities Capabilities [{browserName=safari, version=, platform=MAC}] does not match the current platform LINUX
+09:10:57.068 INFO - Driver class not found: org.openqa.selenium.htmlunit.HtmlUnitDriver
+09:10:57.068 INFO - Driver provider org.openqa.selenium.htmlunit.HtmlUnitDriver is not registered
+09:10:57.112 WARN - Failed to start: SocketListener0@0.0.0.0:4444
+
+-------------------------------
+Running as a standalone server:
+-------------------------------
+
+Usage: java -jar selenium-server.jar [-interactive] [options]
+
+  -port <nnnn>: the port number the selenium server should use
+    (default 4444)
+  -timeout <nnnn>: an integer number of seconds we should allow a
+    client to be idle
+  -browserTimeout <nnnn>: an integer number of seconds a browser is
+    allowed to hang
+  -interactive: puts you into interactive mode.  See the tutorial for
+    more details
+  -singleWindow: puts you into a mode where the test web site
+    executes in a frame. This mode should only be selected if the
+    application under test does not use frames.
+  -profilesLocation: Specifies the directory that holds the profiles
+    that java clients can use to start up selenium.  Currently
+    supported for Firefox only.
+  -forcedBrowserMode <browser>: sets the browser mode to a single
+    argument (e.g. "*iexplore") for all sessions, no matter what is
+    passed to getNewBrowserSession
+  -forcedBrowserModeRestOfLine <browser>: sets the browser mode to
+    all the remaining tokens on the line (e.g. "*custom
+    /some/random/place/iexplore.exe") for all sessions, no matter what
+    is passed to getNewBrowserSession
+  -userExtensions <file>: indicates a JavaScript file that will be
+    loaded into selenium
+  -browserSessionReuse: stops re-initialization and spawning of the
+    browser between tests
+  -avoidProxy: By default, we proxy every browser request; set this
+    flag to make the browser use our proxy only for URLs containing
+    '/selenium-server'
+  -firefoxProfileTemplate <dir>: normally, we generate a fresh empty
+    Firefox profile every time we launch.  You can specify a directory
+    to make us copy your profile directory instead.
+  -debug: puts you into debug mode, with more trace information and
+    diagnostics on the console
+  -browserSideLog: enables logging on the browser side; logging
+    messages will be transmitted to the server.  This can affect
+    performance.
+  -ensureCleanSession: If the browser does not have user profiles,
+    make sure every new session has no artifacts from previous
+    sessions.  For example, enabling this option will cause all user
+    cookies to be archived before launching IE, and restored after IE
+    is closed.
+  -trustAllSSLCertificates: Forces the Selenium proxy to trust all
+    SSL certificates.  This doesn't work in browsers that don't use the
+    Selenium proxy.
+  -log <logFileName>: writes lots of debug information out to a log
+    file and disables logging to console
+  -logLongForm: writes information out to console in long format (for
+    debugging purpose)
+  -htmlSuite <browser> <startURL> <suiteFile> <resultFile>: Run a
+    single HTML Selenese (Selenium Core) suite and then exit
+    immediately, using the specified browser (e.g. "*firefox") on the
+    specified URL (e.g. "http://www.google.com").  You need to specify
+    the absolute path to the HTML test suite as well as the path to the
+    HTML results file we'll generate.
+  -proxyInjectionMode: puts you into proxy injection mode, a mode
+    where the selenium server acts as a proxy server for all content
+    going to the test application.  Under this mode, multiple domains
+    can be visited, and the following additional flags are supported:
+
+    -dontInjectRegex <regex>: an optional regular expression that
+      proxy injection mode can use to know when to bypss injection
+    -userJsInjection <file>: specifies a JavaScript file which will
+      then be injected into all pages
+    -userContentTransformation <regex> <replacement>: a regular
+      expression which is matched against all test HTML content; the
+      second is a string which will replace matches.  These flags can
+      be used any number of times.  A simple example of how this could
+      be useful: if you add "-userContentTransformation https http"
+      then all "https" strings in the HTML of the test application will
+      be changed to be "http".
+
+This synopsis lists options available in standalone role only. To
+  get help on the options available for other roles run the server with
+  -help option and the corresponding -role option value.
+java.net.BindException: Selenium is already running on port 4444. Or some other service is.
+	at org.openqa.selenium.server.SeleniumServer.start(SeleniumServer.java:509)
+	at org.openqa.selenium.server.SeleniumServer.boot(SeleniumServer.java:321)
+	at org.openqa.selenium.server.SeleniumServer.main(SeleniumServer.java:240)
+	at org.openqa.grid.selenium.GridLauncher$1.launch(GridLauncher.java:58)
+	at org.openqa.grid.selenium.GridLauncher.main(GridLauncher.java:127)
+Traceback (most recent call last):
+  File "src/agent/agentCore.py", line 8, in <module>
+    from Birthchamber import Birthchamber
+  File "/home/niels/Skynet2.0/src/agent/Birthchamber.py", line 7, in <module>
+    from src.ssh.install import Installer
+ImportError: No module named src.ssh.install
+Traceback (most recent call last):
+  File "src/agent/agentCore.py", line 8, in <module>
+    from Birthchamber import Birthchamber
+  File "/home/niels/Skynet2.0/src/agent/Birthchamber.py", line 7, in <module>
+    from src.ssh.install import Installer
+ImportError: No module named src.ssh.install
+Error: Unable to access jarfile selenium-server-standalone-2.53.0.jar
+Error: Unable to access jarfile selenium-server-standalone-2.53.0.jar
+Error: Unable to access jarfile selenium-server-standalone-2.53.0.jar
+Error: Unable to access jarfile selenium-server-standalone-2.53.0.jar
+Error: Unable to access jarfile selenium-server-standalone-2.53.0.jar
+Error: Unable to access jarfile selenium-server-standalone-2.53.0.jar
+Traceback (most recent call last):
+  File "src/agent/agentCore.py", line 8, in <module>
+    from Birthchamber import Birthchamber
+  File "/home/niels/Skynet2.0/src/agent/Birthchamber.py", line 7, in <module>
+    from src.ssh.install import Installer
+ImportError: No module named src.ssh.install
+Traceback (most recent call last):
+  File "src/agent/agentCore.py", line 8, in <module>
+    from Birthchamber import Birthchamber
+  File "/home/niels/Skynet2.0/src/agent/Birthchamber.py", line 7, in <module>
+    from src.ssh.install import Installer
+ImportError: No module named src.ssh.install
+09:20:19.155 INFO - Launching a standalone Selenium Server
+09:20:19.179 INFO - Java: Oracle Corporation 25.91-b14
+09:20:19.179 INFO - OS: Linux 4.4.0-22-generic amd64
+09:20:19.189 INFO - v2.53.0, with Core v2.53.0. Built from revision 35ae25b
+09:20:19.235 INFO - Driver provider org.openqa.selenium.ie.InternetExplorerDriver registration is skipped:
+registration capabilities Capabilities [{ensureCleanSession=true, browserName=internet explorer, version=, platform=WINDOWS}] does not match the current platform LINUX
+09:20:19.235 INFO - Driver provider org.openqa.selenium.edge.EdgeDriver registration is skipped:
+registration capabilities Capabilities [{browserName=MicrosoftEdge, version=, platform=WINDOWS}] does not match the current platform LINUX
+09:20:19.236 INFO - Driver class not found: com.opera.core.systems.OperaDriver
+09:20:19.236 INFO - Driver provider com.opera.core.systems.OperaDriver is not registered
+09:20:19.236 INFO - Driver provider org.openqa.selenium.safari.SafariDriver registration is skipped:
+registration capabilities Capabilities [{browserName=safari, version=, platform=MAC}] does not match the current platform LINUX
+09:20:19.237 INFO - Driver class not found: org.openqa.selenium.htmlunit.HtmlUnitDriver
+09:20:19.237 INFO - Driver provider org.openqa.selenium.htmlunit.HtmlUnitDriver is not registered
+09:20:19.272 WARN - Failed to start: SocketListener0@0.0.0.0:4444
+
+-------------------------------
+Running as a standalone server:
+-------------------------------
+
+Usage: java -jar selenium-server.jar [-interactive] [options]
+
+  -port <nnnn>: the port number the selenium server should use
+    (default 4444)
+  -timeout <nnnn>: an integer number of seconds we should allow a
+    client to be idle
+  -browserTimeout <nnnn>: an integer number of seconds a browser is
+    allowed to hang
+  -interactive: puts you into interactive mode.  See the tutorial for
+    more details
+  -singleWindow: puts you into a mode where the test web site
+    executes in a frame. This mode should only be selected if the
+    application under test does not use frames.
+  -profilesLocation: Specifies the directory that holds the profiles
+    that java clients can use to start up selenium.  Currently
+    supported for Firefox only.
+  -forcedBrowserMode <browser>: sets the browser mode to a single
+    argument (e.g. "*iexplore") for all sessions, no matter what is
+    passed to getNewBrowserSession
+  -forcedBrowserModeRestOfLine <browser>: sets the browser mode to
+    all the remaining tokens on the line (e.g. "*custom
+    /some/random/place/iexplore.exe") for all sessions, no matter what
+    is passed to getNewBrowserSession
+  -userExtensions <file>: indicates a JavaScript file that will be
+    loaded into selenium
+  -browserSessionReuse: stops re-initialization and spawning of the
+    browser between tests
+  -avoidProxy: By default, we proxy every browser request; set this
+    flag to make the browser use our proxy only for URLs containing
+    '/selenium-server'
+  -firefoxProfileTemplate <dir>: normally, we generate a fresh empty
+    Firefox profile every time we launch.  You can specify a directory
+    to make us copy your profile directory instead.
+  -debug: puts you into debug mode, with more trace information and
+    diagnostics on the console
+  -browserSideLog: enables logging on the browser side; logging
+    messages will be transmitted to the server.  This can affect
+    performance.
+  -ensureCleanSession: If the browser does not have user profiles,
+    make sure every new session has no artifacts from previous
+    sessions.  For example, enabling this option will cause all user
+    cookies to be archived before launching IE, and restored after IE
+    is closed.
+  -trustAllSSLCertificates: Forces the Selenium proxy to trust all
+    SSL certificates.  This doesn't work in browsers that don't use the
+    Selenium proxy.
+  -log <logFileName>: writes lots of debug information out to a log
+    file and disables logging to console
+  -logLongForm: writes information out to console in long format (for
+    debugging purpose)
+  -htmlSuite <browser> <startURL> <suiteFile> <resultFile>: Run a
+    single HTML Selenese (Selenium Core) suite and then exit
+    immediately, using the specified browser (e.g. "*firefox") on the
+    specified URL (e.g. "http://www.google.com").  You need to specify
+    the absolute path to the HTML test suite as well as the path to the
+    HTML results file we'll generate.
+  -proxyInjectionMode: puts you into proxy injection mode, a mode
+    where the selenium server acts as a proxy server for all content
+    going to the test application.  Under this mode, multiple domains
+    can be visited, and the following additional flags are supported:
+
+    -dontInjectRegex <regex>: an optional regular expression that
+      proxy injection mode can use to know when to bypss injection
+    -userJsInjection <file>: specifies a JavaScript file which will
+      then be injected into all pages
+    -userContentTransformation <regex> <replacement>: a regular
+      expression which is matched against all test HTML content; the
+      second is a string which will replace matches.  These flags can
+      be used any number of times.  A simple example of how this could
+      be useful: if you add "-userContentTransformation https http"
+      then all "https" strings in the HTML of the test application will
+      be changed to be "http".
+
+This synopsis lists options available in standalone role only. To
+  get help on the options available for other roles run the server with
+  -help option and the corresponding -role option value.
+java.net.BindException: Selenium is already running on port 4444. Or some other service is.
+	at org.openqa.selenium.server.SeleniumServer.start(SeleniumServer.java:509)
+	at org.openqa.selenium.server.SeleniumServer.boot(SeleniumServer.java:321)
+	at org.openqa.selenium.server.SeleniumServer.main(SeleniumServer.java:240)
+	at org.openqa.grid.selenium.GridLauncher$1.launch(GridLauncher.java:58)
+	at org.openqa.grid.selenium.GridLauncher.main(GridLauncher.java:127)
+09:21:39.453 INFO - Launching a standalone Selenium Server
+09:21:39.476 INFO - Java: Oracle Corporation 25.91-b14
+09:21:39.476 INFO - OS: Linux 4.4.0-22-generic amd64
+09:21:39.485 INFO - v2.53.0, with Core v2.53.0. Built from revision 35ae25b
+09:21:39.531 INFO - Driver provider org.openqa.selenium.ie.InternetExplorerDriver registration is skipped:
+registration capabilities Capabilities [{ensureCleanSession=true, browserName=internet explorer, version=, platform=WINDOWS}] does not match the current platform LINUX
+09:21:39.532 INFO - Driver provider org.openqa.selenium.edge.EdgeDriver registration is skipped:
+registration capabilities Capabilities [{browserName=MicrosoftEdge, version=, platform=WINDOWS}] does not match the current platform LINUX
+09:21:39.532 INFO - Driver class not found: com.opera.core.systems.OperaDriver
+09:21:39.532 INFO - Driver provider com.opera.core.systems.OperaDriver is not registered
+09:21:39.533 INFO - Driver provider org.openqa.selenium.safari.SafariDriver registration is skipped:
+registration capabilities Capabilities [{browserName=safari, version=, platform=MAC}] does not match the current platform LINUX
+09:21:39.533 INFO - Driver class not found: org.openqa.selenium.htmlunit.HtmlUnitDriver
+09:21:39.533 INFO - Driver provider org.openqa.selenium.htmlunit.HtmlUnitDriver is not registered
+09:21:39.570 WARN - Failed to start: SocketListener0@0.0.0.0:4444
+
+-------------------------------
+Running as a standalone server:
+-------------------------------
+
+Usage: java -jar selenium-server.jar [-interactive] [options]
+
+  -port <nnnn>: the port number the selenium server should use
+    (default 4444)
+  -timeout <nnnn>: an integer number of seconds we should allow a
+    client to be idle
+  -browserTimeout <nnnn>: an integer number of seconds a browser is
+    allowed to hang
+  -interactive: puts you into interactive mode.  See the tutorial for
+    more details
+  -singleWindow: puts you into a mode where the test web site
+    executes in a frame. This mode should only be selected if the
+    application under test does not use frames.
+  -profilesLocation: Specifies the directory that holds the profiles
+    that java clients can use to start up selenium.  Currently
+    supported for Firefox only.
+  -forcedBrowserMode <browser>: sets the browser mode to a single
+    argument (e.g. "*iexplore") for all sessions, no matter what is
+    passed to getNewBrowserSession
+  -forcedBrowserModeRestOfLine <browser>: sets the browser mode to
+    all the remaining tokens on the line (e.g. "*custom
+    /some/random/place/iexplore.exe") for all sessions, no matter what
+    is passed to getNewBrowserSession
+  -userExtensions <file>: indicates a JavaScript file that will be
+    loaded into selenium
+  -browserSessionReuse: stops re-initialization and spawning of the
+    browser between tests
+  -avoidProxy: By default, we proxy every browser request; set this
+    flag to make the browser use our proxy only for URLs containing
+    '/selenium-server'
+  -firefoxProfileTemplate <dir>: normally, we generate a fresh empty
+    Firefox profile every time we launch.  You can specify a directory
+    to make us copy your profile directory instead.
+  -debug: puts you into debug mode, with more trace information and
+    diagnostics on the console
+  -browserSideLog: enables logging on the browser side; logging
+    messages will be transmitted to the server.  This can affect
+    performance.
+  -ensureCleanSession: If the browser does not have user profiles,
+    make sure every new session has no artifacts from previous
+    sessions.  For example, enabling this option will cause all user
+    cookies to be archived before launching IE, and restored after IE
+    is closed.
+  -trustAllSSLCertificates: Forces the Selenium proxy to trust all
+    SSL certificates.  This doesn't work in browsers that don't use the
+    Selenium proxy.
+  -log <logFileName>: writes lots of debug information out to a log
+    file and disables logging to console
+  -logLongForm: writes information out to console in long format (for
+    debugging purpose)
+  -htmlSuite <browser> <startURL> <suiteFile> <resultFile>: Run a
+    single HTML Selenese (Selenium Core) suite and then exit
+    immediately, using the specified browser (e.g. "*firefox") on the
+    specified URL (e.g. "http://www.google.com").  You need to specify
+    the absolute path to the HTML test suite as well as the path to the
+    HTML results file we'll generate.
+  -proxyInjectionMode: puts you into proxy injection mode, a mode
+    where the selenium server acts as a proxy server for all content
+    going to the test application.  Under this mode, multiple domains
+    can be visited, and the following additional flags are supported:
+
+    -dontInjectRegex <regex>: an optional regular expression that
+      proxy injection mode can use to know when to bypss injection
+    -userJsInjection <file>: specifies a JavaScript file which will
+      then be injected into all pages
+    -userContentTransformation <regex> <replacement>: a regular
+      expression which is matched against all test HTML content; the
+      second is a string which will replace matches.  These flags can
+      be used any number of times.  A simple example of how this could
+      be useful: if you add "-userContentTransformation https http"
+      then all "https" strings in the HTML of the test application will
+      be changed to be "http".
+
+This synopsis lists options available in standalone role only. To
+  get help on the options available for other roles run the server with
+  -help option and the corresponding -role option value.
+java.net.BindException: Selenium is already running on port 4444. Or some other service is.
+	at org.openqa.selenium.server.SeleniumServer.start(SeleniumServer.java:509)
+	at org.openqa.selenium.server.SeleniumServer.boot(SeleniumServer.java:321)
+	at org.openqa.selenium.server.SeleniumServer.main(SeleniumServer.java:240)
+	at org.openqa.grid.selenium.GridLauncher$1.launch(GridLauncher.java:58)
+	at org.openqa.grid.selenium.GridLauncher.main(GridLauncher.java:127)
+09:22:13.598 INFO - Launching a standalone Selenium Server
+09:22:13.622 INFO - Java: Oracle Corporation 25.91-b14
+09:22:13.623 INFO - OS: Linux 4.4.0-22-generic amd64
+09:22:13.631 INFO - v2.53.0, with Core v2.53.0. Built from revision 35ae25b
+09:22:13.676 INFO - Driver provider org.openqa.selenium.ie.InternetExplorerDriver registration is skipped:
+registration capabilities Capabilities [{ensureCleanSession=true, browserName=internet explorer, version=, platform=WINDOWS}] does not match the current platform LINUX
+09:22:13.677 INFO - Driver provider org.openqa.selenium.edge.EdgeDriver registration is skipped:
+registration capabilities Capabilities [{browserName=MicrosoftEdge, version=, platform=WINDOWS}] does not match the current platform LINUX
+09:22:13.677 INFO - Driver class not found: com.opera.core.systems.OperaDriver
+09:22:13.677 INFO - Driver provider com.opera.core.systems.OperaDriver is not registered
+09:22:13.678 INFO - Driver provider org.openqa.selenium.safari.SafariDriver registration is skipped:
+registration capabilities Capabilities [{browserName=safari, version=, platform=MAC}] does not match the current platform LINUX
+09:22:13.678 INFO - Driver class not found: org.openqa.selenium.htmlunit.HtmlUnitDriver
+09:22:13.678 INFO - Driver provider org.openqa.selenium.htmlunit.HtmlUnitDriver is not registered
+09:22:13.714 WARN - Failed to start: SocketListener0@0.0.0.0:4444
+
+-------------------------------
+Running as a standalone server:
+-------------------------------
+
+Usage: java -jar selenium-server.jar [-interactive] [options]
+
+  -port <nnnn>: the port number the selenium server should use
+    (default 4444)
+  -timeout <nnnn>: an integer number of seconds we should allow a
+    client to be idle
+  -browserTimeout <nnnn>: an integer number of seconds a browser is
+    allowed to hang
+  -interactive: puts you into interactive mode.  See the tutorial for
+    more details
+  -singleWindow: puts you into a mode where the test web site
+    executes in a frame. This mode should only be selected if the
+    application under test does not use frames.
+  -profilesLocation: Specifies the directory that holds the profiles
+    that java clients can use to start up selenium.  Currently
+    supported for Firefox only.
+  -forcedBrowserMode <browser>: sets the browser mode to a single
+    argument (e.g. "*iexplore") for all sessions, no matter what is
+    passed to getNewBrowserSession
+  -forcedBrowserModeRestOfLine <browser>: sets the browser mode to
+    all the remaining tokens on the line (e.g. "*custom
+    /some/random/place/iexplore.exe") for all sessions, no matter what
+    is passed to getNewBrowserSession
+  -userExtensions <file>: indicates a JavaScript file that will be
+    loaded into selenium
+  -browserSessionReuse: stops re-initialization and spawning of the
+    browser between tests
+  -avoidProxy: By default, we proxy every browser request; set this
+    flag to make the browser use our proxy only for URLs containing
+    '/selenium-server'
+  -firefoxProfileTemplate <dir>: normally, we generate a fresh empty
+    Firefox profile every time we launch.  You can specify a directory
+    to make us copy your profile directory instead.
+  -debug: puts you into debug mode, with more trace information and
+    diagnostics on the console
+  -browserSideLog: enables logging on the browser side; logging
+    messages will be transmitted to the server.  This can affect
+    performance.
+  -ensureCleanSession: If the browser does not have user profiles,
+    make sure every new session has no artifacts from previous
+    sessions.  For example, enabling this option will cause all user
+    cookies to be archived before launching IE, and restored after IE
+    is closed.
+  -trustAllSSLCertificates: Forces the Selenium proxy to trust all
+    SSL certificates.  This doesn't work in browsers that don't use the
+    Selenium proxy.
+  -log <logFileName>: writes lots of debug information out to a log
+    file and disables logging to console
+  -logLongForm: writes information out to console in long format (for
+    debugging purpose)
+  -htmlSuite <browser> <startURL> <suiteFile> <resultFile>: Run a
+    single HTML Selenese (Selenium Core) suite and then exit
+    immediately, using the specified browser (e.g. "*firefox") on the
+    specified URL (e.g. "http://www.google.com").  You need to specify
+    the absolute path to the HTML test suite as well as the path to the
+    HTML results file we'll generate.
+  -proxyInjectionMode: puts you into proxy injection mode, a mode
+    where the selenium server acts as a proxy server for all content
+    going to the test application.  Under this mode, multiple domains
+    can be visited, and the following additional flags are supported:
+
+    -dontInjectRegex <regex>: an optional regular expression that
+      proxy injection mode can use to know when to bypss injection
+    -userJsInjection <file>: specifies a JavaScript file which will
+      then be injected into all pages
+    -userContentTransformation <regex> <replacement>: a regular
+      expression which is matched against all test HTML content; the
+      second is a string which will replace matches.  These flags can
+      be used any number of times.  A simple example of how this could
+      be useful: if you add "-userContentTransformation https http"
+      then all "https" strings in the HTML of the test application will
+      be changed to be "http".
+
+This synopsis lists options available in standalone role only. To
+  get help on the options available for other roles run the server with
+  -help option and the corresponding -role option value.
+java.net.BindException: Selenium is already running on port 4444. Or some other service is.
+	at org.openqa.selenium.server.SeleniumServer.start(SeleniumServer.java:509)
+	at org.openqa.selenium.server.SeleniumServer.boot(SeleniumServer.java:321)
+	at org.openqa.selenium.server.SeleniumServer.main(SeleniumServer.java:240)
+	at org.openqa.grid.selenium.GridLauncher$1.launch(GridLauncher.java:58)
+	at org.openqa.grid.selenium.GridLauncher.main(GridLauncher.java:127)
+09:34:56.068 INFO - Executing: [new session: Capabilities [{marionette=false, browserName=firefox, javascriptEnabled=true, version=, platform=ANY}]])
+09:34:56.095 INFO - Creating a new session for Capabilities [{marionette=false, browserName=firefox, javascriptEnabled=true, version=, platform=ANY}]
+09:35:05.671 INFO - Done: [new session: Capabilities [{marionette=false, browserName=firefox, javascriptEnabled=true, version=, platform=ANY}]]
+09:35:05.677 INFO - Executing: [get: https://billing.zappiehost.com/cart.php?a=confproduct&i=0])
+09:35:08.304 INFO - Done: [get: https://billing.zappiehost.com/cart.php?a=confproduct&i=0]
+09:35:08.308 INFO - Executing: [find element: By.cssSelector: .cartbutton.ui-button.ui-widget.ui-state-default.ui-corner-all])
+09:35:08.370 INFO - Done: [find element: By.cssSelector: .cartbutton.ui-button.ui-widget.ui-state-default.ui-corner-all]
+09:35:08.374 INFO - Executing: [click: 0 [[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> css selector: .cartbutton.ui-button.ui-widget.ui-state-default.ui-corner-all]])
+09:35:09.174 INFO - Done: [click: 0 [[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> css selector: .cartbutton.ui-button.ui-widget.ui-state-default.ui-corner-all]]
+09:35:09.178 INFO - Executing: [find element: By.cssSelector: .cartbutton.green.ui-button.ui-widget.ui-state-default.ui-corner-all])
+09:35:09.190 INFO - Done: [find element: By.cssSelector: .cartbutton.green.ui-button.ui-widget.ui-state-default.ui-corner-all]
+09:35:09.193 INFO - Executing: [click: 1 [[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> css selector: .cartbutton.green.ui-button.ui-widget.ui-state-default.ui-corner-all]])
+09:35:10.239 INFO - Done: [click: 1 [[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> css selector: .cartbutton.green.ui-button.ui-widget.ui-state-default.ui-corner-all]]
+09:35:10.244 INFO - Executing: [find element: By.cssSelector: input[type='radio'][value='bitpay']])
+09:35:10.270 INFO - Done: [find element: By.cssSelector: input[type='radio'][value='bitpay']]
+09:35:10.273 INFO - Executing: [click: 2 [[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> css selector: input[type='radio'][value='bitpay']]])
+09:35:10.355 INFO - Done: [click: 2 [[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> css selector: input[type='radio'][value='bitpay']]]
+09:35:10.358 INFO - Executing: [find element: By.cssSelector: input[name='firstname']])
+09:35:10.366 INFO - Done: [find element: By.cssSelector: input[name='firstname']]
+09:35:10.370 INFO - Executing: [execute script: arguments[0].setAttribute("value", "vtrhwZy"), [[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> css selector: input[name='firstname']]]])
+09:35:10.384 INFO - Done: [execute script: arguments[0].setAttribute("value", "vtrhwZy"), [[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> css selector: input[name='firstname']]]]
+09:35:10.387 INFO - Executing: [find element: By.cssSelector: input[name='lastname']])
+09:35:10.400 INFO - Done: [find element: By.cssSelector: input[name='lastname']]
+09:35:10.403 INFO - Executing: [execute script: arguments[0].setAttribute("value", "itEDmOgc"), [[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> css selector: input[name='lastname']]]])
+09:35:10.413 INFO - Done: [execute script: arguments[0].setAttribute("value", "itEDmOgc"), [[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> css selector: input[name='lastname']]]]
+09:35:10.416 INFO - Executing: [find element: By.cssSelector: input[name='email']])
+09:35:10.423 INFO - Done: [find element: By.cssSelector: input[name='email']]
+09:35:10.426 INFO - Executing: [execute script: arguments[0].setAttribute("value", "iHpbtmB@UgduFsnf.com"), [[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> css selector: input[name='email']]]])
+09:35:10.436 INFO - Done: [execute script: arguments[0].setAttribute("value", "iHpbtmB@UgduFsnf.com"), [[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> css selector: input[name='email']]]]
+09:35:10.439 INFO - Executing: [find element: By.cssSelector: input[name='address1']])
+09:35:10.446 INFO - Done: [find element: By.cssSelector: input[name='address1']]
+09:35:10.449 INFO - Executing: [execute script: arguments[0].setAttribute("value", "lJvypVPjOgGcjyZ 0"), [[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> css selector: input[name='address1']]]])
+09:35:10.459 INFO - Done: [execute script: arguments[0].setAttribute("value", "lJvypVPjOgGcjyZ 0"), [[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> css selector: input[name='address1']]]]
+09:35:10.463 INFO - Executing: [find element: By.cssSelector: input[name='city']])
+09:35:10.472 INFO - Done: [find element: By.cssSelector: input[name='city']]
+09:35:10.475 INFO - Executing: [execute script: arguments[0].setAttribute("value", "Otevxju"), [[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> css selector: input[name='city']]]])
+09:35:10.486 INFO - Done: [execute script: arguments[0].setAttribute("value", "Otevxju"), [[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> css selector: input[name='city']]]]
+09:35:10.489 INFO - Executing: [find element: By.cssSelector: input[name='postcode']])
+09:35:10.495 INFO - Done: [find element: By.cssSelector: input[name='postcode']]
+09:35:10.498 INFO - Executing: [execute script: arguments[0].setAttribute("value", "54701"), [[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> css selector: input[name='postcode']]]])
+09:35:10.506 INFO - Done: [execute script: arguments[0].setAttribute("value", "54701"), [[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> css selector: input[name='postcode']]]]
+09:35:10.509 INFO - Executing: [find element: By.id: country])
+09:35:10.520 INFO - Done: [find element: By.id: country]
+09:35:10.522 INFO - Executing: [find child elements: 9 [[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country], By.tagName: option])
+09:35:10.619 INFO - Done: [find child elements: 9 [[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country], By.tagName: option]
+09:35:10.625 INFO - Executing: [click: 39 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]])
+09:35:10.818 INFO - Done: [click: 39 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]]
+09:35:10.822 INFO - Executing: [find element: By.id: country])
+09:35:10.829 INFO - Done: [find element: By.id: country]
+09:35:10.832 INFO - Executing: [tag name: 9 [[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]])
+09:35:10.839 INFO - Done: [tag name: 9 [[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]]
+09:35:10.842 INFO - Executing: [get element attribute: 9 [[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country], multiple])
+09:35:10.850 INFO - Done: [get element attribute: 9 [[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country], multiple]
+09:35:10.853 INFO - Executing: [find child elements: 9 [[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country], By.tagName: option])
+09:35:10.923 INFO - Done: [find child elements: 9 [[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country], By.tagName: option]
+09:35:10.929 INFO - Executing: [is selected: 10 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]])
+09:35:10.937 INFO - Done: [is selected: 10 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]]
+09:35:10.954 INFO - Executing: [is selected: 11 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]])
+09:35:10.961 INFO - Done: [is selected: 11 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]]
+09:35:10.963 INFO - Executing: [is selected: 12 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]])
+09:35:10.969 INFO - Done: [is selected: 12 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]]
+09:35:10.971 INFO - Executing: [is selected: 13 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]])
+09:35:10.977 INFO - Done: [is selected: 13 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]]
+09:35:10.980 INFO - Executing: [is selected: 14 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]])
+09:35:10.986 INFO - Done: [is selected: 14 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]]
+09:35:10.989 INFO - Executing: [is selected: 15 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]])
+09:35:10.994 INFO - Done: [is selected: 15 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]]
+09:35:10.997 INFO - Executing: [is selected: 16 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]])
+09:35:11.003 INFO - Done: [is selected: 16 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]]
+09:35:11.006 INFO - Executing: [is selected: 17 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]])
+09:35:11.012 INFO - Done: [is selected: 17 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]]
+09:35:11.014 INFO - Executing: [is selected: 18 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]])
+09:35:11.020 INFO - Done: [is selected: 18 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]]
+09:35:11.022 INFO - Executing: [is selected: 19 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]])
+09:35:11.028 INFO - Done: [is selected: 19 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]]
+09:35:11.031 INFO - Executing: [is selected: 20 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]])
+09:35:11.037 INFO - Done: [is selected: 20 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]]
+09:35:11.039 INFO - Executing: [is selected: 21 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]])
+09:35:11.045 INFO - Done: [is selected: 21 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]]
+09:35:11.047 INFO - Executing: [is selected: 22 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]])
+09:35:11.053 INFO - Done: [is selected: 22 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]]
+09:35:11.055 INFO - Executing: [is selected: 23 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]])
+09:35:11.061 INFO - Done: [is selected: 23 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]]
+09:35:11.063 INFO - Executing: [is selected: 24 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]])
+09:35:11.069 INFO - Done: [is selected: 24 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]]
+09:35:11.072 INFO - Executing: [is selected: 25 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]])
+09:35:11.078 INFO - Done: [is selected: 25 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]]
+09:35:11.080 INFO - Executing: [is selected: 26 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]])
+09:35:11.087 INFO - Done: [is selected: 26 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]]
+09:35:11.089 INFO - Executing: [is selected: 27 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]])
+09:35:11.095 INFO - Done: [is selected: 27 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]]
+09:35:11.097 INFO - Executing: [is selected: 28 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]])
+09:35:11.102 INFO - Done: [is selected: 28 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]]
+09:35:11.105 INFO - Executing: [is selected: 29 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]])
+09:35:11.111 INFO - Done: [is selected: 29 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]]
+09:35:11.113 INFO - Executing: [is selected: 30 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]])
+09:35:11.119 INFO - Done: [is selected: 30 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]]
+09:35:11.121 INFO - Executing: [is selected: 31 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]])
+09:35:11.127 INFO - Done: [is selected: 31 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]]
+09:35:11.129 INFO - Executing: [is selected: 32 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]])
+09:35:11.135 INFO - Done: [is selected: 32 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]]
+09:35:11.137 INFO - Executing: [is selected: 33 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]])
+09:35:11.143 INFO - Done: [is selected: 33 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]]
+09:35:11.145 INFO - Executing: [is selected: 34 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]])
+09:35:11.151 INFO - Done: [is selected: 34 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]]
+09:35:11.153 INFO - Executing: [is selected: 35 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]])
+09:35:11.159 INFO - Done: [is selected: 35 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]]
+09:35:11.161 INFO - Executing: [is selected: 36 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]])
+09:35:11.167 INFO - Done: [is selected: 36 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]]
+09:35:11.169 INFO - Executing: [is selected: 37 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]])
+09:35:11.175 INFO - Done: [is selected: 37 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]]
+09:35:11.177 INFO - Executing: [is selected: 38 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]])
+09:35:11.183 INFO - Done: [is selected: 38 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]]
+09:35:11.185 INFO - Executing: [is selected: 39 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]])
+09:35:11.191 INFO - Done: [is selected: 39 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]]
+09:35:11.193 INFO - Executing: [get text: 39 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]])
+09:35:11.205 INFO - Done: [get text: 39 [[[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> id: country]] -> tag name: option]]
+09:35:11.208 INFO - Executing: [find element: By.cssSelector: input[name='state']])
+09:35:11.214 INFO - Done: [find element: By.cssSelector: input[name='state']]
+09:35:11.216 INFO - Executing: [execute script: arguments[0].setAttribute("value", "ZaXbjafn"), [[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> css selector: input[name='state']]]])
+09:35:11.240 INFO - Done: [execute script: arguments[0].setAttribute("value", "ZaXbjafn"), [[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> css selector: input[name='state']]]]
+09:35:11.242 INFO - Executing: [find element: By.cssSelector: input[name='phonenumber']])
+09:35:11.248 INFO - Done: [find element: By.cssSelector: input[name='phonenumber']]
+09:35:11.250 INFO - Executing: [execute script: arguments[0].setAttribute("value", "8887466689"), [[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> css selector: input[name='phonenumber']]]])
+09:35:11.258 INFO - Done: [execute script: arguments[0].setAttribute("value", "8887466689"), [[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> css selector: input[name='phonenumber']]]]
+09:35:11.260 INFO - Executing: [find element: By.cssSelector: input[name='password']])
+09:35:11.271 INFO - Done: [find element: By.cssSelector: input[name='password']]
+09:35:11.274 INFO - Executing: [execute script: arguments[0].setAttribute("value", "rpGkKSAyyoeDkwhtgcHRhRgLoNhYaZCu"), [[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> css selector: input[name='password']]]])
+09:35:11.286 INFO - Done: [execute script: arguments[0].setAttribute("value", "rpGkKSAyyoeDkwhtgcHRhRgLoNhYaZCu"), [[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> css selector: input[name='password']]]]
+09:35:11.289 INFO - Executing: [find element: By.cssSelector: input[name='password2']])
+09:35:11.295 INFO - Done: [find element: By.cssSelector: input[name='password2']]
+09:35:11.297 INFO - Executing: [execute script: arguments[0].setAttribute("value", "rpGkKSAyyoeDkwhtgcHRhRgLoNhYaZCu"), [[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> css selector: input[name='password2']]]])
+09:35:11.305 INFO - Done: [execute script: arguments[0].setAttribute("value", "rpGkKSAyyoeDkwhtgcHRhRgLoNhYaZCu"), [[[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> css selector: input[name='password2']]]]
+09:35:11.308 INFO - Executing: [find element: By.cssSelector: input[type='submit'][class='cartbutton green ui-button ui-widget ui-state-default ui-corner-all']])
+09:35:11.317 INFO - Done: [find element: By.cssSelector: input[type='submit'][class='cartbutton green ui-button ui-widget ui-state-default ui-corner-all']]
+09:35:11.321 INFO - Executing: [click: 260 [[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> css selector: input[type='submit'][class='cartbutton green ui-button ui-widget ui-state-default ui-corner-all']]])
+09:35:25.262 INFO - Done: [click: 260 [[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> css selector: input[type='submit'][class='cartbutton green ui-button ui-widget ui-state-default ui-corner-all']]]
+09:35:25.264 INFO - Executing: [find element: By.cssSelector: input[type='submit'][value='Pay Now']])
+09:35:25.274 INFO - Done: [find element: By.cssSelector: input[type='submit'][value='Pay Now']]
+09:35:25.277 INFO - Executing: [click: 261 [[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> css selector: input[type='submit'][value='Pay Now']]])
+09:35:28.822 INFO - Done: [click: 261 [[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> css selector: input[type='submit'][value='Pay Now']]]
+09:35:28.827 INFO - Executing: [implicitly wait: 10000])
+09:35:28.842 INFO - Done: [implicitly wait: 10000]
+09:35:28.844 INFO - Executing: [find element: By.cssSelector: .ng-binding.payment__details__instruction__btc-amount])
+09:35:29.972 INFO - Done: [find element: By.cssSelector: .ng-binding.payment__details__instruction__btc-amount]
+09:35:29.974 INFO - Executing: [get text: 262 [[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> css selector: .ng-binding.payment__details__instruction__btc-amount]])
+09:35:30.427 INFO - Done: [get text: 262 [[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> css selector: .ng-binding.payment__details__instruction__btc-amount]]
+09:35:30.431 INFO - Executing: [find element: By.cssSelector: .payment__details__instruction__btc-address.ng-binding])
+09:35:30.445 INFO - Done: [find element: By.cssSelector: .payment__details__instruction__btc-address.ng-binding]
+09:35:30.448 INFO - Executing: [get text: 263 [[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> css selector: .payment__details__instruction__btc-address.ng-binding]])
+09:35:30.471 INFO - Done: [get text: 263 [[FirefoxDriver: firefox on LINUX (7f6cf97c-8da3-4bc2-b711-8c1192f8584b)] -> css selector: .payment__details__instruction__btc-address.ng-binding]]
+09:35:35.540 INFO - Executing: [find element: By.cssSelector: .payment--paid])
+09:35:35.555 INFO - Done: [find element: By.cssSelector: .payment--paid]
+09:35:35.558 INFO - Executing: [delete session: e7bcb549-6269-4f38-8e4a-361ae51a50c5])
+09:35:35.627 INFO - Done: [delete session: e7bcb549-6269-4f38-8e4a-361ae51a50c5]
+09:36:05.646 INFO - Executing: [new session: Capabilities [{marionette=false, browserName=firefox, javascriptEnabled=true, version=, platform=ANY}]])
+09:36:05.648 INFO - Creating a new session for Capabilities [{marionette=false, browserName=firefox, javascriptEnabled=true, version=, platform=ANY}]
+09:36:09.554 INFO - Done: [new session: Capabilities [{marionette=false, browserName=firefox, javascriptEnabled=true, version=, platform=ANY}]]
+09:36:09.557 INFO - Executing: [get: https://billing.zappiehost.com/clientarea.php])
+09:36:10.156 INFO - Done: [get: https://billing.zappiehost.com/clientarea.php]
+09:36:10.158 INFO - Executing: [find element: By.cssSelector: input[name='username']])
+09:36:10.200 INFO - Done: [find element: By.cssSelector: input[name='username']]
+09:36:10.202 INFO - Executing: [execute script: arguments[0].setAttribute("value", "iHpbtmB@UgduFsnf.com"), [[[FirefoxDriver: firefox on LINUX (b69abe69-6d97-4b8d-8b05-f0c279512d7b)] -> css selector: input[name='username']]]])
+09:36:10.214 INFO - Done: [execute script: arguments[0].setAttribute("value", "iHpbtmB@UgduFsnf.com"), [[[FirefoxDriver: firefox on LINUX (b69abe69-6d97-4b8d-8b05-f0c279512d7b)] -> css selector: input[name='username']]]]
+09:36:10.216 INFO - Executing: [find element: By.cssSelector: input[name='password']])
+09:36:10.227 INFO - Done: [find element: By.cssSelector: input[name='password']]
+09:36:10.229 INFO - Executing: [execute script: arguments[0].setAttribute("value", "rpGkKSAyyoeDkwhtgcHRhRgLoNhYaZCu"), [[[FirefoxDriver: firefox on LINUX (b69abe69-6d97-4b8d-8b05-f0c279512d7b)] -> css selector: input[name='password']]]])
+09:36:10.242 INFO - Done: [execute script: arguments[0].setAttribute("value", "rpGkKSAyyoeDkwhtgcHRhRgLoNhYaZCu"), [[[FirefoxDriver: firefox on LINUX (b69abe69-6d97-4b8d-8b05-f0c279512d7b)] -> css selector: input[name='password']]]]
+09:36:10.245 INFO - Executing: [find element: By.id: login])
+09:36:10.252 INFO - Done: [find element: By.id: login]
+09:36:10.254 INFO - Executing: [click: 2 [[FirefoxDriver: firefox on LINUX (b69abe69-6d97-4b8d-8b05-f0c279512d7b)] -> id: login]])
+09:36:11.067 INFO - Done: [click: 2 [[FirefoxDriver: firefox on LINUX (b69abe69-6d97-4b8d-8b05-f0c279512d7b)] -> id: login]]
+09:36:11.070 INFO - Executing: [get: https://billing.zappiehost.com/clientarea.php?action=products])
+09:36:11.484 INFO - Done: [get: https://billing.zappiehost.com/clientarea.php?action=products]
+09:36:11.486 INFO - Executing: [find element: By.cssSelector: .table.table-striped.table-framed])
+09:36:11.493 INFO - Done: [find element: By.cssSelector: .table.table-striped.table-framed]
+09:36:11.497 INFO - Executing: [find child element: 3 [[FirefoxDriver: firefox on LINUX (b69abe69-6d97-4b8d-8b05-f0c279512d7b)] -> css selector: .table.table-striped.table-framed], By.cssSelector: .btn-group])
+09:36:11.507 INFO - Done: [find child element: 3 [[FirefoxDriver: firefox on LINUX (b69abe69-6d97-4b8d-8b05-f0c279512d7b)] -> css selector: .table.table-striped.table-framed], By.cssSelector: .btn-group]
+09:36:11.510 INFO - Executing: [find child element: 4 [[[[FirefoxDriver: firefox on LINUX (b69abe69-6d97-4b8d-8b05-f0c279512d7b)] -> css selector: .table.table-striped.table-framed]] -> css selector: .btn-group], By.cssSelector: .btn])
+09:36:11.517 INFO - Done: [find child element: 4 [[[[FirefoxDriver: firefox on LINUX (b69abe69-6d97-4b8d-8b05-f0c279512d7b)] -> css selector: .table.table-striped.table-framed]] -> css selector: .btn-group], By.cssSelector: .btn]
+09:36:11.520 INFO - Executing: [click: 5 [[[[[[FirefoxDriver: firefox on LINUX (b69abe69-6d97-4b8d-8b05-f0c279512d7b)] -> css selector: .table.table-striped.table-framed]] -> css selector: .btn-group]] -> css selector: .btn]])
+09:36:19.016 INFO - Done: [click: 5 [[[[[[FirefoxDriver: firefox on LINUX (b69abe69-6d97-4b8d-8b05-f0c279512d7b)] -> css selector: .table.table-striped.table-framed]] -> css selector: .btn-group]] -> css selector: .btn]]
+09:36:19.021 INFO - Executing: [find elements: By.xpath: //*[contains(text(), 'IP Address:')]])
+09:36:19.052 INFO - Done: [find elements: By.xpath: //*[contains(text(), 'IP Address:')]]
+09:36:19.054 INFO - Executing: [find child elements: 6 [[FirefoxDriver: firefox on LINUX (b69abe69-6d97-4b8d-8b05-f0c279512d7b)] -> xpath: //*[contains(text(), 'IP Address:')]], By.xpath: ..])
+09:36:19.072 INFO - Done: [find child elements: 6 [[FirefoxDriver: firefox on LINUX (b69abe69-6d97-4b8d-8b05-f0c279512d7b)] -> xpath: //*[contains(text(), 'IP Address:')]], By.xpath: ..]
+09:36:19.074 INFO - Executing: [get text: 7 [[[[FirefoxDriver: firefox on LINUX (b69abe69-6d97-4b8d-8b05-f0c279512d7b)] -> xpath: //*[contains(text(), 'IP Address:')]]] -> xpath: ..]])
+09:36:20.189 INFO - Done: [get text: 7 [[[[FirefoxDriver: firefox on LINUX (b69abe69-6d97-4b8d-8b05-f0c279512d7b)] -> xpath: //*[contains(text(), 'IP Address:')]]] -> xpath: ..]]
+09:36:20.192 INFO - Executing: [find element: By.cssSelector: .icon-btn.icon-reinstall])
+09:36:20.200 INFO - Done: [find element: By.cssSelector: .icon-btn.icon-reinstall]
+09:36:20.204 INFO - Executing: [click: 8 [[FirefoxDriver: firefox on LINUX (b69abe69-6d97-4b8d-8b05-f0c279512d7b)] -> css selector: .icon-btn.icon-reinstall]])
+09:36:20.318 INFO - Done: [click: 8 [[FirefoxDriver: firefox on LINUX (b69abe69-6d97-4b8d-8b05-f0c279512d7b)] -> css selector: .icon-btn.icon-reinstall]]
+09:36:20.321 INFO - Executing: [find element: By.id: password])
+09:36:27.962 INFO - Done: [find element: By.id: password]
+09:36:27.965 INFO - Executing: [send keys: 9 [[FirefoxDriver: firefox on LINUX (b69abe69-6d97-4b8d-8b05-f0c279512d7b)] -> id: password], [H, E, z, b, h, N, e, A, f, P, B, T, y, Q, b, r, z, p, z, a, M, z, y, E, E, h, E, z, N, f, V, g]])
+09:36:28.118 INFO - Done: [send keys: 9 [[FirefoxDriver: firefox on LINUX (b69abe69-6d97-4b8d-8b05-f0c279512d7b)] -> id: password], [H, E, z, b, h, N, e, A, f, P, B, T, y, Q, b, r, z, p, z, a, M, z, y, E, E, h, E, z, N, f, V, g]]
+09:36:28.120 INFO - Executing: [find element: By.cssSelector: input[value='local:vztmpl/ubuntu-14.04-64bit.tar.gz']])
+09:36:28.699 INFO - Done: [find element: By.cssSelector: input[value='local:vztmpl/ubuntu-14.04-64bit.tar.gz']]
+09:36:28.704 INFO - Executing: [click: 10 [[FirefoxDriver: firefox on LINUX (b69abe69-6d97-4b8d-8b05-f0c279512d7b)] -> css selector: input[value='local:vztmpl/ubuntu-14.04-64bit.tar.gz']]])
+09:36:28.894 INFO - Done: [click: 10 [[FirefoxDriver: firefox on LINUX (b69abe69-6d97-4b8d-8b05-f0c279512d7b)] -> css selector: input[value='local:vztmpl/ubuntu-14.04-64bit.tar.gz']]]
+09:36:28.896 INFO - Executing: [find element: By.cssSelector: .form-actions])
+09:36:28.907 INFO - Done: [find element: By.cssSelector: .form-actions]
+09:36:28.909 INFO - Executing: [find child element: 11 [[FirefoxDriver: firefox on LINUX (b69abe69-6d97-4b8d-8b05-f0c279512d7b)] -> css selector: .form-actions], By.cssSelector: .btn.btn-primary])
+09:36:28.917 INFO - Done: [find child element: 11 [[FirefoxDriver: firefox on LINUX (b69abe69-6d97-4b8d-8b05-f0c279512d7b)] -> css selector: .form-actions], By.cssSelector: .btn.btn-primary]
+09:36:28.920 INFO - Executing: [click: 12 [[[[FirefoxDriver: firefox on LINUX (b69abe69-6d97-4b8d-8b05-f0c279512d7b)] -> css selector: .form-actions]] -> css selector: .btn.btn-primary]])
+09:36:53.014 INFO - Done: [click: 12 [[[[FirefoxDriver: firefox on LINUX (b69abe69-6d97-4b8d-8b05-f0c279512d7b)] -> css selector: .form-actions]] -> css selector: .btn.btn-primary]]
+09:36:53.016 INFO - Executing: [delete session: 1e293b76-affc-4e2f-8321-c5bd91823793])
+09:36:53.079 INFO - Done: [delete session: 1e293b76-affc-4e2f-8321-c5bd91823793]

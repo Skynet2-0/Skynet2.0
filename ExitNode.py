@@ -11,7 +11,6 @@ from collections import defaultdict, deque
 
 from twisted.internet.task import LoopingCall
 from twisted.internet.stdio import StandardIO
-from twisted.logger import globalLogPublisher
 from twisted.protocols.basic import LineReceiver
 from twisted.internet.threads import blockingCallFromThread
 
@@ -90,7 +89,7 @@ class Tunnel(object):
             if now - 3600 > self.crawl_message[k]['time']:
                 self.crawl_message.pop(k)
 
-        clean_twisted_observers(globalLogPublisher)
+        #clean_twisted_observers(globalLogPublisher)
 
     def build_history(self):
         self.history_stats.append(self.get_stats())

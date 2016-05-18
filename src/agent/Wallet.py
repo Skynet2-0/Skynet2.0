@@ -23,11 +23,11 @@ class Wallet(object):
 		Constructor
 		'''
         
-		output = pexpect.run('electrum listaddresses')#.decode('ascii')
+		output = pexpect.run('electrum listaddresses')
 		print(output)
 		pattern = re.compile(r'\[\W*"[A-z0-9]+"\W*\]') #the specific output for electrum if 1 adress exists
         
-		print(pattern.search(output))#r"\[\n    \"([A-z0-9]+)\"\n\]\n", output))
+		print(pattern.search(output))
         
 		if(pattern.search(output)):
             #if a wallet exists, initialize that one
@@ -86,7 +86,6 @@ class Wallet(object):
 		'''
 		make a payment using an automatically calculated fee
 		'''
-		#return self.payTo(address, amount, '0.0001')
 		if self.canPay(amount,'0.0'):
 			payment = str(subprocess.check_output(['electrum', 'payto', address, amount]))
         
@@ -102,7 +101,5 @@ class Wallet(object):
 		If funds allow, transfer amount in Btc to Address. With a fee for processor
 		'''
 		if self.canPay(amount, fee):
-			#child = pexpect.spawn('electrum payto -f ' + fee + ' ' + address + ' '+ amount)
-			#child.expect(pexpect.EOF)
 			print(str(subprocess.call(['electrum', 'payto', '-f', fee, address, amount])))
 

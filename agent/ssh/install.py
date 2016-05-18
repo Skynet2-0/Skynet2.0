@@ -1,4 +1,4 @@
-from ssh.SSH import SSH
+from SSH import SSH
 import time
 
 

@@ -4,8 +4,8 @@ Created on Apr 29, 2016
 @author: Stefan
 '''
 import unittest
-from src.agent.ssh.install import Installer
-from src.agent.ssh.SSH import SSH
+from agent.ssh.install import Installer
+from agent.ssh.SSH import SSH
 import time
 
 

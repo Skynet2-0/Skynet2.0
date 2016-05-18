@@ -1,1 +1,3 @@
-python ~/Skynet2.0/submodules/addrgen-master/addrgen.py
+#!/usr/bin/env sh
+
+python addrgen/addrgen.py

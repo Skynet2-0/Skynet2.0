@@ -6,11 +6,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
-from agent.BogusFormBuilder import BogusFormBuilder
+from BogusFormBuilder import BogusFormBuilder
 
-from agent.VPSBuyer import VPSBuyer
+from VPSBuyer import VPSBuyer
 
-from agent.Wallet import Wallet
+from Wallet import Wallet
 
 import selenium.webdriver.support.ui as ui
 
@@ -39,10 +39,11 @@ class ZappiehostBuyer(VPSBuyer):
         pass
     
     
-    '''
-    Walks through the entire process of buying a VPS from Zappiehost. Returns True if it succeeded, returns False otherwise
-    '''
+    
     def buy(self):
+        '''
+        Walks through the entire process of buying a VPS from Zappiehost. Returns True if it succeeded, returns False otherwise
+        '''
         succeeded = self.placeOrder() # places the order
         if succeeded == False:
             return False
@@ -55,10 +56,11 @@ class ZappiehostBuyer(VPSBuyer):
         return True
         
         
-    '''
-    Places an order on Zappiehost for a new VPS
-    '''
+    
     def placeOrder(self):
+        '''
+        Places an order on Zappiehost for a new VPS
+        '''
         try:
             self.spawnBrowser()
             self.driver.get("https://billing.zappiehost.com/cart.php?a=confproduct&i=0")
@@ -124,6 +126,7 @@ class ZappiehostBuyer(VPSBuyer):
             wallet = Wallet()
             paymentSucceeded = wallet.payToAutomatically(toWallet, bitcoinAmount)
             if paymentSucceeded == False:
+                print "payment failed"
                 return False
             
             # Wait for the transaction to be accepted
@@ -140,10 +143,11 @@ class ZappiehostBuyer(VPSBuyer):
             
         return True
     
-    '''
-    Re-installs the VPS on Zappiehost with a new password. This is handy, so we don't have to fetch the password from an email
-    '''
+    
     def setSSHPassword(self, SSHPassword = ''):
+        '''
+        Re-installs the VPS on Zappiehost with a new password. This is handy, so we don't have to fetch the password from an email
+        '''
         if SSHPassword == '':
             SSHPassword = self.SSHPassword
         self.SSHPassword = SSHPassword
@@ -165,7 +169,7 @@ class ZappiehostBuyer(VPSBuyer):
             rawtext = a.find_elements_by_xpath("..").pop().text
             text1 = rawtext.split('IP Address:\n', 1)
             text2 = text1[1].split('\n', 1)
-            self.ip = text2[0]
+            self.IP = text2[0]
             # END OF GET IP ADDRESS
             
             

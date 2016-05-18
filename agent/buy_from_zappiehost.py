@@ -12,19 +12,6 @@ from VPSBuyer import VPSBuyer
 from ZappiehostBuyer import ZappiehostBuyer
 
 
-#temporary, for testing:
-#email = "ncb21992@hotmail.com"
-#password = "2Rxub#21l8oR#$niEd#L08J9*MK3IiLP"
-
-#generator = BogusFormBuilder()
-
-#SSHPassword = generator.getRAString(32)
-
-#zhb = ZappiehostBuyer('xKlupfS@XEF.org', 'qnrmHRNxCZWLskFtiDSUGkSyUoHJBSpj')
-#zhb.placeOrder('abc', 'def')
-
-#zhb.setSSHPassword()
-
 
 
 # The code here will actually buy a VPS from Zappiehost

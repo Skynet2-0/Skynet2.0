@@ -1,5 +1,9 @@
 #!/usr/bin/env sh
 
+###################################################
+#Should be installed through git clone --recursive#
+###################################################
+
 ######################################
 #initialize triblers crap            #
 #only works on ubuntu 14.04 and 16.04#
@@ -11,7 +15,9 @@ sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu vivid main"
 # update the apt-get folder.
 sudo apt-get update
 
-sudo apt install python-pip
+# ensure python and pip are installed
+apt-get install -y python
+apt-get install -y python-pip
 
 #install libsodium13 which does not exist anymore under 14.04
 
@@ -28,11 +34,6 @@ sudo apt-get install -y libav-tools libjs-excanvas libjs-mootools libx11-6 pytho
 pip install decorator==4.0.9
 
 #install tribler itself
-
-#wget https://github.com/Tribler/tribler/releases/download/v6.5.2/tribler_6.5.2_all.deb
-#dpkg -i tribler_6.5.2_all.deb
-#apt-get install -y -f
-
 pip install git+https://github.com/Tribler/tribler
 
 rm python-cryptography_0.8-1ubuntu2_amd64.deb
@@ -40,17 +41,19 @@ rm python-cryptography_0.8-1ubuntu2_amd64.deb
 rm libsodium13_1.0.1-1_amd64.deb
 
 ###########################
-#initialize the submodules#
+#Install java for selenium#
 ###########################
-git submodule add https://github.com/Tribler/tribler
-git submodule add https://github.com/prusnak/addrgen
-git submodule init --recursive
-#git submodule update --recursive
+apt-get install -y gnome-terminal default-jre
 
-#apt-get install -y python3
-#apt-get install -y pip3
+##############################
+#Install firefox for selenium#
+##############################
+apt-get install -y firefox
 
-# Necessities only available through apt-get
-#apt-get install -y firefox
+###################################
+#Install other python requirements#
+###################################
+
+pip install -r requirements.txt
 
 #sh run.sh

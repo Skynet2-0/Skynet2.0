@@ -161,22 +161,38 @@ class OffshoredediBuyer(VPSBuyer):
         self.SSHPassword = SSHPassword
         try:
             self.spawnBrowser()
-            self.driver.get("https://billing.offshorededi.com/clientarea.php")
+            self.driver.get("https://my.offshorededi.com/clientarea.php")
             
             #Click the to cart button for the cheapest VPS
-            self.fillInElement('username', self.email)
-            self.fillInElement('password', self.password)
+            self.driver.find_element_by_id('inputEmail').send_keys(self.email)
+            self.driver.find_element_by_id('inputPassword').send_keys(self.password)
+            #self.fillInElement('username', self.email)
+            #self.fillInElement('password', self.password)
             
             self.driver.find_element_by_id('login').click()
             
             self.driver.get("https://my.offshorededi.com/clientarea.php?action=services")
             
-            pending = False
-            try:
-                self.driver.find_element_by_css_selector(".label.status.status-pending")
-            except Exception as e:
-                pending = True
+            
+            # Wait for the transaction to be accepted
+            pending = True
+            tries_left = 60 * 24 # Try for 24 hours
+            first = True
+            while(pending == True and tries_left > 0):
+                if first == False:
+                    time.sleep(60)
+                first = False
+                tries_left = tries_left - 1
+                print("Tries left: ")
+                print(tries_left)
+                try:
+                    self.driver.find_element_by_css_selector(".label.status.status-pending")
+                except Exception as e:
+                    pending = False
+                    
                 
+            if pending == True:
+                return False # The VPS is still pending!
             
             self.driver.find_element_by_css_selector(".table.table-striped.table-framed").find_element_by_css_selector(".btn-group").find_element_by_css_selector(".btn").click()
             

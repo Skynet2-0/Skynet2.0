@@ -4,6 +4,7 @@ Created on Apr 29, 2016
 @author: Stefan
 '''
 from paramiko.client import *
+import paramiko
 import time
 
 class SSH(object):
@@ -19,7 +20,9 @@ class SSH(object):
         self.username = username
         self.pwd = pwd
         self.client = SSHClient()
-        self.client.set_missing_host_key_policy(WarningPolicy())
+        #only activate when non-agent, as this will throw unhandled prompts
+        #self.client.set_missing_host_key_policy(WarningPolicy())
+        self.client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         self.client.load_system_host_keys()
         self.connect(port=port)
 

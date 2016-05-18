@@ -1,4 +1,4 @@
-from src.ssh.SSH import SSH
+from ssh.SSH import SSH
 import time
 
 
@@ -31,10 +31,10 @@ class Installer(object):
         self._checkStreams(out0, err0, 'apt update failed', 'apt updated.')
         (_, out0, err0) = self.ssh.run('apt-get install -y git')
         self._checkStreams(out0, err0, 'git install failed', 'git installed.')
-        command = 'git clone https://github.com/Skynet2-0/Skynet2.0.git'
+        command = 'git clone --recursive https://github.com/Skynet2-0/Skynet2.0.git'
         (_, out0, err0) = self.ssh.run(command)
         self._checkStreams(out0, err0, 'git clone failed', 'project cloned.')
-        command = """chmod a+rx -R Skynet2.0 && cd Skynet2.0 && export PATH=$PATH:. && sh build.sh"""
+        command = """cd Skynet2.0 && sh build.sh"""
         (_, out0, err0) = self.ssh.run(command)
         self._checkStreams(out0, err0, 'build failed', 'project build.')
         print('Installation finished.')

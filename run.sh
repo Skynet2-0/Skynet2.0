@@ -1,5 +1,12 @@
 #!/usr/bin/env sh
 
-pip install -r requirements.txt
+###########################
+#Start the selenium server#
+###########################
+nohup java -jar selenium-server-standalone-2.53.0.jar &
 
-PYTHONPATH=.:./src python src/agent/agentCore.py
+
+#################
+#Start the agent#
+#################
+python src/agent/agentCore.py

@@ -6,10 +6,10 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
-from agent.BogusFormBuilder import BogusFormBuilder
+from BogusFormBuilder import BogusFormBuilder
 
-from agent.VPSBuyer import VPSBuyer
-from agent.OffshoredediBuyer import OffshoredediBuyer
+from VPSBuyer import VPSBuyer
+from OffshoredediBuyer import OffshoredediBuyer
 
 
 #temporary, for testing:
@@ -28,9 +28,11 @@ from agent.OffshoredediBuyer import OffshoredediBuyer
 
 
 # The code here will actually buy a VPS from Zappiehost
-buyer = OffshoredediBuyer()
+buyer = OffshoredediBuyer('MnZaBFeMy@QRYz.org', 'yuezNYsQFSEypMYSJfBDEvQougtahCkx')
+#buyer = OffshoredediBuyer()
 #result = buyer.placeOrder()
-result = buyer.placeOrder()
+#result = buyer.placeOrder()
+result = buyer.setSSHPassword()
 
 
 #if result == True:

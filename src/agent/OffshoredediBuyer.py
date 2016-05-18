@@ -6,11 +6,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
-from agent.BogusFormBuilder import BogusFormBuilder
+from src.agent.BogusFormBuilder import BogusFormBuilder
 
-from agent.VPSBuyer import VPSBuyer
+from src.agent.VPSBuyer import VPSBuyer
 
-from agent.Wallet import Wallet
+from src.agent.Wallet import Wallet
 
 import selenium.webdriver.support.ui as ui
 
@@ -49,9 +49,13 @@ class OffshoredediBuyer(VPSBuyer):
         
         time.sleep(30) # Wait for half a minute so Offshorededi can process the payment
         
+        succeeded = self.setSSHPassword(self.SSHPassword)
+        if succeeded == False:
+            return False
+        return True
         
     '''
-    Places an order on Zappiehost for a new VPS
+    Places an order on Offshorededi for a new VPS
     '''
     def placeOrder(self):
         try:
@@ -115,6 +119,8 @@ class OffshoredediBuyer(VPSBuyer):
             bitcoinAmount = firstlinesplit[2]
             toWallet = lines[2]
             
+            pay_page_url = self.driver.current_url()
+            
             print("amount: " + bitcoinAmount)
             print("to wallet: " + toWallet)
             
@@ -124,9 +130,16 @@ class OffshoredediBuyer(VPSBuyer):
                 return False
             
             # Wait for the transaction to be accepted
-            wait = ui.WebDriverWait(self.driver, 666)
-            wait.until(lambda driver: driver.find_element_by_css_selector('.payment--paid'))
+            tries_left = 60 * 15
+            while(self.driver.current_url() == pay_page_url and tries_left > 0):
+                time.sleep(1)
+                tries_left = tries_left - 1
+                
+            if self.driver.current_url() == pay_page_url:
+                # Payment redirect failed
+                return False
             
+            return True #payment succeeded
             
             #self.closeBrowser()
         
@@ -137,4 +150,64 @@ class OffshoredediBuyer(VPSBuyer):
             return False
             #raise # Raise the exception that brought you here 
             
+        return True
+    
+    def setSSHPassword(self, SSHPassword = ''):
+        '''
+        Re-installs the VPS on Offshorededi with a new password. This is handy, so we don't have to fetch the password from an email
+        '''
+        if SSHPassword == '':
+            SSHPassword = self.SSHPassword
+        self.SSHPassword = SSHPassword
+        try:
+            self.spawnBrowser()
+            self.driver.get("https://billing.offshorededi.com/clientarea.php")
+            
+            #Click the to cart button for the cheapest VPS
+            self.fillInElement('username', self.email)
+            self.fillInElement('password', self.password)
+            
+            self.driver.find_element_by_id('login').click()
+            
+            self.driver.get("https://my.offshorededi.com/clientarea.php?action=services")
+            
+            pending = False
+            try:
+                self.driver.find_element_by_css_selector(".label.status.status-pending")
+            except Exception as e:
+                pending = True
+                
+            
+            self.driver.find_element_by_css_selector(".table.table-striped.table-framed").find_element_by_css_selector(".btn-group").find_element_by_css_selector(".btn").click()
+            
+            # GET THE IP ADDRESS
+            a = self.driver.find_elements_by_xpath("//*[contains(text(), 'IP Address:')]").pop()
+            rawtext = a.find_elements_by_xpath("..").pop().text
+            text1 = rawtext.split('IP Address:\n', 1)
+            text2 = text1[1].split('\n', 1)
+            self.IP = text2[0]
+            # END OF GET IP ADDRESS
+            
+            
+            self.driver.find_element_by_css_selector(".icon-btn.icon-reinstall").click()
+            
+            
+            #driver.find_element_by_id('password')._execute(command, params)
+            self.driver.find_element_by_id('password').send_keys(self.SSHPassword)
+            #fillInElement("rebuild[password]", SSHPassword)
+            
+            self.driver.find_element_by_css_selector("input[value='local:vztmpl/ubuntu-14.04-64bit.tar.gz']").click()
+            
+            self.driver.find_element_by_css_selector(".form-actions").find_element_by_css_selector(".btn.btn-primary").click()
+        
+            # print("New SSH Password: " + self.SSHPassword)
+            self.closeBrowser()
+            
+        except Exception as e:
+            print("Could not complete the transaction because an error occurred:")
+            print(e)
+            #raise # Raise the exception that brought you here 
+            self.closeBrowser()
+            return False
+        
         return True

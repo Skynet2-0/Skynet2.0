@@ -11,6 +11,7 @@
 
 #ensure wxgtk2.8 and all requirements are available for 16.04
 sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu vivid main"
+sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu xenial main"
 
 # update the apt-get folder.
 sudo apt-get update

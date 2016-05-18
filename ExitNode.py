@@ -26,7 +26,7 @@ from Tribler.community.tunnel.hidden_community import HiddenTunnelCommunity
 import logging.config
 from Tribler.Core.simpledefs import dlstatus_strings
 from Tribler.dispersy.candidate import Candidate
-from Tribler.dispersy.tool.clean_observers import clean_twisted_observers
+#from Tribler.dispersy.tool.clean_observers import clean_twisted_observers
 
 #logging.config.fileConfig("logger.conf")
 logging.basicConfig()

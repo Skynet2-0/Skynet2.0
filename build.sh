@@ -23,19 +23,17 @@ sudo apt-get update
 apt-get install -y python
 apt-get install -y python-pip
 
-#install libsodium13 which does not exist anymore under 14.04
+#install other tribler requirements
+sudo apt-get install -y libav-tools libjs-excanvas libjs-mootools libx11-6 python-apsw python-cherrypy3 python-crypto python-feedparser python-leveldb python-libtorrent python-m2crypto python-netifaces python-pil python-pyasn1 python-requests python-twisted python-wxgtk2.8 python2.7 vlc python-pip python-decorator python-gmpy gconf2 python-cffi python-enum34
+pip install decorator==4.0.9
 
+#install libsodium13 which does not exist anymore under 14.04
 wget http://launchpadlibrarian.net/191505542/libsodium13_1.0.1-1_amd64.deb
 dpkg -i libsodium13_1.0.1-1_amd64.deb
 
 #install python-cryptography which does not exist anymore under 14.04
-
 wget http://launchpadlibrarian.net/200479300/python-cryptography_0.8-1ubuntu2_amd64.deb
 dpkg -i python-cryptography_0.8-1ubuntu2_amd64.deb
-
-#install other tribler requirements
-sudo apt-get install -y libav-tools libjs-excanvas libjs-mootools libx11-6 python-apsw python-cherrypy3 python-crypto python-feedparser python-leveldb python-libtorrent python-m2crypto python-netifaces python-pil python-pyasn1 python-requests python-twisted python-wxgtk2.8 python2.7 vlc python-pip python-decorator python-gmpy gconf2 python-cffi python-enum34
-pip install decorator==4.0.9
 
 #install tribler itself
 pip install git+https://github.com/Tribler/tribler

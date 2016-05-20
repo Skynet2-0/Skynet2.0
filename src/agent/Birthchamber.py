@@ -64,13 +64,13 @@ class Birthchamber(object):
     def installChild(self):
         #run installation on vps
         print("starting the installation procedure")
-        #i = Installer(self.getIP(),self.getSSHUsername(),self.getSSHPassword(), 22)
-        i = Installer("185.99.132.241","root","HEzbhNeAfPBTyQbrzpzaMzyEEhEzNfVg", 22)
+        #i = Installer(self.getIP(),self.getSSHUsername(),self.getSSHPassword())
+        i = Installer("185.99.132.241","root","HEzbhNeAfPBTyQbrzpzaMzyEEhEzNfVg")
         i.install()
         
     def startChild(self):
         #start the core program on child
         print("starting the agent node")
-        #s = Starter(self.getIP(),self.getSSHUsername(),self.getSSHPassword(), 22)
-        s = Starter("185.99.132.241","root","HEzbhNeAfPBTyQbrzpzaMzyEEhEzNfVg", 22)
+        #s = Starter(self.getIP(),self.getSSHUsername(),self.getSSHPassword())
+        s = Starter("185.99.132.241","root","HEzbhNeAfPBTyQbrzpzaMzyEEhEzNfVg")
         s.start()

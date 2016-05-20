@@ -1,7 +1,7 @@
 import unittest
-from src.agent.Wallet import Wallet
+from agent.Wallet import Wallet
 
-class WalletTest(unittest.TestCase):	
+class WalletTest(unittest.TestCase):
     def testOnlyConfirmedBalance(self):
     	w = Wallet()
     	balancesheet = """{
@@ -9,7 +9,7 @@ class WalletTest(unittest.TestCase):
 		}"""
 
     	self.assertEqual(w.calculateBalance(balancesheet), 0.02386436)
-    	
+
     def testBothBalance(self):
     	w = Wallet()
     	balancesheet = """{

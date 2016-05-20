@@ -15,7 +15,13 @@ class SSH(object):
 
     def __init__(self, sshhost, username, pwd, port = None):
         '''
-        Constructor
+        Constructor for the SSH class.
+
+        This constructor connects automatically.
+        sshhost is the host to connect to.
+        username is the username to use.
+        pwd is the password.
+        port is the port to connect to.
         '''
         self.sshhost = sshhost
         self.username = username
@@ -43,19 +49,19 @@ class SSH(object):
         if pwd is None:
             pwd = self.pwd
         if port is not None:
-            self.client.connect(sshhost, username = user, password = pwd, port=port)#(, timeout = 60)
+            self.client.connect(sshhost, username = user, password = pwd, port=port)
         else:
             self.client.connect(sshhost, username = user, password = pwd)
         time.sleep(1)
 
 
     def run(self, command):
-        '''
+        """
         Runs a command over SSH on the client.
 
         command is the command to execute.
         Returns the stdin, stdout, and stderr of the executing command, as a 3-tuple.
-        '''
+        """
         return self.client.exec_command(command)
 
     def close_connection(self):

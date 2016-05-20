@@ -58,7 +58,7 @@ class Installer(object):
         errmessage is the message at the start after error.
         succesmessage is the message on succes.
         """
-        timeout = time.time() + 300
+        timeout = time.time() + 300 # Remember time 5 minutes from now to prevent infinite loops.
         done = False
         while time.time() <= timeout and not done:
             if out.channel.exit_status_ready():

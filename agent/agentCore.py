@@ -1,7 +1,8 @@
 '''
-This script will start the tribler exit node
-It will then occasionally check it's wallet
-and if it's wallet has enough money it will procure, install and start exactly 1 child
+This script will start the tribler exit node.
+
+It will then occasionally check it's wallet.
+and if it's wallet has enough money it will procure, install and start exactly 1 child.
 '''
 
 from ExitNode import ExitNode
@@ -22,3 +23,4 @@ while(wallet.balance()<0.01):
 	
 bc = Birthchamber(ZappiehostBuyer())
 bc.getChild()
+

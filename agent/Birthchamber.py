@@ -1,6 +1,5 @@
 '''
-This class buys a server automatically
-and then installs a copy of itself from github unto that server
+This script buys a server automatically and then installs a copy of itself from github unto that server.
 '''
 from VPSBuyer import VPSBuyer
 from ZappiehostBuyer import ZappiehostBuyer
@@ -42,13 +41,14 @@ class Birthchamber(object):
         '''
         #run installation on vps
         print("starting the installation procedure")
-        #i = Installer(self.vps.getIP(),self.vps.getSSHUsername(),self.vps.getSSHPassword(),22)
-        i = Installer("185.99.132.241","root","HEzbhNeAfPBTyQbrzpzaMzyEEhEzNfVg",22)
+        i = Installer(self.vps.getIP(),self.vps.getSSHUsername(),self.vps.getSSHPassword(),22)
+        #i = Installer("185.99.132.241","root","HEzbhNeAfPBTyQbrzpzaMzyEEhEzNfVg",22)
         i.install()
         
     def startChild(self):
         #start the core program on child
         print("starting the agent node")
-        #s = Starter(self.vps.getIP(),self.vps.getSSHUsername(),self.vps.getSSHPassword(),22)
-        s = Starter("185.99.132.241","root","HEzbhNeAfPBTyQbrzpzaMzyEEhEzNfVg",22)
+        s = Starter(self.vps.getIP(),self.vps.getSSHUsername(),self.vps.getSSHPassword(),22)
+        #s = Starter("185.99.132.241","root","HEzbhNeAfPBTyQbrzpzaMzyEEhEzNfVg",22)
         s.start()
+

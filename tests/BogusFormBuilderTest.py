@@ -4,7 +4,7 @@ Created on Apr 20, 2016
 @author: Niels
 '''
 import unittest
-from src.agent.BogusFormBuilder import BogusFormBuilder
+from agent.BogusFormBuilder import BogusFormBuilder
 
 
 class BogusFormBuilderTest(unittest.TestCase):

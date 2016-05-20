@@ -1,3 +1,7 @@
+'''
+runs a headless tribler exit node instance with multichain enabled
+'''
+
 import os
 import sys
 import json

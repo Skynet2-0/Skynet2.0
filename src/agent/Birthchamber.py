@@ -35,12 +35,12 @@ class Birthchamber(object):
             
         #run installation on vps
         print("starting the installation procedure")
-        i = Installer(zhb.getIP(),zhb.getSSHUsername(),zhb.getSSHPassword(), 21)
-        #i = Installer("103.208.86.62","root","HEzbhNeAfPBTyQbrzpzaMzyEEhEzNfVg", 22)
+        #i = Installer(zhb.getIP(),zhb.getSSHUsername(),zhb.getSSHPassword(), 22)
+        i = Installer("103.208.86.62","root","HEzbhNeAfPBTyQbrzpzaMzyEEhEzNfVg", 22)
         i.install()
 
         #start the core program on child
         print("starting the agent node")
-        s = Starter(zhb.getIP(),zhb.getSSHUsername(),zhb.getSSHPassword(), 21)
-        #s = Starter("103.208.86.62","root","HEzbhNeAfPBTyQbrzpzaMzyEEhEzNfVg", 22)
+        #s = Starter(zhb.getIP(),zhb.getSSHUsername(),zhb.getSSHPassword(), 22)
+        s = Starter("103.208.86.62","root","HEzbhNeAfPBTyQbrzpzaMzyEEhEzNfVg", 22)
         s.start()

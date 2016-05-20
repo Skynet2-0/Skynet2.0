@@ -6,11 +6,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
-from src.agent.BogusFormBuilder import BogusFormBuilder
+from BogusFormBuilder import BogusFormBuilder
 
-from src.agent.VPSBuyer import VPSBuyer
+from VPSBuyer import VPSBuyer
 
-from src.agent.Wallet import Wallet
+from Wallet import Wallet
 
 import selenium.webdriver.support.ui as ui
 

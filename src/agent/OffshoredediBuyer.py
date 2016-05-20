@@ -21,7 +21,7 @@ class OffshoredediBuyer(VPSBuyer):
     '''
     This class orders a VPS from offshorededi.com
     '''
-    def __init__(self, email = "", password = "", SSHPassword = ""):
+    def __init__(self, email = "", password = ""):
         super(OffshoredediBuyer, self).__init__()
         self.email = email
         if self.email == "":
@@ -31,9 +31,7 @@ class OffshoredediBuyer(VPSBuyer):
         if self.password == "":
             self.password = self.generator.getRAString(32)
             
-        self.SSHPassword = SSHPassword
-        if self.SSHPassword == "":
-            self.SSHPassword = self.generator.getRAString(32)
+        self.SSHPassword = ""
             
         self.SSHUsername = "root"
         pass
@@ -49,7 +47,7 @@ class OffshoredediBuyer(VPSBuyer):
         
         time.sleep(30) # Wait for half a minute so Offshorededi can process the payment
         
-        succeeded = self.setSSHPassword(self.SSHPassword)
+        succeeded = self.getSSHInfo(self.SSHPassword)
         if succeeded == False:
             return False
         return True
@@ -152,9 +150,9 @@ class OffshoredediBuyer(VPSBuyer):
             
         return True
     
-    def setSSHPassword(self, SSHPassword = ''):
+    def getSSHInfo(self, SSHPassword = ''):
         '''
-        Re-installs the VPS on Offshorededi with a new password. This is handy, so we don't have to fetch the password from an email
+        Retrieves the SSH login information for our bought VPS
         '''
         if SSHPassword == '':
             SSHPassword = self.SSHPassword
@@ -163,11 +161,11 @@ class OffshoredediBuyer(VPSBuyer):
             self.spawnBrowser()
             self.driver.get("https://my.offshorededi.com/clientarea.php")
             
-            #Click the to cart button for the cheapest VPS
+
             self.driver.find_element_by_id('inputEmail').send_keys(self.email)
             self.driver.find_element_by_id('inputPassword').send_keys(self.password)
-            #self.fillInElement('username', self.email)
-            #self.fillInElement('password', self.password)
+            self.driver.find_elements_by_name('rememberme').pop().click()
+
             
             self.driver.find_element_by_id('login').click()
             
@@ -181,6 +179,7 @@ class OffshoredediBuyer(VPSBuyer):
             while(pending == True and tries_left > 0):
                 if first == False:
                     time.sleep(60)
+                    self.driver.get("https://my.offshorededi.com/clientarea.php?action=services")
                 first = False
                 tries_left = tries_left - 1
                 print("Tries left: ")
@@ -194,29 +193,23 @@ class OffshoredediBuyer(VPSBuyer):
             if pending == True:
                 return False # The VPS is still pending!
             
-            self.driver.find_element_by_css_selector(".table.table-striped.table-framed").find_element_by_css_selector(".btn-group").find_element_by_css_selector(".btn").click()
             
-            # GET THE IP ADDRESS
-            a = self.driver.find_elements_by_xpath("//*[contains(text(), 'IP Address:')]").pop()
-            rawtext = a.find_elements_by_xpath("..").pop().text
-            text1 = rawtext.split('IP Address:\n', 1)
-            text2 = text1[1].split('\n', 1)
-            self.IP = text2[0]
-            # END OF GET IP ADDRESS
+            self.driver.get("https://my.offshorededi.com/clientarea.php?action=emails")
             
+            onclick = self.driver.find_elements_by_css_selector(".btn.btn-info.btn-sm").pop().get_attribute('onclick')
+            explode = onclick.split('\'')
+            url = explode[1]
+            print(url)
+            self.driver.get("https://my.offshorededi.com/" + url)
             
-            self.driver.find_element_by_css_selector(".icon-btn.icon-reinstall").click()
+            # Let's extract the IP address and SSH Password
+            email = self.driver.find_element_by_css_selector(".bodyContent").text
+            lines = email.split('\n')
+            ipsplit = lines[7].split(',')
+            ipsplit2 = ipsplit[0].split(' ')
+            self.IP = ipsplit2[2]
+            self.SSHPassword = lines[8].split(' ')[2]
             
-            
-            #driver.find_element_by_id('password')._execute(command, params)
-            self.driver.find_element_by_id('password').send_keys(self.SSHPassword)
-            #fillInElement("rebuild[password]", SSHPassword)
-            
-            self.driver.find_element_by_css_selector("input[value='local:vztmpl/ubuntu-14.04-64bit.tar.gz']").click()
-            
-            self.driver.find_element_by_css_selector(".form-actions").find_element_by_css_selector(".btn.btn-primary").click()
-        
-            # print("New SSH Password: " + self.SSHPassword)
             self.closeBrowser()
             
         except Exception as e:

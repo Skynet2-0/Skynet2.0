@@ -8,8 +8,8 @@ from selenium.common.exceptions import TimeoutException
 
 from BogusFormBuilder import BogusFormBuilder
 
-from VPSBuyer import VPSBuyer
-from OffshoredediBuyer import OffshoredediBuyer
+from src.agent.VPSBuyer import VPSBuyer
+from src.agent.OffshoredediBuyer import OffshoredediBuyer
 
 
 #temporary, for testing:
@@ -35,12 +35,12 @@ buyer = OffshoredediBuyer('MnZaBFeMy@QRYz.org', 'yuezNYsQFSEypMYSJfBDEvQougtahCk
 result = buyer.setSSHPassword()
 
 
-#if result == True:
-#    print("VPS BOUGHT! Details:")
-#    print("Zappiehost email: " + zhb.getEmail())
-#    print("Zappiehost password: " + zhb.getPassword())
-#    print("SSH IP: " + zhb.getIP())
-#    print("SSH Username: " + zhb.getSSHUsername())
-#    print("SSH Password: " + zhb.getSSHPassword())
-#else:
-#    print("Failed to buy VPS from Zappiehost...")
+if result == True:
+    print("VPS BOUGHT! Details:")
+    print("Zappiehost email: " + buyer.getEmail())
+    print("Zappiehost password: " + buyer.getPassword())
+    print("SSH IP: " + buyer.getIP())
+    print("SSH Username: " + buyer.getSSHUsername())
+    print("SSH Password: " + buyer.getSSHPassword())
+else:
+    print("Failed to buy VPS from OffshoreDedi...")

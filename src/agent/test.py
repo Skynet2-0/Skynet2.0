@@ -166,6 +166,7 @@ class OffshoredediBuyer(VPSBuyer):
             #Click the to cart button for the cheapest VPS
             self.driver.find_element_by_id('inputEmail').send_keys(self.email)
             self.driver.find_element_by_id('inputPassword').send_keys(self.password)
+            self.driver.find_elements_by_name('rememberme').pop().click()
             #self.fillInElement('username', self.email)
             #self.fillInElement('password', self.password)
             
@@ -181,6 +182,7 @@ class OffshoredediBuyer(VPSBuyer):
             while(pending == True and tries_left > 0):
                 if first == False:
                     time.sleep(60)
+                    self.driver.get("https://my.offshorededi.com/clientarea.php?action=services")
                 first = False
                 tries_left = tries_left - 1
                 print("Tries left: ")
@@ -194,6 +196,23 @@ class OffshoredediBuyer(VPSBuyer):
             if pending == True:
                 return False # The VPS is still pending!
             
+            self.driver.get("https://my.offshorededi.com/clientarea.php?action=emails")
+            
+            onclick = self.driver.find_elements_by_css_selector(".btn.btn-info.btn-sm").pop().get_attribute('onclick')
+            explode = onclick.split('\'')
+            url = explode[1]
+            print(url)
+            self.driver.get("https://my.offshorededi.com/" + url)
+            
+            email = self.driver.find_element_by_css_selector(".bodyContent").text
+            lines = email.split('\n')
+            ipsplit = lines[7].split(',')
+            ipsplit2 = ipsplit[0].split(' ')
+            self.IP = ipsplit2[2]
+            print("IP ADDRESS: " + self.getIP())
+            self.SSHPassword = lines[8].split(' ')[2]
+            print("SSH PASSWORD: " + self.getSSHPassword())
+            
             return True #payment succeeded
             
 
@@ -202,7 +221,7 @@ class OffshoredediBuyer(VPSBuyer):
             print("Could not complete the transaction because an error occurred:")
             print(e)
             #raise # Raise the exception that brought you here 
-            self.closeBrowser()
+            #self.closeBrowser()
             return False
         
         return True

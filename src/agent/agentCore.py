@@ -20,5 +20,5 @@ while(wallet.balance()<0.01):
     print("Not enough bitcoins, waiting for money to arrive")
 	sleep(600)
 	
-bc = Birthchamber()
-bc.getZHBChild()
+bc = Birthchamber(ZappiehostBuyer())
+bc.getChild()

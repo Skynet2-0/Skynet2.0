@@ -14,63 +14,41 @@ class Birthchamber(object):
     def __init__(self):
         pass
 
-    def getZHBChild(self):
+    def getChild(self, VPSBuyer):
         #do a startup message
         print("Starting up a child server")
         
         #buy a server
-        self.zhb = ZappiehostBuyer()
-        result = self.zhb.buy()
+        self.vps = VPSBuyer
+        result = self.VPSBuyer.buy()
 
         if result == True:
             print("VPS BOUGHT! Details:")
-            print("Zappiehost email: " + self.getEmail())
-            print("Zappiehost password: " + self.getPassword())
-            print("SSH IP: " + self.getIP())
-            print("SSH Username: " + self.getSSHUsername())
-            print("SSH Password: " + self.getSSHPassword())
+            print("Zappiehost email: " + self.vps.getEmail())
+            print("Zappiehost password: " + self.vps.getPassword())
+            print("SSH IP: " + self.vps.getIP())
+            print("SSH Username: " + self.vps.getSSHUsername())
+            print("SSH Password: " + self.vps.getSSHPassword())
         else:
             print("Failed to buy VPS from Zappiehost...")
             #maybe do an alternative vps?            
         
         self.installChild()
         self.startChild()
-    
-    def getEmail(self):
-        if self.email is None:
-            self.email = self.zhb.getEmail() 
-        return self.email
-    
-    def getPassword(self):
-        if self.password is None:
-            self.password = self.zhb.getPassword()
-        return self.password    
-    
-    def getIP(self):
-        if self.ip is None:
-            self.ip = self.zhb.getIP()
-        return self.ip
-        
-    def getSSHUsername(self):
-        if self.SSHUsername is None:
-            self.SSHUsername = self.zhb.getSSHUsername(self)
-        return self.SSHUsername
-            
-    def getSSHPassword(self):
-        if self.SSHPassword is None:
-            self.SSHPassword = self.zhb.getSSHPassword(self)
-        return self.SSHPassword
         
     def installChild(self):
+        '''
+        ToDo: addd check whether ssh access is succesfull, and if not wait and retry
+        '''
         #run installation on vps
         print("starting the installation procedure")
-        #i = Installer(self.getIP(),self.getSSHUsername(),self.getSSHPassword())
-        i = Installer("185.99.132.241","root","HEzbhNeAfPBTyQbrzpzaMzyEEhEzNfVg")
+        #i = Installer(self.vps.getIP(),self.vps.getSSHUsername(),self.vps.getSSHPassword(),22)
+        i = Installer("185.99.132.241","root","HEzbhNeAfPBTyQbrzpzaMzyEEhEzNfVg",22)
         i.install()
         
     def startChild(self):
         #start the core program on child
         print("starting the agent node")
-        #s = Starter(self.getIP(),self.getSSHUsername(),self.getSSHPassword())
-        s = Starter("185.99.132.241","root","HEzbhNeAfPBTyQbrzpzaMzyEEhEzNfVg")
+        #s = Starter(self.vps.getIP(),self.vps.getSSHUsername(),self.vps.getSSHPassword(),22)
+        s = Starter("185.99.132.241","root","HEzbhNeAfPBTyQbrzpzaMzyEEhEzNfVg",22)
         s.start()

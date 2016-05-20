@@ -1,3 +1,5 @@
+#! /usr/bin/env python
+
 '''
 This script will start the tribler exit node.
 

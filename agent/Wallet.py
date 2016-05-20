@@ -38,12 +38,18 @@ class Wallet(object):
 			self.privkey = walletpair[2]
 			print('created a wallet with address \''+self.address+'\' and privatekey \''+self.privkey+'\'')
 			child = pexpect.spawn('electrum', ['restore', self.privkey])
-
-			#wait for the password prompt, then ignore it
-			child.waitnoecho()
-			child.sendline('')
-			child.expect(pexpect.EOF)
+			_ignore_password_prompt(child)
 		subprocess.call(['electrum', 'daemon', 'start'])
+
+	def _ignore_password_prompt(self, child):
+		"""
+		Wait for the password prompt, then ignore it.
+
+		child is a result from pexpect.spawn and is thus of the pexpect.spawn class.
+		"""
+		child.waitnoecho()
+		child.sendline('')
+		child.expect(pexpect.EOF)
 
 	# def __del__(self):
 	#     '''

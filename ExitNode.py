@@ -1,5 +1,6 @@
 '''
-runs a headless tribler exit node instance with multichain enabled
+runs a headless tribler exit node instance with multichain enabled.
+This is mostly a copy from the tunnel community in the tribler github, modified to run with multichain enabled
 '''
 
 import os

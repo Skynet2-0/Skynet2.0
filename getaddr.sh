@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
-python ./addrgen/addrgen.py
+python addrgen/addrgen.py
 

@@ -7,6 +7,7 @@ from paramiko.client import *
 import paramiko
 import time
 
+
 class SSH(object):
     '''
     This class enables the execution of SSH commands on a child server
@@ -20,8 +21,8 @@ class SSH(object):
         self.username = username
         self.pwd = pwd
         self.client = SSHClient()
-        #only activate when non-agent, as this will throw unhandled prompts
-        #self.client.set_missing_host_key_policy(WarningPolicy())
+        # only activate when non-agent, as this will throw unhandled prompts
+        # self.client.set_missing_host_key_policy(WarningPolicy())
         self.client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         self.client.load_system_host_keys()
         self.connect(port=port)
@@ -29,6 +30,7 @@ class SSH(object):
     def connect(self, sshhost = None, user = None, pwd = None, port = None):
         '''
         Connects this instance with the instance sshhost over SSH.
+
         username is the user and pwd is the password.
         Port is the port number to connect to.
         See SSHClient.connect for more information on optional parameters
@@ -50,6 +52,7 @@ class SSH(object):
     def run(self, command):
         '''
         Runs a command over SSH on the client.
+
         command is the command to execute.
         Returns the stdin, stdout, and stderr of the executing command, as a 3-tuple.
         '''

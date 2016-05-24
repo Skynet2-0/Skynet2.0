@@ -60,7 +60,21 @@ class TriblerServiceMaker(object):
         signal.signal(signal.SIGTERM, signal_handler)
 
         config = SessionStartupConfig()
-        config.set_http_api_enabled(True)
+        config.set_state_dir(os.path.join(config.get_state_dir(), "tunnel-%d") % self.settings.socks_listen_ports[0])
+        config.set_torrent_checking(False)
+        config.set_multicast_local_peer_discovery(False)
+        config.set_megacache(False)
+        config.set_dispersy(True)
+        config.set_mainline_dht(True)
+        config.set_torrent_collecting(False)
+        config.set_libtorrent(True)
+        config.set_dht_torrent_collecting(False)
+        config.set_enable_torrent_search(False)
+        config.set_videoplayer(False)
+        config.set_dispersy_port(-1)
+        config.set_enable_torrent_search(False)
+        config.set_enable_channel_search(False)
+        config.set_enable_multichain(True)
 
         # Check if we are already running a Tribler instance
         self.process_checker = ProcessChecker()

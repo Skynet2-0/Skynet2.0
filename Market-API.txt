@@ -1,0 +1,29 @@
+We agree to use the current implementation of the market as the interface.
+
+The current on that is:
+
+from tribler/Tribler/community/market/community.py
+
+# Create a bid.
+def create_bid(self, price, quantity, timeout):
+        """
+        Create a bid order (buy order)
+        :param price: The price for the order
+        :param quantity: The quantity of the order
+        :param timeout: The timeout of the order, when does the order need to be timed out
+        :type price: float
+        :type quantity: float
+        :type timeout: float
+        """
+
+# Create an ask.
+def create_ask(self, price, quantity, timeout):
+        """
+        Create an ask order (sell order)
+        :param price: The price for the order
+        :param quantity: The quantity of the order
+        :param timeout: The timeout of the order, when does the order need to be timed out
+        :type price: float
+        :type quantity: float
+        :type timeout: float
+        """

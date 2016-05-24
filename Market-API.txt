@@ -1,4 +1,4 @@
-We agree to use the current implementation of the market as the interface.
+We agree to use the following implementation of the market as the interface.
 
 The current on that is:
 
@@ -8,9 +8,9 @@ from tribler/Tribler/community/market/community.py
 def create_bid(self, price, quantity, timeout):
         """
         Create a bid order (buy order)
-        :param price: The price for the order
-        :param quantity: The quantity of the order
-        :param timeout: The timeout of the order, when does the order need to be timed out
+        :param price: The price for the order in Bitcoin
+        :param quantity: The quantity of the order in MultiChain
+        :param timeout: The timeout of the order in seconds, when does the order need to be timed out
         :type price: float
         :type quantity: float
         :type timeout: float
@@ -20,10 +20,15 @@ def create_bid(self, price, quantity, timeout):
 def create_ask(self, price, quantity, timeout):
         """
         Create an ask order (sell order)
-        :param price: The price for the order
-        :param quantity: The quantity of the order
-        :param timeout: The timeout of the order, when does the order need to be timed out
+        :param price: The price for the order in Bitcoin
+        :param quantity: The quantity of the order in MultiChain
+        :param timeout: The timeout of the order in seconds, when does the order need to be timed out
         :type price: float
         :type quantity: float
         :type timeout: float
         """
+
+
+
+These two functions don't give anything as output, neither information nor errors.
+The above code works under the assumption that electrum is properly installed and configured on the machine that calls these functions.

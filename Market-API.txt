@@ -1,8 +1,15 @@
+Revision history
+ -V0.01 Whiteboard edition (23 May)
+ -V0.1  This TXT edition (25 May)
+ 
+
 We agree to use the following implementation of the market as the interface.
 
 The current on that is:
 
 from tribler/Tribler/community/market/community.py
+
+Division of responsibility: the market is fully responsible for the exchange of funds and management of the wallets of both Multi-chain, Bitcoin.
 
 # Create a bid.
 def create_bid(self, price, quantity, timeout):
@@ -28,6 +35,14 @@ def create_ask(self, price, quantity, timeout):
         :type timeout: float
         """
 
+def success_callback()
+        """
+        A bid has been accepted and funds have been received in the wallet.
+        
+
+def error_callback()
+        """
+        Something went wrong. A detailed description is included within this callback 
 
 
 These two functions don't give anything as output, neither information nor errors.

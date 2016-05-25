@@ -60,7 +60,7 @@ class TriblerServiceMaker(object):
         signal.signal(signal.SIGTERM, signal_handler)
 
         config = SessionStartupConfig()
-        config.set_state_dir(os.path.join(config.get_state_dir(), "tunnel-%d") % self.settings.socks_listen_ports[0])
+        #config.set_state_dir(os.path.join(config.get_state_dir(), "tunnel-%d") %    self.settings.socks_listen_ports[0])
         config.set_torrent_checking(False)
         config.set_multicast_local_peer_discovery(False)
         config.set_megacache(False)
@@ -92,13 +92,14 @@ class TriblerServiceMaker(object):
             self.session.start()
             msg("Tribler started")
 
-    def makeService(self, options):
+    def makeService(self):#, options):
         """
         Construct a Tribler service.
         """
         tribler_service = MultiService()
         tribler_service.setName("Tribler")
 
+        '''
         manhole_namespace = {}
         if options["manhole"]:
             port = options["manhole"]
@@ -109,6 +110,7 @@ class TriblerServiceMaker(object):
                 'passwd': os.path.join(os.path.dirname(__file__), 'passwd'),
             })
             tribler_service.addService(manhole)
+        '''
 
         reactor.callWhenRunning(self.start_tribler)
 

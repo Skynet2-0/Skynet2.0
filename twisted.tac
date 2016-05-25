@@ -1,13 +1,8 @@
 # You can run this .tac file directly with:
-#    twistd -ny service.tac
+#    twistd -y file
 
 """
-This is an example .tac file which starts a webserver on port 8080 and
-serves files from the current working directory.
-
-The important part of this, the part that makes it a .tac file, is
-the final root-level section, which sets up the object called 'application'
-which twistd will look for
+This .tac file will start a twistd session with a tribler service added that runs with multichain and exitnode enabled
 """
 
 import os
@@ -32,8 +27,9 @@ def getTriblerService():
 
 # this is the core part of any tac file, the creation of the root-level
 # application object
-application = service.Application("Demo application")
-logfile = DailyLogFile("my.log", "/tmp")
+# it creates 
+application = service.Application("Tribler application")
+logfile = DailyLogFile("tribler.log", "/tmp")
 application.setComponent(ILogObserver, FileLogObserver(logfile).emit)
 
 # attach the service to its parent application

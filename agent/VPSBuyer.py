@@ -55,6 +55,14 @@ class VPSBuyer(object):
         option = options[num]
         option.click()
 
+    def chooseSelectElement(self, fieldName, fieldText):
+        '''
+        Chooses one of the elements in a select list, by its visible text
+        '''
+        select = Select(self.driver.find_element_by_name(fieldName));
+        #select.deselect_all()
+        select.select_by_visible_text(fieldText)
+
 
     def getSSHUsername(self):
         '''

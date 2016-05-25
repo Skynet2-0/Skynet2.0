@@ -19,7 +19,7 @@ def getTriblerService():
     This service is a headless tribler instance with exit node and multichain enabled
     """
     tsm = TriblerServiceMaker()
-    return tsm.makeService({'manhole': None})
+    return tsm.makeService()
     
     # create a resource to serve static files
     #fileServer = server.Site(static.File(os.getcwd()))

@@ -37,7 +37,7 @@ class Birthchamber(object):
         
     def installChild(self):
         '''
-        ToDo: addd check whether ssh access is succesfull, and if not wait and retry
+        ToDo: add check whether ssh access is succesfull, and if not wait and retry
         '''
         #run installation on vps
         print("starting the installation procedure")

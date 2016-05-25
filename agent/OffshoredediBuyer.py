@@ -38,7 +38,7 @@ class OffshoredediBuyer(VPSBuyer):
         Returns True if it succeeded, returns False otherwise.
         """
         succeeded = self.placeOrder() # places the order
-        if succeeded == False:
+        if not succeeded:
             return False
 
         time.sleep(30) # Wait for half a minute so Offshorededi can process the payment
@@ -124,15 +124,9 @@ class OffshoredediBuyer(VPSBuyer):
             while(self.driver.current_url() == pay_page_url and tries_left > 0):
                 time.sleep(1)
                 tries_left = tries_left - 1
-
-            if self.driver.current_url() == pay_page_url:
-                # Payment redirect failed
-                return False
-
-            return True #payment succeeded
-
+            return self.driver.current_url() != pay_page_url
+            # If they are the same the payment failed.
             #self.closeBrowser()
-
         except Exception as e:
             print("Could not complete the transaction because an error occurred:")
             print(e)
@@ -140,13 +134,14 @@ class OffshoredediBuyer(VPSBuyer):
             return False
             #raise # Raise the exception that brought you here
 
-        return True
-
     def getSSHInfo(self, SSHPassword = ''):
-        """Retrieves the SSH login information for our bought VPS."""
-        if SSHPassword == '':
-            SSHPassword = self.SSHPassword
-        self.SSHPassword = SSHPassword
+        """
+        Retrieves the SSH login information for our bought VPS.
+
+        SSHPassword -- The password to use for sshconnections. (Default is '')
+        """
+        if SSHPassword != '':
+            self.SSHPassword = SSHPassword
         try:
             self.spawnBrowser()
             self.driver.get("https://my.offshorededi.com/clientarea.php")
@@ -160,30 +155,9 @@ class OffshoredediBuyer(VPSBuyer):
             self.driver.find_element_by_id('login').click()
 
             self.driver.get("https://my.offshorededi.com/clientarea.php?action=services")
-
-
-            # Wait for the transaction to be accepted
-            pending = True
-            tries_left = 60 * 24 # Try for 24 hours
-            first = True
-            while(pending == True and tries_left > 0):
-                if first == False:
-                    time.sleep(60)
-                    self.driver.get("https://my.offshorededi.com/clientarea.php?action=services")
-                first = False
-                tries_left = tries_left - 1
-                print("Tries left: ")
-                print(tries_left)
-                try:
-                    self.driver.find_element_by_css_selector(".label.status.status-pending")
-                except Exception as e:
-                    pending = False
-
-
-            if pending == True:
+            pending = _wait_for_transaction()
+            if pending:
                 return False # The VPS is still pending!
-
-
             self.driver.get("https://my.offshorededi.com/clientarea.php?action=emails")
 
             onclick = self.driver.find_elements_by_css_selector(".btn.btn-info.btn-sm").pop().get_attribute('onclick')
@@ -210,3 +184,35 @@ class OffshoredediBuyer(VPSBuyer):
             return False
 
         return True
+
+    '''def _wait_for_transaction(self, tries, test, sleeptime=1):
+        """
+        Waits for the transaction to be accepted.
+
+        Maximal waiting time is tries times sleeptime seconds.
+
+        tries -- The maximal number of tries.
+        test -- The test to perform to check if the transaction
+        is finished. Type is a function that accepts nothing and
+        returns a boolean.
+        sleeptime -- The time to sleep between two adjecent tries.
+        (Default is 1)
+        """
+    '''
+    def _wait_for_transaction(self):
+        """Waits for the transaction to be accepted."""
+        pending = True
+        tries_left = 60 * 24 # Try for 24 hours
+        first = True
+        while(pending and tries_left > 0):
+            if not first:
+                time.sleep(60)
+                self.driver.get("https://my.offshorededi.com/clientarea.php?action=services")
+            first = False
+            tries_left = tries_left - 1
+            print("Tries left: %i" % tries_left)
+            try:
+                self.driver.find_element_by_css_selector(".label.status.status-pending")
+                # The block dissappears when done loading.
+            except Exception as e:
+                pending = False

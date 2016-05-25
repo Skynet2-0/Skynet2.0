@@ -36,7 +36,7 @@ class ZappiehostBuyer(VPSBuyer):
         Walks through the entire process of buying a VPS from Zappiehost. Returns True if it succeeded, returns False otherwise
         """
         succeeded = self.placeOrder() # places the order
-        if succeeded == False:
+        if not succeeded:
             return False
 
         time.sleep(30) # Wait for half a minute so Zappiehost can process the payment

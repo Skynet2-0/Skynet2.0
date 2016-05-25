@@ -1,28 +1,32 @@
-'''
+"""
 Created on Apr 29, 2016
 
 @author: Stefan
-'''
+"""
 from paramiko.client import *
 import paramiko
 import time
 
 
 class SSH(object):
-    '''
-    This class enables the execution of SSH commands on a child server
-    '''
+    """
+    This class enables the execution of SSH commands on a child server.
 
-    def __init__(self, sshhost, username, pwd, port = None):
-        '''
+    It works by wrapping the paramiko client class.
+    """
+
+    def __init__(self, sshhost, username, pwd, port=None):
+        """
         Constructor for the SSH class.
 
-        This constructor connects automatically.
-        sshhost is the host to connect to.
-        username is the username to use.
-        pwd is the password.
-        port is the port to connect to.
-        '''
+        This constructor connects automatically to sshhost over ssh so manual
+        calling of the connect function is not necessary.
+
+        sshhost -- the host to connect to.
+        username -- the username to use.
+        pwd -- the password.
+        port -- the port to connect to.
+        """
         self.sshhost = sshhost
         self.username = username
         self.pwd = pwd
@@ -34,14 +38,14 @@ class SSH(object):
         self.connect(port=port)
 
     def connect(self, sshhost = None, user = None, pwd = None, port = None):
-        '''
+        """
         Connects this instance with the instance sshhost over SSH.
 
-        username is the user and pwd is the password.
-        Port is the port number to connect to.
+        username -- the user and pwd is the password.
+        Port -- the port number to connect to.
         See SSHClient.connect for more information on optional parameters
         that can be set when using the underlying layer instead of this one.
-        '''
+        """
         if sshhost is None:
             sshhost = self.sshhost
         if user is None:
@@ -57,13 +61,14 @@ class SSH(object):
         """
         Runs a command over SSH on the client.
 
-        command is the command to execute.
-        Returns the stdin, stdout, and stderr of the executing command, as a 3-tuple.
+        command -- the command to execute.
+        Return a tuple of the stdin, stdout, and stderr of the executing command,
+        as a 3-tuple.
         """
         return self.client.exec_command(command)
 
     def close_connection(self):
-        '''
+        """
         Closes the SSH connection between this and the client.
-        '''
+        """
         self.client.close()

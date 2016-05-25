@@ -19,10 +19,10 @@ class Installer(object):
         """
         Constructs the Installer.
 
-        hostip is the ip address of the host.
-        user is the username of the user (Usually it will be host).
-        password is the password.
-        port is the port to connect to.
+        hostip -- the ip address of the host.
+        user -- the username of the user (Usually it will be host).
+        password -- the password.
+        port -- the port to connect to. (Default is None)
         """
         # self.ip = hostip
         # self.user = user
@@ -52,10 +52,10 @@ class Installer(object):
         """
         Checks the streams for error message and exit code.
 
-        out is the output stream.
-        err is the error stream.
-        errmessage is the message at the start after error.
-        succesmessage is the message on succes.
+        out -- the output stream.
+        err -- the error stream.
+        errmessage -- the message at the start after error. (Default is '')
+        succesmessage -- the message on succes. (Default is None)
         """
         timeout = time.time() + 300 # Remember time 5 minutes from now to prevent infinite loops.
         done = False

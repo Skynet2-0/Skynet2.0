@@ -1,8 +1,8 @@
-'''
+"""
 Created on Apr 26, 2016
 
 @author: niels
-'''
+"""
 from subprocess import PIPE, STDOUT
 import subprocess
 import re
@@ -12,14 +12,12 @@ import sys
 import pexpect
 
 class Wallet(object):
-	'''
+	"""
 	This class will manage the bitcoins going in and out off the agent.
-	'''
+	"""
 
 	def __init__(self):
-		'''
-		Constructor
-		'''
+		""" Constructor. """
 		output = pexpect.run('electrum listaddresses')
 		print(output)
 		pattern = re.compile(r'\[\W*"[A-z0-9]+"\W*\]') #the specific output for electrum if 1 adress exists
@@ -45,7 +43,7 @@ class Wallet(object):
 		"""
 		Wait for the password prompt, then ignore it.
 
-		child is a result from pexpect.spawn and is thus of the pexpect.spawn class.
+		child -- a result from pexpect.spawn and is thus of the pexpect.spawn class.
 		"""
 		child.waitnoecho()
 		child.sendline('')
@@ -58,17 +56,17 @@ class Wallet(object):
 	#     subprocess.call(['electrum', 'daemon', 'stop'])
 
 	def balance(self):
-		'''
+		"""
 		Return the balance of the Btc wallet (i.e. confirmed balance+unconfirmed balance).
-		'''
+		"""
 		balancesheet = str(subprocess.check_output(['electrum', 'getbalance']))
 		return self.calculateBalance(balancesheet)
 
 	def calculateBalance(self, balancesheet):
-		'''
-			Given the output of electrum getbalance
-			calculates the actual balance.
-		'''
+		"""
+		Given the output of electrum getbalance
+		calculates the actual balance.
+		"""
 		confirmedBalance = re.search('"confirmed": "([0-9.\-]+)"', balancesheet)
 		unconfirmedBalance = re.search('"unconfirmed": "([0-9.\-]+)"', balancesheet)
 
@@ -83,9 +81,12 @@ class Wallet(object):
 		return float(amount)+float(fee)<=self.balance()
 
 	def payToAutomatically(self, address, amount):
-		'''
-		make a payment using an automatically calculated fee
-		'''
+		"""
+		Make a payment using an automatically calculated fee.
+
+		address -- The address to transfer to.
+		amount -- The amount to transfer.
+		"""
 		if self.canPay(amount,'0.0'):
 			payment = str(subprocess.check_output(['electrum', 'payto', address, amount]))
 
@@ -97,8 +98,13 @@ class Wallet(object):
 		return False
 
 	def payTo(self, address, fee, amount):
-		'''
-		If funds allow, transfer amount in Btc to Address. With a fee for processor.
-		'''
+		"""
+		If funds allow, transfer amount in Btc to Address. With a fee for
+		processor.
+
+		address -- The address to pay to.
+		fee -- The fee to pay.
+		amount -- The amount to transfer.
+		"""
 		if self.canPay(amount, fee):
 			print(str(subprocess.call(['electrum', 'payto', '-f', fee, address, amount])))

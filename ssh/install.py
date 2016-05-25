@@ -3,7 +3,6 @@ Created on May 2, 2016.
 
 @author: Stefan
 """
-
 from SSH import SSH
 import time
 

@@ -52,8 +52,6 @@ class SSH(object):
             self.client.connect(sshhost, username = user, password = pwd, port=port)
         else:
             self.client.connect(sshhost, username = user, password = pwd)
-        time.sleep(1)
-
 
     def run(self, command):
         """

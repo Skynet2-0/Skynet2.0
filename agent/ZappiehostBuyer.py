@@ -29,23 +29,7 @@ class ZappiehostBuyer(VPSBuyer):
         password -- The password to use. (Default is '')
         SSHPassword -- The password to use for the ssh connection. (Default is '')
         """
-        super(ZappiehostBuyer, self).__init__()
-        self.email = email
-        if self.email == "":
-            self.email = self.generator.getEmail()
-
-        self.password = password
-        if self.password == "":
-            self.password = self.generator.getRAString(32)
-
-        self.SSHPassword = SSHPassword
-        if self.SSHPassword == "":
-            self.SSHPassword = self.generator.getRAString(32)
-
-        self.SSHUsername = "root"
-        pass
-
-
+        super(ZappiehostBuyer, self).__init__(email, password, "root", SSHPassword)
 
     def buy(self):
         """

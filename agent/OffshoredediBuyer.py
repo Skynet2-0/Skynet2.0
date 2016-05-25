@@ -28,18 +28,7 @@ class OffshoredediBuyer(VPSBuyer):
         email -- The email address to use.
         password -- The password to use for creating an account.
         """
-        super(OffshoredediBuyer, self).__init__()
-        self.email = email
-        if self.email == "":
-            self.email = self.generator.getEmail()
-
-        self.password = password
-        if self.password == "":
-            self.password = self.generator.getRAString(32)
-
-        self.SSHPassword = ""
-
-        self.SSHUsername = "root"
+        super(OffshoredediBuyer, self).__init__(email, password, "root", "")
 
 
     def buy(self):

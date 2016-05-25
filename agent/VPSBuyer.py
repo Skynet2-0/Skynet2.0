@@ -15,16 +15,24 @@ class VPSBuyer(object):
 
     By itself, it does nothing; this class is supposed to be extended by other
     classes, each for a specific VPS Provider.
+
+    email -- The email address. (Default is '')
+    password -- The password for the account on the site. (Default is '')
+    SSHUsername -- The user for the SSHConnection. (Default is 'root')
+    SSHPassword -- The password for ssh connections. (Default is '')
     """
-    def __init__(self):
+    def __init__(self, email='', password='', SSHUsername='root', SSHPassword=''):
         self.generator = BogusFormBuilder()
-        self.email = self.generator.getEmail()
         #password = generator.getPassword()
-        self.password = self.generator.getRAString(32)
-        self.SSHUsername = ""
-        self.SSHPassword = ""
+        if self.email == "":
+            self.email = self.generator.getEmail()
+        if self.password == "":
+            self.password = self.generator.getRAString(32)
+        else:
+            self.password = password
+        self.SSHUsername = SSHUsername
+        self.SSHPassword = SSHPassword
         self.IP = ""
-        pass
 
     def getFormValue(self, name):
        "function_docstring"

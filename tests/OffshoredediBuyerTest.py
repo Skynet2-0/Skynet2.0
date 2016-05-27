@@ -35,7 +35,7 @@ class OffshoredediBuyerTest(VPSBuyerTest):
 
 
     def setUp(self):
-        VPSBuyerTest.setUp(self)
+        super(OffshoredediBuyerTest, self).setUp()
         self.sshuser = "root"
         self.sshpassword = ""
         self.buyer = OffshoredediBuyer(self.email, self.password)

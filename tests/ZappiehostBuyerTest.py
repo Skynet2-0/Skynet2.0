@@ -16,7 +16,7 @@ class ZappiehostBuyerTest(VPSBuyerTest):
     """
 
     def setUp(self):
-        VPSBuyerTest.setUp(self)
+        super(ZappiehostBuyerTest, self).setUp()
         self.sshuser = "root"
         self.buyer = ZappiehostBuyer(self.email, self.password, self.sshpassword)
 

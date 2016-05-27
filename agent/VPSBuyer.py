@@ -18,7 +18,7 @@ class VPSBuyer(object):
 
     email -- The email address. (Default is '')
     password -- The password for the account on the site. (Default is '')
-    SSHUsername -- The user for the SSHConnection. (Default is 'root')
+    SSHUsername -- The user for the SSH Connection. (Default is 'root')
     SSHPassword -- The password for ssh connections. (Default is '')
     """
     def __init__(self, email='', password='', SSHUsername='root', SSHPassword=''):
@@ -78,7 +78,6 @@ class VPSBuyer(object):
     def getSSHUsername(self):
         """Returns the SSH Username to log in on the bought VPS."""
         return self.SSHUsername
-
 
     def getSSHPassword(self):
         """Returns the SSH Password to log in on the bought VPS."""

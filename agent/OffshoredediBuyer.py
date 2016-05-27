@@ -109,7 +109,7 @@ class OffshoredediBuyer(VPSBuyer):
             bitcoinAmount = firstlinesplit[2]
             toWallet = lines[2]
 
-            pay_page_url = self.driver.current_url()
+            self.pay_page_url = self.driver.current_url()
 
             print("amount: " + bitcoinAmount)
             print("to wallet: " + toWallet)
@@ -119,12 +119,8 @@ class OffshoredediBuyer(VPSBuyer):
             if paymentSucceeded == False:
                 return False
 
-            # Wait for the transaction to be accepted
-            tries_left = 60 * 15
-            while(self.driver.current_url() == pay_page_url and tries_left > 0):
-                time.sleep(1)
-                tries_left = tries_left - 1
-            return self.driver.current_url() != pay_page_url
+            self._wait_for_transaction(self._still_on_paypage, 60 * 15, arg=self)
+            return not self._still_on_paypage()
             # If they are the same the payment failed.
             #self.closeBrowser()
         except Exception as e:
@@ -133,6 +129,9 @@ class OffshoredediBuyer(VPSBuyer):
             #self.closeBrowser()
             return False
             #raise # Raise the exception that brought you here
+
+    def _still_on_paypage(self):
+        return self.driver.current_url() == self.pay_page_url
 
     def getSSHInfo(self, SSHPassword = ''):
         """
@@ -155,7 +154,7 @@ class OffshoredediBuyer(VPSBuyer):
             self.driver.find_element_by_id('login').click()
 
             self.driver.get("https://my.offshorededi.com/clientarea.php?action=services")
-            pending = self._wait_for_transaction(self._server_ready, 60 * 24, 60) # Try for 24 hours.
+            pending = self._wait_for_transaction(self._server_ready, 60 * 24, 60, arg=self) # Try for 24 hours.
             if pending:
                 return False # The VPS is still pending!
             self.driver.get("https://my.offshorededi.com/clientarea.php?action=emails")
@@ -195,7 +194,7 @@ class OffshoredediBuyer(VPSBuyer):
         except Exception as e:
             return True
 
-    def _wait_for_transaction(self, wait_test, number_of_tries, sleeptime=1, log=True):
+    def _wait_for_transaction(self, wait_test, number_of_tries, sleeptime=1, log=True, arg=None):
         """
         Waits for the transaction to be accepted.
 
@@ -206,6 +205,7 @@ class OffshoredediBuyer(VPSBuyer):
         is already working.
         sleeptime -- The time in seconds to wait between two tries. (Default is 1)
         log -- Whether to print the number of tries left to the screen. (Default is True)
+        arg -- Optional argument for the wait_test function. (Default is None)
 
         returns True if stopped because the wait ended and False on timeout.
         """
@@ -213,7 +213,10 @@ class OffshoredediBuyer(VPSBuyer):
         done = False
         while(not done and tries_left > 0):
             tries_left = tries_left - 1
-            done = wait_test(self)
+            if arg is None:
+                done = wait_test()
+            else:
+                done = wait_test(arg)
             if not done:
                 if log:
                     print("Tries left: %i" % tries_left)

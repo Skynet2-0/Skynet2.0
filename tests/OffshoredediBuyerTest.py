@@ -46,15 +46,15 @@ class OffshoredediBuyerTest(VPSBuyerTest):
         self.assertEqual(self.sshuser, self.buyer.getSSHUsername())
 
     def testWaitForTransactionTrue(self):
-        def always_true(self):
+        def always_true():
             return True
         self.assertTrue(self.buyer._wait_for_transaction(always_true, 10, 1, False))
 
     def testWaitForTransactionFalse(self):
-        def always_false(self):
+        def always_false():
             return False
         self.assertFalse(self.buyer._wait_for_transaction(
-        always_false, 5, 1, False))
+        always_false, 5, 0, False))
 
     def testWaitForTransactionThreeTurnsFinishes(self):
         CNTR.setCounter(3)
@@ -62,16 +62,34 @@ class OffshoredediBuyerTest(VPSBuyerTest):
             import tests.OffshoredediBuyerTest
             CNTR.decrement()
             return CNTR.getCounter() == 0
-        self.assertTrue(self.buyer._wait_for_transaction(third_time, 5))
+        self.assertTrue(self.buyer._wait_for_transaction(third_time, 5, 0, arg=self))
 
     def testWaitForTransactionThreeTurnsActuallyThree(self):
         CNTR.setCounter(3)
-        def third_time(self):
+        def third_time():
             import tests.OffshoredediBuyerTest
             CNTR.decrement()
             return CNTR.getCounter() == 0
-        self.buyer._wait_for_transaction(third_time, 5, 1, False)
+        self.buyer._wait_for_transaction(third_time, 5, 0, False)
         self.assertEqual(0, CNTR.counter)
+
+    def testWaitWithStaticMethodWithArgumentFinishes(self):
+        CNTR.setCounter(10)
+        def second_time(arg):
+            import tests.OffshoredediBuyerTest
+            CNTR.decrement()
+            return CNTR.getCounter() == arg
+        self.assertTrue(self.buyer._wait_for_transaction(second_time,
+                            10, 0, False, arg=8))
+
+    def testWaitWithStaticMethodWithArgumentActually8(self):
+        CNTR.setCounter(10)
+        def second_time(arg):
+            import tests.OffshoredediBuyerTest
+            CNTR.decrement()
+            return CNTR.getCounter() == arg
+        self.buyer._wait_for_transaction(second_time, 10, 0, False, arg=8)
+        self.assertEqual(8, CNTR.getCounter())
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

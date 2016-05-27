@@ -10,9 +10,9 @@ import time
 
 
 port = None # the port
-hostname = None # the host
-user = None # the user
-pwd = None # the password
+hostname = '103.208.86.46' # the host
+user = 'root' # the user
+pwd = 'YLHWoCPvPuqDiWGijqDIKlTTqPibXnhc' # the password
 
 @unittest.skipIf(hostname is None, 'Installation test requires a hostname to install on.')
 class InstallTest(unittest.TestCase):
@@ -28,7 +28,7 @@ class InstallTest(unittest.TestCase):
         ssh = SSH(hostname, user, pwd, port)
         ssh.run('rm -rf Skynet2.0')
         ssh.close_connection()
-        self.installer = Installer(hostname, user, pwd, port)
+        self.installer = Installer(hostname, user, pwd, port, True)
         self.installer.install()
         self.ssh = self.installer.ssh
 

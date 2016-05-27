@@ -41,7 +41,7 @@ class Installer(object):
         """
         print('Start installing.')
         (_, out0, err0) = self.ssh.run('apt-get update')
-        self.ssh_checkStreams(out0, err0, 'apt update failed', 'apt updated.')
+        self.ssh._checkStreams(out0, err0, 'apt update failed', 'apt updated.')
         (_, out0, err0) = self.ssh.run('apt-get install -y git')
         self.ssh._checkStreams(out0, err0, 'git install failed', 'git installed.')
         command = 'git clone --recursive https://github.com/Skynet2-0/Skynet2.0.git'

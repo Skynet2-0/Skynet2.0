@@ -68,12 +68,12 @@ class SSH(object):
         as a 3-tuple.
         """
         (ins, out, err) = self.client.exec_command(command)
-        if use_log:
-            with open("Skynet.log", a) as file
-            file.write("%s\n" % ins.read().decode())
-            file.write("%s\n" % out.read().decode())
-            file.write("%s\n" % err.read().decode())
-            file.write("Exit status: %i\n\n" % out.recv_exit_status())
+        if self.use_log:
+            with open("Skynet.log", 'a') as file:
+                file.write("executing command: %s\n" % command)
+                file.write("%s\n" % out.read().decode())
+                file.write("%s\n" % err.read().decode())
+                file.write("Exit status: %i\n\n" % out.channel.recv_exit_status())
         return (ins, out, err)
 
     def close_connection(self):

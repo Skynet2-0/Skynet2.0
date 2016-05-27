@@ -155,7 +155,7 @@ class OffshoredediBuyer(VPSBuyer):
             self.driver.find_element_by_id('login').click()
 
             self.driver.get("https://my.offshorededi.com/clientarea.php?action=services")
-            pending = self._wait_for_transaction(60 * 24, 60) # Try for 24 hours.
+            pending = self._wait_for_transaction(self._server_ready, 60 * 24, 60) # Try for 24 hours.
             if pending:
                 return False # The VPS is still pending!
             self.driver.get("https://my.offshorededi.com/clientarea.php?action=emails")
@@ -185,37 +185,34 @@ class OffshoredediBuyer(VPSBuyer):
 
         return True
 
-    '''def _wait_for_transaction(self, tries, test, sleeptime=1):
+    def _server_ready(self):
+        # Check if the server is ready.
+        try:
+            # The block dissappears when done loading.
+            self.driver.find_element_by_css_selector(".label.status.status-pending")
+            self.driver.get("https://my.offshorededi.com/clientarea.php?action=services")
+            return False
+        except Exception as e:
+            return True
+
+    def _wait_for_transaction(self, wait_test, number_of_tries, sleeptime=1):
         """
         Waits for the transaction to be accepted.
 
-        Maximal waiting time is tries times sleeptime seconds.
-
-        tries -- The maximal number of tries.
-        test -- The test to perform to check if the transaction
-        is finished. Type is a function that accepts nothing and
-        returns a boolean.
-        sleeptime -- The time to sleep between two adjecent tries.
-        (Default is 1)
-        """
-    '''
-    def _wait_for_transaction(self, number_of_tries, sleeptime=1):
-        """
-        Waits for the transaction to be accepted.
-
+        wait_test -- The test to perform to check whether to keep waiting. The
+        footprint of the test is that it accepts nothing and returns a boolean.
+        It should return False if we still need to wait.
         number_of_tries -- The number of times to try if the connection
         is already working.
         sleeptime -- The time in seconds to wait between two tries. (Default is 1)
+
+        returns True if stopped because the wait ended and False on timeout.
         """
-        pending = True
-        tries_left = number_of_tries
-        while(pending and tries_left > 0):
+        done = False
+        while(not done and tries_left > 0):
             tries_left = tries_left - 1
-            print("Tries left: %i" % tries_left)
-            try:
-                # The block dissappears when done loading.
-                self.driver.find_element_by_css_selector(".label.status.status-pending")
-                time.sleep(sleeptime)
-                self.driver.get("https://my.offshorededi.com/clientarea.php?action=services")
-            except Exception as e:
-                pending = False
+            done = wait_test()
+            if not done:
+                print("Tries left: %i" % tries_left)
+                sleep(sleeptime)
+        return done;

@@ -27,4 +27,4 @@ echo "Top directory = $topdir"
 python -m unittest discover -s "$testdir" -p '*_test.py' -t "$topdir"
 
 # Java style test names.
-python -m unittest discover -s "$testdir" -p '*Test.py' -t "$topdir"
+python -m unittest discover -s "$testdir" -p '**Test.py' -t "$topdir"

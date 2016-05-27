@@ -24,9 +24,11 @@ class VPSBuyer(object):
     def __init__(self, email='', password='', SSHUsername='root', SSHPassword=''):
         self.generator = BogusFormBuilder()
         #password = generator.getPassword()
-        if self.email == "":
+        if email == "":
             self.email = self.generator.getEmail()
-        if self.password == "":
+        else:
+            self.email = email
+        if password == "":
             self.password = self.generator.getRAString(32)
         else:
             self.password = password

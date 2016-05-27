@@ -27,6 +27,7 @@ from Tribler.Core.TorrentDef import TorrentDef
 from Tribler.Main.globals import DefaultDownloadStartupConfig
 from Tribler.community.tunnel.hidden_community import HiddenTunnelCommunity
 from Tribler.community.multichain.community import MultiChainCommunity
+from Tribler.community.multichain.community import MultiChainCommunityCrawler
 
 import logging.config
 from Tribler.Core.simpledefs import dlstatus_strings
@@ -150,13 +151,10 @@ class Tunnel(object):
                 2, ("127.0.0.1", self.session.get_tunnel_community_socks5_listen_ports()))        
         
         def start_multichain_community():
-            member = self.dispersy.get_new_member(u"curve25519")
-            cls = MultiChainCommunity
-            self.multichain_community = self.dispersy.define_auto_load(cls, member, (self.session, self.settings), load=True)[0]
-            
-            #if introduce_port:
-                #self.multichain_community.add_discovered_candidate(Candidate(('127.0.0.1', introduce_port), tunnel=False))
-            self.dispersy.attach_community(self.multichain_community)
+            #Start the multichain community and hook in the multichain scheduler.
+            keypair = self.dispersy.crypto.generate_key(u"curve25519")
+            dispersy_member = self.dispersy.get_member(private_key=self.dispersy.crypto.key_to_bin(keypair),)
+            self.dispersy.define_auto_load(MultiChainCommunityCrawler, dispersy_member, load=True)
             
         def start_tunnel_community():
             if self.crawl_keypair_filename:
@@ -170,9 +168,13 @@ class Tunnel(object):
             
             if introduce_port:
                 self.community.add_discovered_candidate(Candidate(('127.0.0.1', introduce_port), tunnel=False))
+              
         #blockingCallFromThread(reactor, start_multichain_community)
-        start_multichain_community()
-        blockingCallFromThread(reactor, start_tunnel_community)
+        blockingCallFromThread(reactor, start_multichain_community)        
+        blockingCallFromThread(reactor, start_tunnel_community)        
+        
+        
+        
 
         self.session.set_download_states_callback(self.download_states_callback, False)
 

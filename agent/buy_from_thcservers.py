@@ -6,22 +6,22 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
-from agent.BogusFormBuilder import BogusFormBuilder
+from BogusFormBuilder import BogusFormBuilder
 
-from agent.VPSBuyer import VPSBuyer
-from agent.ThcserversBuyer import ThcserversBuyer
+from VPSBuyer import VPSBuyer
+from ThcserversBuyer import ThcserversBuyer
 
 
 buyer = ThcserversBuyer()
 result = buyer.placeOrder()
 
 
-#if result == True:
-#    print("VPS BOUGHT! Details:")
-#    print("Zappiehost email: " + zhb.getEmail())
-#    print("Zappiehost password: " + zhb.getPassword())
-#    print("SSH IP: " + zhb.getIP())
-#    print("SSH Username: " + zhb.getSSHUsername())
-#    print("SSH Password: " + zhb.getSSHPassword())
-#else:
-#    print("Failed to buy VPS from Zappiehost...")
+if result == True:
+    print("VPS BOUGHT! Details:")
+    print("THCServers email: " + buyer.getEmail())
+    print("THCServers password: " + buyer.getPassword())
+    print("SSH IP: " + buyer.getIP())
+    print("SSH Username: " + buyer.getSSHUsername())
+    print("SSH Password: " + buyer.getSSHPassword())
+else:
+    print("Failed to buy VPS from THCServers...")

@@ -6,11 +6,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
-from agent.BogusFormBuilder import BogusFormBuilder
+from BogusFormBuilder import BogusFormBuilder
 
-from agent.VPSBuyer import VPSBuyer
+from VPSBuyer import VPSBuyer
 
-#from agent.Wallet import Wallet
+from Wallet import Wallet
 
 import selenium.webdriver.support.ui as ui
 
@@ -110,8 +110,11 @@ class ThcserversBuyer(VPSBuyer):
             
             self.driver.find_element_by_css_selector('.btn.btn-success').click()
             
-            
-            self.driver.find_element_by_css_selector('input[value="Pay Now"]').click()
+            try:
+                self.driver.find_element_by_css_selector('input[value="Pay Now"]').click()
+	    except Exception as e:
+		print("Warning: Pay now button not found")
+
             bitcoinAmount = self.driver.find_element_by_css_selector(".ng-binding.payment__details__instruction__btc-amount").text
             toWallet = self.driver.find_element_by_css_selector(".payment__details__instruction__btc-address.ng-binding").text
             
@@ -119,22 +122,22 @@ class ThcserversBuyer(VPSBuyer):
             print("amount: " + bitcoinAmount)
             print("to wallet: " + toWallet)
             
-            #wallet = Wallet()
-            #paymentSucceeded = wallet.payToAutomatically(toWallet, bitcoinAmount)
-            #if paymentSucceeded == False:
-            #    return False
+            wallet = Wallet()
+            paymentSucceeded = wallet.payToAutomatically(toWallet, bitcoinAmount)
+            if paymentSucceeded == False:
+                return False
             
             # Wait for the transaction to be accepted
             wait = ui.WebDriverWait(self.driver, 666)
             wait.until(lambda driver: driver.find_element_by_css_selector('.payment--paid'))
             
             
-            #self.closeBrowser()
+            self.closeBrowser()
         
         except Exception as e:
             print("Could not complete the transaction because an error occurred:")
             print(e)
-            #self.closeBrowser()
+            self.closeBrowser()
             return False
             #raise # Raise the exception that brought you here 
             

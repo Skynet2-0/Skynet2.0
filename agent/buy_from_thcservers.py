@@ -12,8 +12,10 @@ from VPSBuyer import VPSBuyer
 from ThcserversBuyer import ThcserversBuyer
 
 
-buyer = ThcserversBuyer()
-result = buyer.placeOrder()
+#buyer = ThcserversBuyer()
+buyer = ThcserversBuyer('wNwEls@DCniMj.com', 'wbmqAHfoaPyMiYYCrcxzPeZANsTMMZPk')
+#result = buyer.placeOrder()
+result = buyer.getSSHInfo()
 
 
 if result == True:

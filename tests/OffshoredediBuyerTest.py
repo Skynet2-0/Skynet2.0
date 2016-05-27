@@ -7,6 +7,7 @@ import unittest
 from VPSBuyerTest import VPSBuyerTest
 from agent.OffshoredediBuyer import OffshoredediBuyer
 
+
 class CNTR(object):
     """Simple counter."""
     counter = 0

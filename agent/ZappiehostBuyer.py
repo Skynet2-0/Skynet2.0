@@ -79,7 +79,9 @@ class ZappiehostBuyer(VPSBuyer):
             select = Select(self.driver.find_element_by_id('country'))
             selected_text = select.first_selected_option.text;
 
-            if selected_text == 'United States' or selected_text == 'Spain' or selected_text == 'Australia' or selected_text == 'Brazil' or selected_text == 'Canada' or selected_text == 'France' or selected_text == 'Germany' or selected_text == 'India' or selected_text == 'Italy' or selected_text == 'Netherlands' or selected_text == 'New Zealand' or selected_text == 'United Kingdom':
+            if (selected_text == 'United States' or selected_text == 'Spain' or selected_text == 'Australia' or selected_text == 'Brazil'
+                    or selected_text == 'Canada' or selected_text == 'France' or selected_text == 'Germany' or selected_text == 'India'
+                    or selected_text == 'Italy' or selected_text == 'Netherlands' or selected_text == 'New Zealand' or selected_text == 'United Kingdom'):
                 # For US, Brazil, Canada, France, Germany, India, Italia, Netherlands, New Zealand and United Kingdom select state option in a select
                 self.clickRandomSelectElement('stateselect')
             else:

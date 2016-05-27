@@ -15,7 +15,7 @@ class SSH(object):
     It works by wrapping the paramiko client class.
     """
 
-    def __init__(self, sshhost, username, pwd, port=None):
+    def __init__(self, sshhost, username, pwd, port=None, use_log=False):
         """
         Constructor for the SSH class.
 
@@ -26,6 +26,7 @@ class SSH(object):
         username -- the username to use.
         pwd -- the password.
         port -- the port to connect to.
+        use_log -- Whether to log the ssh connection in a logfile. (Default is False)
         """
         self.sshhost = sshhost
         self.username = username
@@ -36,6 +37,7 @@ class SSH(object):
         self.client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         self.client.load_system_host_keys()
         self.connect(port=port)
+        self.use_logfile(use_log)
 
     def connect(self, sshhost = None, user = None, pwd = None, port = None):
         """
@@ -65,10 +67,49 @@ class SSH(object):
         Return a tuple of the stdin, stdout, and stderr of the executing command,
         as a 3-tuple.
         """
-        return self.client.exec_command(command)
+        (ins, out, err) = self.client.exec_command(command)
+        if use_log:
+            with open("Skynet.log", a) as file
+            file.write("%s\n" % ins.read().decode())
+            file.write("%s\n" % out.read().decode())
+            file.write("%s\n" % err.read().decode())
+            file.write("Exit status: %i\n\n" % out.recv_exit_status())
+        return (ins, out, err)
 
     def close_connection(self):
         """
         Closes the SSH connection between this and the client.
         """
         self.client.close()
+
+    def _checkStreams(self, out, err, errmessage='', succesmessage=None):
+        """
+        Checks the streams for error message and exit code.
+
+        out -- the output stream.
+        err -- the error stream.
+        errmessage -- the message at the start after error. (Default is '')
+        succesmessage -- the message on succes. (Default is None)
+        """
+        timeout = time.time() + 300 # Remember time 5 minutes from now to prevent infinite loops.
+        done = False
+        while time.time() <= timeout and not done:
+            if out.channel.exit_status_ready():
+                exitcode = out.channel.recv_exit_status()
+                if exitcode != 0:
+                    print("Error %s: %s\nexit status: %i" % (errmessage,
+                                err.read().decode(), exitcode))
+                elif succesmessage is not None:
+                    print(succesmessage)
+                done = True
+            else:
+                time.sleep(1)
+
+    def use_logfile(self, use_log=True):
+        """
+        Sets whether or not to use a logfile
+
+        use_log -- Whether to use a logfile. (Default is False)
+        """
+        assert type(use_log) == bool
+        self.use_log = use_log

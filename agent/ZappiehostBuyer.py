@@ -33,7 +33,7 @@ class ZappiehostBuyer(VPSBuyer):
 
     def buy(self):
         """
-        Walks through the entire process of buying a VPS from Zappiehost. Returns True if it succeeded, returns False otherwise
+        Walks through the entire process of buying a VPS from Zappiehost. Returns True if it succeeded, returns False otherwise.
         """
         succeeded = self.placeOrder() # places the order
         if not succeeded:
@@ -42,9 +42,7 @@ class ZappiehostBuyer(VPSBuyer):
         time.sleep(30) # Wait for half a minute so Zappiehost can process the payment
 
         succeeded = self.setSSHPassword(self.SSHPassword)
-        if succeeded == False:
-            return False
-        return True
+        return succeeded
 
 
 
@@ -140,9 +138,8 @@ class ZappiehostBuyer(VPSBuyer):
 
         SSHPassword -- The password to log in over ssh. (Default is '')
         """
-        if SSHPassword == '':
-            SSHPassword = self.SSHPassword
-        self.SSHPassword = SSHPassword
+        if SSHPassword != '':
+            self.SSHPassword = SSHPassword
         try:
             self.spawnBrowser()
             self.driver.get("https://billing.zappiehost.com/clientarea.php")

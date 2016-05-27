@@ -155,7 +155,7 @@ class OffshoredediBuyer(VPSBuyer):
             self.driver.find_element_by_id('login').click()
 
             self.driver.get("https://my.offshorededi.com/clientarea.php?action=services")
-            pending = _wait_for_transaction()
+            pending = self._wait_for_transaction()
             if pending:
                 return False # The VPS is still pending!
             self.driver.get("https://my.offshorededi.com/clientarea.php?action=emails")

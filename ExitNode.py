@@ -154,7 +154,11 @@ class Tunnel(object):
             #Start the multichain community and hook in the multichain scheduler.
             keypair = self.dispersy.crypto.generate_key(u"curve25519")
             dispersy_member = self.dispersy.get_member(private_key=self.dispersy.crypto.key_to_bin(keypair),)
-            self.dispersy.define_auto_load(MultiChainCommunityCrawler, dispersy_member, load=True)
+            cls = MultiChainCommunityCrawler
+            self.multichain_community = self.dispersy.define_auto_load(cls, dispersy_member, load=True)
+            
+            if introduce_port:
+                self.multichain_community.add_discovered_candidate(Candidate(('127.0.0.1', introduce_port), tunnel=False))
             
         def start_tunnel_community():
             if self.crawl_keypair_filename:
@@ -172,14 +176,12 @@ class Tunnel(object):
         #blockingCallFromThread(reactor, start_multichain_community)
         blockingCallFromThread(reactor, start_multichain_community)        
         blockingCallFromThread(reactor, start_tunnel_community)        
-        
-        
-        
 
         self.session.set_download_states_callback(self.download_states_callback, False)
 
     def download_states_callback(self, dslist):
         try:
+            #self.multichain_community.monitor_downloads(dslist)
             self.community.monitor_downloads(dslist)
         except:
             logger.error("Monitoring downloads failed")

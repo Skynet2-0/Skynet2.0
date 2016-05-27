@@ -155,7 +155,7 @@ class OffshoredediBuyer(VPSBuyer):
             self.driver.find_element_by_id('login').click()
 
             self.driver.get("https://my.offshorededi.com/clientarea.php?action=services")
-            pending = self._wait_for_transaction()
+            pending = self._wait_for_transaction(60 * 24, 60) # Try for 24 hours.
             if pending:
                 return False # The VPS is still pending!
             self.driver.get("https://my.offshorededi.com/clientarea.php?action=emails")
@@ -199,20 +199,23 @@ class OffshoredediBuyer(VPSBuyer):
         (Default is 1)
         """
     '''
-    def _wait_for_transaction(self):
-        """Waits for the transaction to be accepted."""
+    def _wait_for_transaction(self, number_of_tries, sleeptime=1):
+        """
+        Waits for the transaction to be accepted.
+
+        number_of_tries -- The number of times to try if the connection
+        is already working.
+        sleeptime -- The time in seconds to wait between two tries. (Default is 1)
+        """
         pending = True
-        tries_left = 60 * 24 # Try for 24 hours
-        first = True
+        tries_left = number_of_tries
         while(pending and tries_left > 0):
-            if not first:
-                time.sleep(60)
-                self.driver.get("https://my.offshorededi.com/clientarea.php?action=services")
-            first = False
             tries_left = tries_left - 1
             print("Tries left: %i" % tries_left)
             try:
-                self.driver.find_element_by_css_selector(".label.status.status-pending")
                 # The block dissappears when done loading.
+                self.driver.find_element_by_css_selector(".label.status.status-pending")
+                time.sleep(sleeptime)
+                self.driver.get("https://my.offshorededi.com/clientarea.php?action=services")
             except Exception as e:
                 pending = False

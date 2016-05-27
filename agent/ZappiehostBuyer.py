@@ -21,7 +21,7 @@ class ZappiehostBuyer(VPSBuyer):
     """
     This class orders a VPS from zappiehost.com
     """
-    def __init__(self, email = "", password = "", SSHPassword = ""):
+    def __init__(self, email="", password="", SSHPassword=""):
         """
         Creates a new ZappiehostBuyer.
 
@@ -125,7 +125,7 @@ class ZappiehostBuyer(VPSBuyer):
         wallet = Wallet()
         return wallet.payToAutomatically(toWallet, bitcoinAmount)
 
-    def setSSHPassword(self, SSHPassword = ''):
+    def setSSHPassword(self, SSHPassword=''):
         """
         Re-installs the VPS on Zappiehost with a new password. This is handy, so we don't have to fetch the password from an email.
 

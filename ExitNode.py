@@ -142,15 +142,21 @@ class Tunnel(object):
         while not upgrader.is_done:
             time.sleep(0.1)
         self.session.start()
+        
         logger.info("Using port %d" % self.session.get_dispersy_port())
 
     def start(self, introduce_port):
+        self.session.set_anon_proxy_settings(
+                2, ("127.0.0.1", self.session.get_tunnel_community_socks5_listen_ports()))        
+        
         def start_multichain_community():
             member = self.dispersy.get_new_member(u"curve25519")
             cls = MultiChainCommunity
             self.multichain_community = self.dispersy.define_auto_load(cls, member, (self.session, self.settings), load=True)[0]
-            if introduce_port:
-                self.multichain_community.add_discovered_candidate(Candidate(('127.0.0.1', introduce_port), tunnel=False))
+            
+            #if introduce_port:
+                #self.multichain_community.add_discovered_candidate(Candidate(('127.0.0.1', introduce_port), tunnel=False))
+            self.dispersy.attach_community(self.multichain_community)
             
         def start_tunnel_community():
             if self.crawl_keypair_filename:
@@ -161,12 +167,11 @@ class Tunnel(object):
                 member = self.dispersy.get_new_member(u"curve25519")
                 cls = HiddenTunnelCommunity
             self.community = self.dispersy.define_auto_load(cls, member, (self.session, self.settings), load=True)[0]
-
-            self.session.set_anon_proxy_settings(
-                2, ("127.0.0.1", self.session.get_tunnel_community_socks5_listen_ports()))
+            
             if introduce_port:
                 self.community.add_discovered_candidate(Candidate(('127.0.0.1', introduce_port), tunnel=False))
-        blockingCallFromThread(reactor, start_multichain_community)
+        #blockingCallFromThread(reactor, start_multichain_community)
+        start_multichain_community()
         blockingCallFromThread(reactor, start_tunnel_community)
 
         self.session.set_download_states_callback(self.download_states_callback, False)

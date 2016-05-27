@@ -75,6 +75,7 @@ class TriblerServiceMaker(object):
         config.set_enable_torrent_search(False)
         config.set_enable_channel_search(False)
         config.set_enable_multichain(True)
+        config.set_enable_exitnode(True)
 
         # Check if we are already running a Tribler instance
         self.process_checker = ProcessChecker()

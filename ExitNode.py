@@ -1,12 +1,8 @@
-'''
-<<<<<<< HEAD
+"""
 runs a headless tribler exit node instance with multichain enabled
-start by running "python ExitNode.py -x True"
-=======
-runs a headless tribler exit node instance with multichain enabled.
 This is mostly a copy from the tunnel community in the tribler github, modified to run with multichain enabled
->>>>>>> master
-'''
+start by running "python ExitNode.py -x True"
+"""
 
 import os
 import sys

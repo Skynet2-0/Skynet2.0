@@ -108,8 +108,10 @@ class SharkserversBuyer(VPSBuyer):
             
             self.driver.find_element_by_id('btnCompleteOrder').click() # Submit the form
 
-            self.driver.find_element_by_css_selector("input[type='submit'][value='Pay Now']").click()
-
+            try:
+            	self.driver.find_element_by_css_selector("input[type='submit'][value='Pay Now']").click()
+            except Exception as e:
+				print("Warning: Pay now button not found")
 
             self.driver.implicitly_wait(10)
 

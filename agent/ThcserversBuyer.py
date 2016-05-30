@@ -38,11 +38,10 @@ class ThcserversBuyer(VPSBuyer):
         self.SSHUsername = "root"
         pass
     
-    
-    '''
-    Walks through the entire process of buying a VPS from Thcservers. Returns True if it succeeded, returns False otherwise
-    '''
     def buy(self):
+    	"""
+    	Walks through the entire process of buying a VPS from Thcservers. Returns True if it succeeded, returns False otherwise.
+    	"""
         succeeded = self.placeOrder() # places the order
         if succeeded == False:
             return False
@@ -54,11 +53,10 @@ class ThcserversBuyer(VPSBuyer):
             return False
         return True
         
-        
-    '''
-    Places an order on Zappiehost for a new VPS
-    '''
     def placeOrder(self):
+    	"""
+    	Places an order on Zappiehost for a new VPS.
+    	"""
         try:
             self.spawnBrowser()
             self.driver.get("https://www.thcservers.com/vps-hosting")

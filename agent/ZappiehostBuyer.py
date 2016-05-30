@@ -33,7 +33,8 @@ class ZappiehostBuyer(VPSBuyer):
 
     def buy(self):
         """
-        Walks through the entire process of buying a VPS from Zappiehost. Returns True if it succeeded, returns False otherwise.
+        Walks through the entire process of buying a VPS from Zappiehost. 
+        Returns True if it succeeded, returns False otherwise.
         """
         succeeded = self.placeOrder() # places the order
         if not succeeded:
@@ -92,7 +93,7 @@ class ZappiehostBuyer(VPSBuyer):
         self.fillInElement('city', self.generator.getCity())
         self.fillInElement('postcode', self.generator.getZipcode())
         self.clickRandomSelectElement('country')
-        self._fill_in_state(self)
+        self._fill_in_state()
         self.fillInElement('phonenumber', self.generator.getPhoneNum())
         # password =  # Generate a password
         self.fillInElement('password', self.password)

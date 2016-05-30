@@ -10,7 +10,7 @@
 ######################################
 
 #allow for add-apt-repository
-sudo apt-get install software-properties-common python-software-properties
+#sudo apt-get install -y software-properties-common python-software-properties
 
 #ensure wxgtk2.8 and all requirements are available for 16.04, also twisted 15.x+
 sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu vivid main"
@@ -31,7 +31,9 @@ pip install decorator==4.0.9
 wget http://launchpadlibrarian.net/191505542/libsodium13_1.0.1-1_amd64.deb
 dpkg -i libsodium13_1.0.1-1_amd64.deb
 
+
 #install python-cryptography which does not exist anymore under 14.04
+sudo apt-get install -y python-cffi python-enum34
 wget http://launchpadlibrarian.net/200479300/python-cryptography_0.8-1ubuntu2_amd64.deb
 dpkg -i python-cryptography_0.8-1ubuntu2_amd64.deb
 

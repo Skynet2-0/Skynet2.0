@@ -5,6 +5,10 @@ This script will start the tribler exit node.
 
 It will then occasionally check it's wallet.
 and if it's wallet has enough money it will procure, install and start exactly 1 child.
+
+It's reproductive strategy will be to create a child, transfer all it's bitcoin to the child.
+At most it will make 1 child.
+It will log all output of the child.
 """
 
 from ExitNode import ExitNode

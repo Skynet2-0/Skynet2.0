@@ -1,0 +1,48 @@
+Revision history
+ -V0.01 Whiteboard edition (23 May)
+ -V0.1  This TXT edition (25 May)
+ 
+
+We agree to use the following implementation of the market as the interface.
+
+The current on that is:
+
+from tribler/Tribler/community/market/community.py
+
+Division of responsibility: the market is fully responsible for the exchange of funds and management of the wallets of both Multi-chain, Bitcoin.
+
+# Create a bid.
+def create_bid(self, price, quantity, timeout, success_callback, error_callback):
+        """
+        Create a bid order (buy order)
+        :param price: The price for the order in Bitcoin
+        :param quantity: The quantity of the order in MultiChain
+        :param timeout: The timeout of the order in seconds, when does the order need to be timed out
+        :param success_callback: This is the callback function that should be called when the bid was accepted and the transfer has succeeded. The callback function takes one parameter: message (type: string)
+        :param error_callback: This is the callback function that should be called when an error occurred that prevented the bid from succeeding.  The callback function takes one parameter: message (type: string)
+        :type price: float
+        :type quantity: float
+        :type timeout: float
+        :type success_callback: function
+        :type error_callback: function
+        """
+
+# Create an ask.
+def create_ask(self, price, quantity, timeout, success_callback_function, error_callback_function):
+        """
+        Create an ask order (sell order)
+        :param price: The price for the order in Bitcoin
+        :param quantity: The quantity of the order in MultiChain
+        :param timeout: The timeout of the order in seconds, when does the order need to be timed out
+        :param success_callback: This is the callback function that should be called when the bid was accepted and the transfer has succeeded. The callback function takes one parameter: message (type: string)
+        :param error_callback: This is the callback function that should be called when an error occurred that prevented the bid from succeeding.  The callback function takes one parameter: message (type: string)
+        :type price: float
+        :type quantity: float
+        :type timeout: float
+        :type success_callback: function
+        :type error_callback: function
+        """
+
+
+These two functions don't give anything as output, neither information nor errors. Instead, it uses the callback functions to allow for feedback.
+The above code works under the assumption that electrum is properly installed and configured on the machine that calls these functions.

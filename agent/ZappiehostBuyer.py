@@ -18,10 +18,17 @@ import time
 
 
 class ZappiehostBuyer(VPSBuyer):
-    '''
+    """
     This class orders a VPS from zappiehost.com
-    '''
+    """
     def __init__(self, email = "", password = "", SSHPassword = ""):
+        """
+        Creates a new ZappiehostBuyer.
+
+        email -- The email address to use. (Default is '')
+        password -- The password to use. (Default is '')
+        SSHPassword -- The password to use for the ssh connection. (Default is '')
+        """
         super(ZappiehostBuyer, self).__init__()
         self.email = email
         if self.email == "":
@@ -41,9 +48,9 @@ class ZappiehostBuyer(VPSBuyer):
 
 
     def buy(self):
-        '''
+        """
         Walks through the entire process of buying a VPS from Zappiehost. Returns True if it succeeded, returns False otherwise
-        '''
+        """
         succeeded = self.placeOrder() # places the order
         if succeeded == False:
             return False
@@ -58,9 +65,9 @@ class ZappiehostBuyer(VPSBuyer):
 
 
     def placeOrder(self):
-        '''
+        """
         Places an order on Zappiehost for a new VPS
-        '''
+        """
         try:
             self.spawnBrowser()
             self.driver.get("https://billing.zappiehost.com/cart.php?a=confproduct&i=0")
@@ -75,7 +82,7 @@ class ZappiehostBuyer(VPSBuyer):
             #Click the pay by bitcoin button
             self.driver.find_element_by_css_selector("input[type='radio'][value='bitpay']").click()
 
-            
+
             #driver.find_element_by_css_selector("input[name='firstname']").send_keys(getFormValue('firstname'))
 
             self.fillInElement('firstname', self.generator.getFirstName())
@@ -144,9 +151,11 @@ class ZappiehostBuyer(VPSBuyer):
 
 
     def setSSHPassword(self, SSHPassword = ''):
-        '''
-        Re-installs the VPS on Zappiehost with a new password. This is handy, so we don't have to fetch the password from an email
-        '''
+        """
+        Re-installs the VPS on Zappiehost with a new password. This is handy, so we don't have to fetch the password from an email.
+
+        SSHPassword -- The password to log in over ssh. (Default is '')
+        """
         if SSHPassword == '':
             SSHPassword = self.SSHPassword
         self.SSHPassword = SSHPassword

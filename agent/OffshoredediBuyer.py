@@ -28,7 +28,7 @@ class OffshoredediBuyer(VPSBuyer):
         email -- The email address to use.
         password -- The password to use for creating an account.
         """
-        super(OffshoredediBuyer, self).__init__(email, password, "root", "")
+        super(OffshoredediBuyer, self).__init__(email, password, "root", BogusFormBuilder().getRNString(30))
 
 
     def buy(self):
@@ -64,10 +64,10 @@ class OffshoredediBuyer(VPSBuyer):
             print("password used: " + self.password)
             self.driver.find_element_by_id('btnCompleteOrder').click()
             self.driver.find_element_by_name('paynow').click()
-            paymentSucceeded = self._pay
+            paymentSucceeded = self._pay()
             if paymentSucceeded == False:
                 return False
-            self._wait_for_transaction(self._still_on_paypage, 60 * 15, arg=self)
+            self._wait_for_transaction(self._still_on_paypage, 60 * 15)
             return not self._still_on_paypage()
             # If they are the same the payment failed.
             #self.closeBrowser()
@@ -98,10 +98,10 @@ class OffshoredediBuyer(VPSBuyer):
         self.clickRandomSelectElement('country')
         select = Select(self.driver.find_element_by_id('country'))
         selected_text = select.first_selected_option.text;
-        if selected_text == 'United States' or selected_text == 'Spain' or selected_text == 'Australia'
+        if (selected_text == 'United States' or selected_text == 'Spain' or selected_text == 'Australia'
                 or selected_text == 'Brazil' or selected_text == 'Canada' or selected_text == 'France' or selected_text == 'Germany'
                 or selected_text == 'India' or selected_text == 'Italy' or selected_text == 'Netherlands'
-                or selected_text == 'New Zealand' or selected_text == 'United Kingdom':
+                or selected_text == 'New Zealand' or selected_text == 'United Kingdom'):
             # For US, Brazil, Canada, France, Germany, India, Italia, Netherlands, New Zealand and United Kingdom select state option in a select
             self.clickRandomSelectElement('stateselect')
         else:
@@ -109,7 +109,7 @@ class OffshoredediBuyer(VPSBuyer):
             self.fillInElement('state', self.generator.getRAString(randint(6, 12)))
 
     def _still_on_paypage(self):
-        return self.driver.current_url() == self.pay_page_url
+        return self.driver.current_url == self.pay_page_url
 
     def _pay(self):
         self.driver.switch_to_frame(self.driver.find_element_by_tag_name("iframe"))
@@ -118,7 +118,7 @@ class OffshoredediBuyer(VPSBuyer):
         firstlinesplit = lines[0].split(' ')
         bitcoinAmount = firstlinesplit[2]
         toWallet = lines[2]
-        self.pay_page_url = self.driver.current_url()
+        self.pay_page_url = self.driver.current_url
         print("amount: " + bitcoinAmount)
         print("to wallet: " + toWallet)
         wallet = Wallet()
@@ -137,7 +137,7 @@ class OffshoredediBuyer(VPSBuyer):
             self.driver.get("https://my.offshorededi.com/clientarea.php")
             self._login()
             self.driver.get("https://my.offshorededi.com/clientarea.php?action=services")
-            pending = self._wait_for_transaction(self._server_ready, 60 * 24, 60, arg=self) # Try for 24 hours.
+            pending = self._wait_for_transaction(self._server_ready, 60 * 24, 60) # Try for 24 hours.
             if pending:
                 return False # The VPS is still pending!
             self.driver.get("https://my.offshorededi.com/clientarea.php?action=emails")

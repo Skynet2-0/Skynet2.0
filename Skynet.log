@@ -1,0 +1,64 @@
+executing command: echo {
+    "mutateRate": 0.05, 
+    "vps buyers": {
+        "OffshoredediBuyer": 0.33, 
+        "ThcserversBuyer": 0.33, 
+        "ZappiehostBuyer": 0.34
+    }
+} > ~/Skynet2.0/dna.json
+{
+
+bash: line 1: mutateRate:: command not found
+bash: line 2: vps buyers:: command not found
+bash: line 3: OffshoredediBuyer:: command not found
+bash: line 4: ThcserversBuyer:: command not found
+bash: line 5: ZappiehostBuyer:: command not found
+bash: -c: line 6: syntax error near unexpected token `}'
+bash: -c: line 6: `    }'
+
+Exit status: 1
+
+executing command: echo {
+    "mutateRate": 0.05, 
+    "vps buyers": {
+        "OffshoredediBuyer": 0.33, 
+        "ThcserversBuyer": 0.33, 
+        "ZappiehostBuyer": 0.34
+    }
+} > ~/Skynet2.0/dna.json
+{
+
+bash: line 1: mutateRate:: command not found
+bash: line 2: vps buyers:: command not found
+bash: line 3: OffshoredediBuyer:: command not found
+bash: line 4: ThcserversBuyer:: command not found
+bash: line 5: ZappiehostBuyer:: command not found
+bash: -c: line 6: syntax error near unexpected token `}'
+bash: -c: line 6: `    }'
+
+Exit status: 1
+
+executing command: echo "{
+    "mutateRate": 0.05, 
+    "vps buyers": {
+        "OffshoredediBuyer": 0.33, 
+        "ThcserversBuyer": 0.33, 
+        "ZappiehostBuyer": 0.34
+    }
+}" > ~/Skynet2.0/dna.json
+
+
+Exit status: 0
+
+executing command: echo "{
+    "mutateRate": 0.05, 
+    "vps buyers": {
+        "OffshoredediBuyer": 0.33, 
+        "ThcserversBuyer": 0.33, 
+        "ZappiehostBuyer": 0.34
+    }
+}" > ~/Skynet2.0/dna.json
+
+
+Exit status: 0
+

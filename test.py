@@ -1,3 +1,5 @@
+from agent.Birthchamber import Birthchamber
 from agent.DNA import DNA
 
-d = DNA()
+bc = Birthchamber()
+bc.giveChildGeneticCode(DNA())

@@ -15,6 +15,10 @@ from ExitNode import ExitNode
 from Birthchamber import Birthchamber
 from Wallet import Wallet
 from time import sleep
+from ssh.SSH import SSH
+
+
+SSH.static_use_logfile()
 
 en = ExitNode()
 
@@ -22,10 +26,12 @@ wallet = Wallet()
 
 print("successful instantiation")
 
+#prepare the possibility to get a child
+bc = Birthchamber()
+
 #this should actually compare with the current necessary bitcoins plus a small margin
-while(wallet.balance()<0.01):
+while(wallet.balance()<bc.getChildPrice()):
     print("Not enough bitcoins, waiting for money to arrive")
 	sleep(600)
 
-bc = Birthchamber(ZappiehostBuyer())
-bc.getChild()
+bc.getChild(ZappiehostBuyer())

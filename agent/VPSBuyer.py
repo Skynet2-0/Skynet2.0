@@ -24,6 +24,7 @@ class VPSBuyer(object):
         self.SSHUsername = ""
         self.SSHPassword = ""
         self.IP = ""
+        self.price = 0.02
         pass
 
     def getFormValue(self, name):
@@ -85,6 +86,9 @@ class VPSBuyer(object):
     def getPassword(self):
         """Returns the password to log in on the VPS provider."""
         return self.password
+    
+    def getPrice(self):
+        return self.price
 
     def closeBrowser(self):
         """Closes the current browser instance of Selenium."""

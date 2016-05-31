@@ -2,10 +2,12 @@
 This script buys a server automatically and then installs a copy of itself from
 github unto that server.
 """
+import json
 from VPSBuyer import VPSBuyer
 from ZappiehostBuyer import ZappiehostBuyer
 from ssh.install import Installer
 from ssh.starter import Starter
+from ssh.CreateFile import CreateFile
 
 class Birthchamber(object):
     """ This class is responsible for creating children of the agent. """
@@ -13,17 +15,23 @@ class Birthchamber(object):
     def __init__(self):
         pass
 
-    def getChild(self, VPSBuyer):
+    def getChild(self):
         """
         Buys a child server.
 
         VPSBuyer -- The VPSBuyer to use of type VPSBuyer.
         """
+        
+        print("fetching genetic code")
+        d = DNA()
+                
+        
+        
         #do a startup message
         print("Starting up a child server")
 
         #buy a server
-        self.vps = VPSBuyer
+        self.vps = d.getVPSBuyer()
         result = self.VPSBuyer.buy()
 
         if result == True:
@@ -33,12 +41,22 @@ class Birthchamber(object):
             print("SSH IP: " + self.vps.getIP())
             print("SSH Username: " + self.vps.getSSHUsername())
             print("SSH Password: " + self.vps.getSSHPassword())
+            
+            self.giveChildGeneticCode()
+            self.installChild()        
+            self.startChild()
         else:
-            print("Failed to buy VPS from Zappiehost...")
+            print("Failed to buy the VPS...")
             #maybe do an alternative vps?
 
-        self.installChild()
-        self.startChild()
+        
+        
+    def getChildCost(self):
+        #should return self.vps.price() or something similar
+        """
+        Returns the price of the child in bitcoin
+        """
+        return self.vps.getprice()
 
     def installChild(self):
         """ Installs the project on the child. """
@@ -50,6 +68,15 @@ class Birthchamber(object):
         i = Installer(self.vps.getIP(),self.vps.getSSHUsername(),self.vps.getSSHPassword(),22)
         #i = Installer("185.99.132.241","root","HEzbhNeAfPBTyQbrzpzaMzyEEhEzNfVg",22)
         i.install()
+        
+    def giveChildGeneticCode(self, dna):
+        """
+        creates the dna.json file on the child
+        """        
+        text = json.dumps(dna.getMutation(), indent=4, sort_keys=True)
+        cf = CreateFile("185.99.132.241","root","Koekje123",22)
+        #cf = CreateFile(self.vps.getIP(),self.vps.getSSHUsername(),self.vps.getSSHPassword(),22)
+        cf.create("~/Skynet2.0/dna.json", text)
 
     def startChild(self):
         """ Starts the program on the child. """

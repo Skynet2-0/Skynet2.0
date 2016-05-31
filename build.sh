@@ -10,11 +10,11 @@
 ######################################
 
 #allow for add-apt-repository
-#sudo apt-get install -y software-properties-common python-software-properties
+sudo apt-get install -y software-properties-common python-software-properties
 
 #ensure wxgtk2.8 and all requirements are available for 16.04, also twisted 15.x+
 sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu vivid main"
-#sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu xenial main"
+sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu xenial main"
 
 # update the apt-get folder.
 sudo apt-get update

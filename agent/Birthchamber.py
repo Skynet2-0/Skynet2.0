@@ -48,8 +48,6 @@ class Birthchamber(object):
         else:
             print("Failed to buy the VPS...")
             #maybe do an alternative vps?
-
-        
         
     def getChildCost(self):
         #should return self.vps.price() or something similar

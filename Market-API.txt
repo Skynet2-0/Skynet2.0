@@ -9,7 +9,13 @@ The current on that is:
 
 from tribler/Tribler/community/market/community.py
 
-Division of responsibility: the market is fully responsible for the exchange of funds and management of the wallets of both Multi-chain, Bitcoin.
+Division of responsibility: 
+The Multi-chain database, wallet and money transfer mechanism is fully under control of The Market team.
+A get_balance() function for multi-chain needs to be created by either: one of the BEP teams of dev team of multi-chain.
+
+Both project require access and control of the Bitcoin wallet.
+A cmd line gateway will be used to get_balance(), create_transaction() and verify_payment().
+This gateway will be used by both BEP projects.
 
 # Create a bid.
 def create_bid(self, price, quantity, timeout, success_callback, error_callback):
@@ -44,5 +50,5 @@ def create_ask(self, price, quantity, timeout, success_callback_function, error_
         """
 
 
-These two functions don't give anything as output, neither information nor errors. Instead, it uses the callback functions to allow for feedback.
+These two functions don't give anything as output, neither information nor errors. Instead, it uses the callback functions to allow for feedback. Use existing notifier.py mechanism.
 The above code works under the assumption that electrum is properly installed and configured on the machine that calls these functions.

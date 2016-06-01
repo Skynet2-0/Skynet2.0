@@ -9,6 +9,7 @@ and if it's wallet has enough money it will procure, install and start exactly 1
 
 from ExitNode import ExitNode
 from Birthchamber import Birthchamber
+from ZappiehostBuyer import ZappiehostBuyer
 from Wallet import Wallet
 from time import sleep
 
@@ -23,5 +24,5 @@ while(wallet.balance()<0.01):
     print("Not enough bitcoins, waiting for money to arrive")
 	sleep(600)
 
-bc = Birthchamber(ZappiehostBuyer())
-bc.getChild()
+bc = Birthchamber()
+bc.getChild(ZappiehostBuyer())

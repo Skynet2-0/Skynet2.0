@@ -28,7 +28,7 @@ class InstallTest(unittest.TestCase):
         ssh = SSH(hostname, user, pwd, port)
         ssh.run('rm -rf Skynet2.0')
         ssh.close_connection()
-        self.installer = Installer(hostname, user, pwd, port)
+        self.installer = Installer(hostname, user, pwd, port, True)
         self.installer.install()
         self.ssh = self.installer.ssh
 

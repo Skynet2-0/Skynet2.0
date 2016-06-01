@@ -35,26 +35,28 @@ class Birthchamber(object):
             print("SSH IP: " + self.vps.getIP())
             print("SSH Username: " + self.vps.getSSHUsername())
             print("SSH Password: " + self.vps.getSSHPassword())
-            
-            
+
+
             self.installChild()
             self.startChild()
-            
+
             return True
         else:
             print("Failed to buy VPS from Zappiehost...")
             return False
             #maybe do an alternative vps?
 
-        
+
 
     def installChild(self):
-        """ 
-        Installs the project on the child. 
-        ToDo -- add check whether ssh access is succesfull, and if not wait and retry
-        Returns -- True if installing on the child was succesfull, False if not
         """
+        Installs the project on the child.
 
+        Returns -- True if installing on the child was succesfull, False if not.
+        """
+        '''
+        ToDo: add check whether ssh access is succesfull, and if not wait and retry.
+        '''
         #run installation on vps
         print("starting the installation procedure")
         i = Installer(self.vps.getIP(),self.vps.getSSHUsername(),self.vps.getSSHPassword(),22)
@@ -63,8 +65,8 @@ class Birthchamber(object):
         return True #assuming always succesfull
 
     def startChild(self):
-        """ 
-        Starts the program on the child. 
+        """
+        Starts the program on the child.
         Returns -- True if installing on the child was succesfull, False if not
         """
         #start the core program on child

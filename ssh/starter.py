@@ -11,7 +11,7 @@ class Starter:
     the child server. It uses the SSH class to send them.
     """
 
-    def __init__(self, hostip, user, password, port=None):
+    def __init__(self, hostip, user, password, port=None, use_log=None):
         """
         Constructs the Starter which starts the program.
 
@@ -19,10 +19,14 @@ class Starter:
         user -- the username of the user (Usually it will be host).
         password -- the password.
         port -- the port to connect to. (Default is None)
+        use_log -- True for logging the starting. (Default is None)
         """
-        self.ssh = SSH(hostip, user, password, port)
+        if (use_log is None):
+            self.ssh = SSH(hostip, user, password, port)
+        else:
+            self.ssh = SSH(hostip, user, password, port, use_log)
 
     def start(self):
         """ Starts the program. """
-        (_, out0, err0) = self.ssh.run('PYTHONPATH="Skynet2.0" python Skynet2.0/agent/agentCore.py')
+        (_, out0, err0) = self.ssh.run('sh run.sh')
         #self._checkStreams(out0, err0, 'apt update failed', 'apt updated.')

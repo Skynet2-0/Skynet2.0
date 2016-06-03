@@ -70,7 +70,7 @@ class Birthchamber(object):
         """        
         print("Sending genetic code to the child")
         text = json.dumps(dna.getMutation(), indent=4, sort_keys=True)
-        fc = CreateFile(self.vps.getIP(),self.vps.getSSHUsername(),self.vps.getSSHPassword(),22)
+        fc = FileCreator(self.vps.getIP(),self.vps.getSSHUsername(),self.vps.getSSHPassword(),22)
         fc.create("~/Skynet2.0/dna.json", text)
 
     def startChild(self):

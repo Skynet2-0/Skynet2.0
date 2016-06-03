@@ -4,6 +4,7 @@
 submodules/**
 dna.json
 settings.json
+Skynet.log
 ##########################
 #Linux Specific GitIgnore#
 ##########################

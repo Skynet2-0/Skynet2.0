@@ -18,8 +18,8 @@ RUN git clone --recursive https://github.com/Skynet2-0/Skynet2.0.git
 RUN apt-get install -y software-properties-common python-software-properties
 
 #ensure wxgtk2.8 and all requirements are available for 16.04, also twisted 15.x+
-RUN add-apt-repository "deb http://archive.ubuntu.com/ubuntu vivid main"
-RUN add-apt-repository "deb http://archive.ubuntu.com/ubuntu xenial main"
+# RUN add-apt-repository "deb http://archive.ubuntu.com/ubuntu vivid main"
+# RUN add-apt-repository "deb http://archive.ubuntu.com/ubuntu xenial main"
 
 # Add universe for pip.
 RUN apt-add-repository universe
@@ -30,9 +30,9 @@ RUN apt-get update
 
 # ensure python and pip are installed
 RUN apt-get install -y python
-RUN apt-get install -y python-pip
-# RUN apt-get install -y curl
-# RUN curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py" && python get-pip.py && rm get-pip.py
+# RUN apt-get install -y python-pip
+RUN apt-get install -y curl
+RUN curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py" && python get-pip.py && rm get-pip.py
 
 #install other tribler requirements
 # RUN apt-get install -y libldb1=1:1.1.24
@@ -43,6 +43,9 @@ RUN apt-get install -y python-decorator python-gmpy gconf2
 RUN apt-get install -y python-cffi python-enum34
 RUN apt-get install -y vlc
 RUN pip install decorator==4.0.9
+
+# Install wget.
+RUN apt-get install -y wget
 
 #install libsodium13 which does not exist anymore under 14.04
 RUN wget http://launchpadlibrarian.net/191505542/libsodium13_1.0.1-1_amd64.deb
@@ -73,9 +76,11 @@ RUN apt-get install -y firefox
 #Install other python requirements#
 ###################################
 
-RUN pip install -r requirements.txt
-
-#sh run.sh
+RUN pip install Selenium==2.53.1
+RUN pip install paramiko==1.17.0
+RUN pip install pexpect-u==2.5.1
+# RUN pip install Yappi==0.94
+RUN pip install https://download.electrum.org/2.6.4/Electrum-2.6.4.tar.gz
 
 #############################################################
 #################### End of build.sh ########################

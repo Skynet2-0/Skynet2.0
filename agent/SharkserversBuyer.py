@@ -16,6 +16,8 @@ import selenium.webdriver.support.ui as ui
 
 import time
 
+from CountryGetter import CountryGetter
+
 
 class SharkserversBuyer(VPSBuyer):
     '''
@@ -49,7 +51,7 @@ class SharkserversBuyer(VPSBuyer):
 
         time.sleep(30) # Wait for half a minute so Sharkservers can process the payment
 
-        succeeded = self.setSSHPassword(self.SSHPassword)
+        succeeded = self.getSSHInfo()
         if succeeded == False:
             return False
         return True
@@ -86,7 +88,11 @@ class SharkserversBuyer(VPSBuyer):
             self.fillInElement('city', self.generator.getCity())
             self.fillInElement('postcode', self.generator.getZipcode())
 
-            self.clickRandomSelectElement('country')
+            # Select the country that the machine is currently in in the list of countries to seem more legible, because apparently the country you selected sometimes gets compared to your IP address
+            country_found = self.clickSelectElement('country', CountryGetter.get_country())
+            if(country_found != True):
+                self.clickRandomSelectElement('country')
+
 
             select = Select(self.driver.find_element_by_id('country'))
             selected_text = select.first_selected_option.text;
@@ -149,47 +155,31 @@ class SharkserversBuyer(VPSBuyer):
         return True
 
 
-    def setSSHPassword(self, SSHPassword = ''):
+    def getSSHInfo(self):
         '''
-        Re-installs the VPS on Sharkservers with a new password. This is handy, so we don't have to fetch the password from an email
+        Obtains the bought VPS' IP Address from Sharkservers
         '''
-        if SSHPassword == '':
-            SSHPassword = self.SSHPassword
-        self.SSHPassword = SSHPassword
         try:
             self.spawnBrowser()
-            self.driver.get("https://billing.sharkservers.co.uk/clientarea.php")
+            self.driver.get("https://www.sharkservers.co.uk/clients/clientarea.php")
 
             #Click the to cart button for the cheapest VPS
-            self.fillInElement('username', self.email)
-            self.fillInElement('password', self.password)
+            self.driver.find_element_by_id('inputEmail').send_keys(self.email)
+            self.driver.find_element_by_id('inputPassword').send_keys(self.password)
+
+            self.driver.find_elements_by_name('rememberme').pop().click()
+            return
 
             self.driver.find_element_by_id('login').click()
 
-            self.driver.get("https://billing.sharkservers.co.uk/clientarea.php?action=products")
-            self.driver.find_element_by_css_selector(".table.table-striped.table-framed").find_element_by_css_selector(".btn-group").find_element_by_css_selector(".btn").click()
+            self.driver.get("https://www.sharkservers.co.uk/clients/clientarea.php?action=services")
+            self.driver.find_element_by_css_selector('.label.status.status-active').click()
 
             # GET THE IP ADDRESS
-            a = self.driver.find_elements_by_xpath("//*[contains(text(), 'IP Address:')]").pop()
-            rawtext = a.find_elements_by_xpath("..").pop().text
-            text1 = rawtext.split('IP Address:\n', 1)
-            text2 = text1[1].split('\n', 1)
-            self.IP = text2[0]
+            cols = self.driver.find_elements_by_css_selector('.col-sm-7.text-left')
+            self.IP = cols[1].text
             # END OF GET IP ADDRESS
 
-
-            self.driver.find_element_by_css_selector(".icon-btn.icon-reinstall").click()
-
-
-            #driver.find_element_by_id('password')._execute(command, params)
-            self.driver.find_element_by_id('password').send_keys(self.SSHPassword)
-            #fillInElement("rebuild[password]", SSHPassword)
-
-            self.driver.find_element_by_css_selector("input[value='local:vztmpl/ubuntu-14.04-64bit.tar.gz']").click()
-
-            self.driver.find_element_by_css_selector(".form-actions").find_element_by_css_selector(".btn.btn-primary").click()
-
-            # print("New SSH Password: " + self.SSHPassword)
             self.closeBrowser()
 
         except Exception as e:

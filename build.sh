@@ -40,7 +40,8 @@ wget http://launchpadlibrarian.net/200479300/python-cryptography_0.8-1ubuntu2_am
 dpkg -i python-cryptography_0.8-1ubuntu2_amd64.deb
 
 #install tribler itself
-pip install git+https://github.com/Tribler/tribler
+#pip install git+https://github.com/Tribler/tribler
+pip install git+https://github.com/Tribler/tribler/tree/v6.5.2
 
 rm python-cryptography_0.8-1ubuntu2_amd64.deb
 #rm tribler_6.5.2_all.deb

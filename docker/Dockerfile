@@ -19,18 +19,29 @@ RUN apt-get install -y software-properties-common python-software-properties
 
 #ensure wxgtk2.8 and all requirements are available for 16.04, also twisted 15.x+
 RUN add-apt-repository "deb http://archive.ubuntu.com/ubuntu vivid main"
-#RUN add-apt-repository "deb http://archive.ubuntu.com/ubuntu xenial main"
+RUN add-apt-repository "deb http://archive.ubuntu.com/ubuntu xenial main"
+
+# Add universe for pip.
+RUN apt-add-repository universe
 
 # update the apt-get folder.
 RUN apt-get update
-RUN apt-get upgrade -y
+# RUN apt-get upgrade -y
 
 # ensure python and pip are installed
 RUN apt-get install -y python
 RUN apt-get install -y python-pip
+# RUN apt-get install -y curl
+# RUN curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py" && python get-pip.py && rm get-pip.py
 
 #install other tribler requirements
-RUN apt-get install -y libav-tools libjs-excanvas libjs-mootools libx11-6 python-apsw python-cherrypy3 python-crypto python-feedparser python-leveldb python-libtorrent python-m2crypto python-netifaces python-pil python-pyasn1 python-requests python-twisted python-wxgtk2.8 python2.7 vlc python-pip python-decorator python-gmpy gconf2 python-cffi python-enum34
+# RUN apt-get install -y libldb1=1:1.1.24
+# RUN apt-get install -y libldb1 libcups2 libnettle4 libhogweed2 samba-libs libgnutls28 libsmbclient vlc-nox libvlccore7
+RUN apt-get install -y libav-tools libjs-excanvas libjs-mootools libx11-6 python-apsw
+RUN apt-get install -y python-cherrypy3 python-crypto python-feedparser python-leveldb python-libtorrent python-m2crypto python-netifaces python-pil python-pyasn1 python-requests python-twisted python-wxgtk2.8 python2.7
+RUN apt-get install -y python-decorator python-gmpy gconf2
+RUN apt-get install -y python-cffi python-enum34
+RUN apt-get install -y vlc
 RUN pip install decorator==4.0.9
 
 #install libsodium13 which does not exist anymore under 14.04

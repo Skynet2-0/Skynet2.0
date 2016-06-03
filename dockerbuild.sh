@@ -1,2 +1,2 @@
 #!/usr/bin/env sh
-docker build -t Skynet2.0 --rm=true
+docker build -t root/ubuntu:Skynet2.0 --rm=true docker

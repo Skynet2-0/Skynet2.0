@@ -9,17 +9,17 @@ import random
 
 
 class BogusFormBuilder(object):
-    '''
+    """
     this class can be used to generate common values for registry forms on websites.
-    '''
+    """
 
     def __init__(self):
         pass
 
     def getPhoneNum(self):
-        '''
+        """
         returns a 10 sized phone number
-        '''
+        """
         if hasattr(self, 'phoneNum'):
             return self.phoneNum
 
@@ -27,9 +27,11 @@ class BogusFormBuilder(object):
         return self.phoneNum
 
     def getEmail(self):
-        '''
-        returns a random email adress. this email adress is bogus and cannot be accessed.
-        '''
+        """
+        returns a random email adress.
+
+        This email adress is bogus and cannot be accessed.
+        """
         if hasattr(self, 'email'):
             return self.email
 
@@ -38,9 +40,7 @@ class BogusFormBuilder(object):
         return self.email
 
     def getFirstName(self):
-        '''
-        returns a bogus firstname.
-        '''
+        """ returns a bogus firstname. """
         if hasattr(self, 'firstName'):
             return self.firstName
 
@@ -48,7 +48,7 @@ class BogusFormBuilder(object):
         return self.firstName
 
     def getSurname(self):
-        'returns a bogus surname.'
+        """returns a bogus surname."""
         if hasattr(self, 'surname'):
             return self.surname
 
@@ -64,43 +64,41 @@ class BogusFormBuilder(object):
         return self.city
 
     def getZipcode(self):
-        '''
-        returns a american zipcode.
-        '''
+        """ returns a american zipcode. """
         if hasattr(self, 'zipcode'):
             return self.zipcode
         self.zipcode = self.getRNString(5)
         return self.zipcode
 
     def getPassword(self):
-        'generates a password, do store it yourself.'
+        """ generates a password, do store it yourself."""
         if hasattr(self, 'password'):
             return self.password
         self.password =  self.getRString(randrange(15,30))
         return self.password
 
     def getRAString(self, length):
-        '''
-        returns a random string with size length. contains just alphabetical characters.
-        '''
+        """
+        returns a random string with size length.
+
+        The string contains just alphabetical characters.
+        """
         result = ""
         for _ in range(0,length):
             result+=random.choice(string.ascii_letters)
         return result
 
     def getRNString(self, length):
-        '''
-        returns a random numerical string with size length.
-        '''
+        """returns a random numerical string with size length."""
         result = ""
         for _ in range(0,length):
             result+=random.choice(string.digits)
         return result
 
     def getRString(self, length):
-        '''
+        """
         returns a random string with size length (numerical, alphabetical and some random other signs)
-        '''
+        """
         result = ""
         for _ in range(0,length):
             result+=random.choice(string.printable)

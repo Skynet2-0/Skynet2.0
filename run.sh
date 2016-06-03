@@ -1,5 +1,11 @@
 #!/usr/bin/env sh
 
+####################################################
+#Start Xvfb display simulation on display number 99#
+####################################################
+nohup Xvfb :99 -ac &
+export DISPLAY=:99
+
 ###########################
 #Start the selenium server#
 ###########################

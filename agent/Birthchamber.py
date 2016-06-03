@@ -52,7 +52,7 @@ class Birthchamber(object):
         """
         Returns the price of the child in bitcoin
         """
-        return self.vps.getprice()
+        return 0.02
 
     def installChild(self):
         """ Installs the project on the child. """

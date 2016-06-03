@@ -2,6 +2,7 @@ from agent.Birthchamber import Birthchamber
 from agent.DNA import DNA
 from agent.Settings import Settings
 from agent.VPSBuyer import VPSBuyer
+from ssh.SSH import SSH
 
 s = Settings()
 
@@ -20,6 +21,9 @@ print(v.IP)
 
 bc = Birthchamber()
 bc.vps = v
+
+print("starting the installation procedure")
+ssh = SSH(v.getIP(),v.getSSHUsername(),v.getSSHPassword(),22)
 
 #bc.installChild()
 print('Start installing.')

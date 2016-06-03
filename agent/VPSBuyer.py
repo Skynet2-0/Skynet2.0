@@ -98,3 +98,32 @@ class VPSBuyer(object):
     def closeBrowser(self):
         """Closes the current browser instance of Selenium."""
         self.driver.quit()
+
+    def _wait_for_transaction(self, wait_test, number_of_tries, sleeptime=1, log=True, arg=None):
+        """
+        Waits for the transaction to be accepted.
+
+        wait_test -- The test to perform to check whether to keep waiting. The
+        footprint of the test is that it accepts only self and returns a boolean.
+        It should return False if we still need to wait.
+        number_of_tries -- The number of times to try if the connection
+        is already working.
+        sleeptime -- The time in seconds to wait between two tries. (Default is 1)
+        log -- Whether to print the number of tries left to the screen. (Default is True)
+        arg -- Optional argument for the wait_test function. (Default is None)
+
+        returns True if stopped because the wait ended and False on timeout.
+        """
+    tries_left = number_of_tries
+    done = False
+    while(not done and tries_left > 0):
+        tries_left = tries_left - 1
+        if arg is None:
+            done = wait_test()
+        else:
+            done = wait_test(arg)
+        if not done:
+            if log:
+                print("Tries left: %i" % tries_left)
+            time.sleep(sleeptime)
+    return done;

@@ -15,10 +15,6 @@ from ExitNode import ExitNode
 from Birthchamber import Birthchamber
 from Wallet import Wallet
 from time import sleep
-from ssh.SSH import SSH
-
-
-SSH.static_use_logfile()
 
 en = ExitNode()
 
@@ -34,4 +30,8 @@ while(wallet.balance()<bc.getChildPrice()):
     print("Not enough bitcoins, waiting for money to arrive")
 	sleep(600)
 
-bc.getChild(ZappiehostBuyer())
+bc.getChild()
+
+#get the wallet address of the child
+f = open("python.log", "r")
+fr = f.read()

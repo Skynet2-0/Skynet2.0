@@ -57,7 +57,7 @@ apt-get install -y firefox
 ##################################################
 #Install Xvfb to enable headless Firefox Selenium#
 ##################################################
-apt-get install xvfb
+sudo apt-get install xorg xvfb xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic
 
 ###################################
 #Install other python requirements#

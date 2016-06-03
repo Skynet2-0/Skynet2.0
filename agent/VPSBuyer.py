@@ -114,16 +114,16 @@ class VPSBuyer(object):
 
         returns True if stopped because the wait ended and False on timeout.
         """
-    tries_left = number_of_tries
-    done = False
-    while(not done and tries_left > 0):
-        tries_left = tries_left - 1
-        if arg is None:
-            done = wait_test()
-        else:
-            done = wait_test(arg)
-        if not done:
-            if log:
-                print("Tries left: %i" % tries_left)
-            time.sleep(sleeptime)
-    return done;
+        tries_left = number_of_tries
+        done = False
+        while(not done and tries_left > 0):
+            tries_left = tries_left - 1
+            if arg is None:
+                done = wait_test()
+            else:
+                done = wait_test(arg)
+            if not done:
+                if log:
+                    print("Tries left: %i" % tries_left)
+                time.sleep(sleeptime)
+        return done;

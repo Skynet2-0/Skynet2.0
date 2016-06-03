@@ -166,7 +166,7 @@ class Tunnel(object):
             keypair = self.dispersy.crypto.generate_key(u"curve25519")
             dispersy_member = self.dispersy.get_member(private_key=self.dispersy.crypto.key_to_bin(keypair),)
             cls = MultiChainCommunityCrawler
-            self.multichain_community = self.dispersy.define_auto_load(cls, dispersy_member, load=True)[0]
+            self.multichain_community = self.dispersy.define_auto_load(cls, dispersy_member, load=True)
             
             if introduce_port:
                 self.multichain_community.add_discovered_candidate(Candidate(('127.0.0.1', introduce_port), tunnel=False))

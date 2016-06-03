@@ -19,7 +19,6 @@ class DNA(object):
             self._save(DNA.default())
             self.json = self._load()
         
-        
     def getMutation(self):
         """
         returns a mutated version of the own DNA
@@ -27,8 +26,7 @@ class DNA(object):
         #mutateRate = self.json.mutateRate
         
         #first reweigh
-                
-                
+        
                 
         return self.json
                 

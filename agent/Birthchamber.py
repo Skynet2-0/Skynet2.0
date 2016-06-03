@@ -7,7 +7,7 @@ from VPSBuyer import VPSBuyer
 from ZappiehostBuyer import ZappiehostBuyer
 from ssh.install import Installer
 from ssh.starter import Starter
-from ssh.CreateFile import CreateFile
+from ssh.FileCreator import FileCreator
 
 class Birthchamber(object):
     """ This class is responsible for creating children of the agent. """
@@ -24,8 +24,6 @@ class Birthchamber(object):
         
         print("fetching genetic code")
         d = DNA()
-                
-        
         
         #do a startup message
         print("Starting up a child server")
@@ -64,22 +62,20 @@ class Birthchamber(object):
         #run installation on vps
         print("starting the installation procedure")
         i = Installer(self.vps.getIP(),self.vps.getSSHUsername(),self.vps.getSSHPassword(),22)
-        #i = Installer("185.99.132.241","root","HEzbhNeAfPBTyQbrzpzaMzyEEhEzNfVg",22)
         i.install()
         
     def giveChildGeneticCode(self, dna):
         """
         creates the dna.json file on the child
         """        
+        print("Sending genetic code to the child")
         text = json.dumps(dna.getMutation(), indent=4, sort_keys=True)
-        cf = CreateFile("185.99.132.241","root","Koekje123",22)
-        #cf = CreateFile(self.vps.getIP(),self.vps.getSSHUsername(),self.vps.getSSHPassword(),22)
-        cf.create("~/Skynet2.0/dna.json", text)
+        fc = CreateFile(self.vps.getIP(),self.vps.getSSHUsername(),self.vps.getSSHPassword(),22)
+        fc.create("~/Skynet2.0/dna.json", text)
 
     def startChild(self):
         """ Starts the program on the child. """
         #start the core program on child
         print("starting the agent node")
         s = Starter(self.vps.getIP(),self.vps.getSSHUsername(),self.vps.getSSHPassword(),22)
-        #s = Starter("185.99.132.241","root","HEzbhNeAfPBTyQbrzpzaMzyEEhEzNfVg",22)
         s.start()

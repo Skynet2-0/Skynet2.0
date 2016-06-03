@@ -18,7 +18,7 @@ from time import sleep
 from ssh.SSH import SSH
 
 
-SSH.static_use_logfile()
+SSH.global_use_logfile()
 
 en = ExitNode()
 

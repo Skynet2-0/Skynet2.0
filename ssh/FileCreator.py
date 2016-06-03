@@ -5,14 +5,14 @@ This class can create a file with contents
 from SSH import SSH
 
 
-class CreateFile(object):
+class FileCreator(object):
     """
     This class is responsable for creating files on the child server. It uses the SSH class to send them.
     """
 
     def __init__(self, hostip, user, password, port=None, use_log=None):
         """
-        Constructs the Starter which starts the program.
+        Constructs the FileCreator which starts the program.
 
         hostip -- the ip address of the host.
         user -- the username of the user (Usually it will be host).

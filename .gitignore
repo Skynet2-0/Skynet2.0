@@ -3,6 +3,7 @@
 ############################
 submodules/**
 dna.json
+settings.json
 ##########################
 #Linux Specific GitIgnore#
 ##########################

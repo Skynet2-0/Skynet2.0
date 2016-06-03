@@ -3,3 +3,5 @@ paramiko==1.17.0
 https://download.electrum.org/2.6.4/Electrum-2.6.4.tar.gz
 pexpect-u==2.5.1
 Yappi==0.94
+ipgetter==0.6
+python-geoip-geolite2=2015.303

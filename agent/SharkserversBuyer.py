@@ -24,12 +24,11 @@ class SharkserversBuyer(VPSBuyer):
     This class orders a VPS from sharkservers.co.uk
     '''
     def __init__(self, email = "", password = "", SSHPassword = ""):
-        super(SharkserversBuyer, self).__init__()
+        super(SharkserversBuyer, self).__init__(email, password, SSHPassword)
         self.email = email
         if self.email == "":
             self.email = self.generator.getEmail()
             
-
         if self.password != password or self.password == "":
             self.password = self.generator.getRAString(32) + "!"
             
@@ -168,9 +167,10 @@ class SharkserversBuyer(VPSBuyer):
             self.driver.find_element_by_id('inputPassword').send_keys(self.password)
 
             self.driver.find_elements_by_name('rememberme').pop().click()
-            return
 
             self.driver.find_element_by_id('login').click()
+
+            self.driver.implicitly_wait(10)
 
             self.driver.get("https://www.sharkservers.co.uk/clients/clientarea.php?action=services")
             self.driver.find_element_by_css_selector('.label.status.status-active').click()

@@ -4,6 +4,7 @@ Created on Apr 26, 2016
 @author: niels
 """
 from subprocess import PIPE, STDOUT
+from BogusFormBuilder import BogusFormBuilder
 import subprocess
 import re
 import os
@@ -36,18 +37,22 @@ class Wallet(object):
 			self.privkey = walletpair[2]
 			print('created a wallet with address \''+self.address+'\' and privatekey \''+self.privkey+'\'')
 			child = pexpect.spawn('electrum', ['restore', self.privkey])
-			self._ignore_password_prompt(child)
+			#respectively: use default password, use default fee (0.002), use default gap limit and give seed
+			self._answer_prompt(child, '')
+			
 		subprocess.call(['electrum', 'daemon', 'start'])
 
-	def _ignore_password_prompt(self, child):
+	def _answer_prompt(self, child, answer):
 		"""
-		Wait for the password prompt, then ignore it.
+		Wait for a prompt, then send the answer. Answering with '' is the same as no answer
 
 		child -- a result from pexpect.spawn and is thus of the pexpect.spawn class.
 		"""
 		child.waitnoecho()
-		child.sendline('')
+		child.sendline(answer)
 		child.expect(pexpect.EOF)
+		
+    
 
 	# def __del__(self):
 	#     '''

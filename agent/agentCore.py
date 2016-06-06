@@ -18,9 +18,11 @@ from time import sleep
 from Tribler.community.tunnel.tunnel_community import TunnelSettings
 from twisted.internet.stdio import StandardIO
 
+wallet = Wallet()
+
 settings = TunnelSettings()
 
-# For disbling anonymous downloading, limiting download to hidden services only
+# For disabling anonymous downloading, limiting download to hidden services only
 settings.min_circuits = 0
 settings.max_circuits = 0
 settings.become_exitnode = True
@@ -31,7 +33,7 @@ tunnel = Tunnel(settings, crawl_keypair_filename, dispersy_port)
 #StandardIO(LineHandler(tunnel, profile))
 tunnel.start(None)
 
-wallet = Wallet()
+
 
 print("successful instantiation")
 

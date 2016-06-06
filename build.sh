@@ -47,6 +47,11 @@ rm python-cryptography_0.8-1ubuntu2_amd64.deb
 #rm tribler_6.5.2_all.deb
 rm libsodium13_1.0.1-1_amd64.deb
 
+#######################################
+#Install electrum, the bitcoin manager#
+#######################################
+apt-get install -y electrum
+
 ###########################
 #Install java for selenium#
 ###########################

@@ -3,6 +3,7 @@ This class can start a child once it has been installed unto
 """
 
 from SSH import SSH
+import os
 
 
 class Starter(object):
@@ -28,5 +29,5 @@ class Starter(object):
 
     def start(self):
         """ Starts the program. """
-        (_, out0, err0) = self.ssh.run('sh run.sh')
+        (_, out0, err0) = self.ssh.run('sh Skynet2.0/run.sh')
         #self._checkStreams(out0, err0, 'apt update failed', 'apt updated.')

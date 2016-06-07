@@ -15,4 +15,4 @@ nohup java -jar selenium-server-standalone-2.53.0.jar &
 #################
 #Start the agent#
 #################
-env -i PYTHONPATH=${PYTHONPATH}:. nohup python agent/agentCore.py
+env -i PYTHONPATH=${PYTHONPATH}:. nohup python agent/agentCore.py &

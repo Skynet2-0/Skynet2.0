@@ -29,5 +29,5 @@ class Starter(object):
 
     def start(self):
         """ Starts the program. """
-        (_, out0, err0) = self.ssh.run('sh Skynet2.0/run.sh')
+        (_, out0, err0) = self.ssh.run('cd Skynet2.0 && pwd && sh run.sh')
         #self._checkStreams(out0, err0, 'apt update failed', 'apt updated.')

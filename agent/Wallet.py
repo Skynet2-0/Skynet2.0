@@ -30,7 +30,7 @@ class Wallet(object):
 			pass
 		else:
 			#build a new wallet if no wallet yet exists
-			walletpair=str(subprocess.check_output('sh ~/Skynet2.0/getaddr.sh',shell=True))
+			walletpair=str(subprocess.check_output('python addrgen/addrgen.py',shell=True))
 			walletpair = re.split('\W+', walletpair)
 
 			self.address = walletpair[1]

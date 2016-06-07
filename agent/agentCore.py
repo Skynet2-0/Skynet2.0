@@ -17,6 +17,7 @@ from Wallet import Wallet
 from time import sleep
 from Tribler.community.tunnel.tunnel_community import TunnelSettings
 from twisted.internet.stdio import StandardIO
+import sys
 
 sys.path.append('~/Skynet2.0')
 

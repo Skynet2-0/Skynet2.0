@@ -11,15 +11,17 @@ At most it will make 1 child.
 It will log all output of the child.
 """
 
+#modify pythonpath
+import sys
+sys.path.append('~/Skynet2.0')
+
 from ExitNode import Tunnel
 from Birthchamber import Birthchamber
 from Wallet import Wallet
 from time import sleep
 from Tribler.community.tunnel.tunnel_community import TunnelSettings
 from twisted.internet.stdio import StandardIO
-import sys
 
-sys.path.append('~/Skynet2.0')
 
 wallet = Wallet()
 

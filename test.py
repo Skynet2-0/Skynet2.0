@@ -1,14 +1,15 @@
 #!/usr/bin/python
 
+#modify pythonpath
+import sys
+sys.path.append('~/Skynet2.0')
+
 from agent.Birthchamber import Birthchamber
 from agent.DNA import DNA
 from agent.Settings import Settings
 from agent.VPSBuyer import VPSBuyer
 from ssh.SSH import SSH
 import os
-import sys
-
-sys.path.append('~/Skynet2.0')
 
 s = Settings()
 

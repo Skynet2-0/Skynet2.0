@@ -49,10 +49,10 @@ class Wallet(object):
 
 		child -- a result from pexpect.spawn and is thus of the pexpect.spawn class.
 		"""
+		
+		#wait for prompt, then send answer
 		child.waitnoecho()
 		child.sendline(answer)
-		child.expect(pexpect.EOF)
-		
     
 
 	# def __del__(self):

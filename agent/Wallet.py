@@ -38,12 +38,12 @@ class Wallet(object):
 			print('created a wallet with address \''+self.address+'\' and privatekey \''+self.privkey+'\'')
 			child = pexpect.spawn('electrum', ['restore', self.privkey])
 			#respectively: use default password, use default fee (0.002), use default gap limit and give seed
-			self._answer_prompt(child, '')
+			self._answer_prompt(child)
 			
 			
 		subprocess.call(['electrum', 'daemon', 'start'])
 
-	def _answer_prompt(self, child, answer):
+	def _answer_prompt(self, child, answer = None):
 		"""
 		Wait for a prompt, then send the answer. Answering with '' is the same as no answer
 
@@ -102,7 +102,18 @@ class Wallet(object):
 
 			return True
 		return False
-
+		
+	def send_everything_to(self, address):
+		"""
+		Transfers all available funds in the wallet to the specified address
+		address -- The address as string to transfer to
+		"""
+		payment = str(subprocess.check_output(['electrum', 'payto', str(address), '!']))
+		
+		#filter out the hex code from the payment and broadcast this
+		hex = re.search('hex": "([A-z0-9]+)"', payment).group(1)
+		subprocess.call(['electrum', 'broadcast', hex])
+		
 	def payTo(self, address, fee, amount):
 		"""
 		If funds allow, transfer amount in Btc to Address. With a fee for

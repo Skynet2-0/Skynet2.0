@@ -6,6 +6,7 @@ from agent.Settings import Settings
 from agent.VPSBuyer import VPSBuyer
 from ssh.SSH import SSH
 import os
+import re
 
 s = Settings()
 
@@ -44,13 +45,12 @@ def customIntall(ssh):
     (_, out0, err0) = ssh.run(command)
     ssh._checkStreams(out0, err0, 'Changing Branch Failed', 'Changed Branch.')
     
-    print("starting the actual installing of programs on the child, this can take up to 15 minutes.")
-    command = """sh ~/Skynet2.0/build.sh"""
-    (_, out0, err0) = ssh.run(command)
-    ssh._checkStreams(out0, err0, 'Preqrequisite installation failed', 'Preqrequisite installation succesfull.')
+    #print("starting the actual installing of programs on the child, this can take up to 15 minutes.")
+    #command = """nohup sh ~/Skynet2.0/build.sh > build.log&"""
+    #(_, out0, err0) = ssh.run(command)
+    #ssh._checkStreams(out0, err0, 'Preqrequisite installation failed', 'Preqrequisite installation succesfull.')
 
-
-customIntall(ssh)
+#customIntall(ssh)
 
 
 
@@ -60,13 +60,29 @@ customIntall(ssh)
 
 print('Installation finished.')
 
-bc.giveChildGeneticCode(DNA())
-bc.startChild()
+#bc.giveChildGeneticCode(DNA())
+#bc.startChild()
 #(_, out0, err0) = ssh.run('cd Skynet2.0 && env -i PYTHONPATH=${PYTHONPATH}:. nohup python agent/agentCore.py')
 print("agentcore running on the server")
 
 #check wallet
 
-command = """electrum listaddresses"""
-(_, out0, err0) = ssh.run(command)
-ssh._checkStreams(out0, err0, 'Wallet finding failed', 'Found wallet.')
+#command = """electrum listaddresses"""
+#(_, out0, err0) = ssh.run(command)
+#ssh._checkStreams(out0, err0, 'Wallet finding failed', 'Found wallet.')
+
+walletFinder = re.compile(r'\[\W*"([A-z0-9]+)"\W*\]')
+f = open("Skynet.log", "r")
+fr = f.read()
+
+result = walletFinder.search(fr)
+
+childWallet = result.group(1)
+
+print("preparing to send all contents of wallet to child")
+print("child ssh username: "+v.SSHUsername)
+print("child ssh password: "+v.SSHPassword)
+print("child ssh ip: "+v.IP)
+print("child wallet address: "+childWallet)
+
+#Wallet.send_everything_to(childWallet)

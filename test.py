@@ -6,6 +6,9 @@ from agent.Settings import Settings
 from agent.VPSBuyer import VPSBuyer
 from ssh.SSH import SSH
 import os
+import sys
+
+sys.path.append('~/Skynet2.0')
 
 s = Settings()
 

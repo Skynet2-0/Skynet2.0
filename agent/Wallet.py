@@ -38,12 +38,12 @@ class Wallet(object):
 			print('created a wallet with address \''+self.address+'\' and privatekey \''+self.privkey+'\'')
 			child = pexpect.spawn('electrum', ['restore', self.privkey])
 			#respectively: use default password, use default fee (0.002), use default gap limit and give seed
-			self._answer_prompt(child)
+			self._answer_prompt(child, '')
 			
 			
 		subprocess.call(['electrum', 'daemon', 'start'])
 
-	def _answer_prompt(self, child, answer = None):
+	def _answer_prompt(self, child, answer):
 		"""
 		Wait for a prompt, then send the answer. Answering with '' is the same as no answer
 
@@ -53,6 +53,7 @@ class Wallet(object):
 		#wait for prompt, then send answer
 		child.waitnoecho()
 		child.sendline(answer)
+		child.read()
     
 
 	# def __del__(self):

@@ -60,16 +60,16 @@ def customIntall(ssh):
 
 print('Installation finished.')
 
-#bc.giveChildGeneticCode(DNA())
-#bc.startChild()
-#(_, out0, err0) = ssh.run('cd Skynet2.0 && env -i PYTHONPATH=${PYTHONPATH}:. nohup python agent/agentCore.py')
+bc.giveChildGeneticCode(DNA())
+bc.startChild()
+
 print("agentcore running on the server")
 
 #check wallet
 
-#command = """electrum listaddresses"""
-#(_, out0, err0) = ssh.run(command)
-#ssh._checkStreams(out0, err0, 'Wallet finding failed', 'Found wallet.')
+command = """electrum listaddresses"""
+(_, out0, err0) = ssh.run(command)
+ssh._checkStreams(out0, err0, 'Wallet finding failed', 'Found wallet.')
 
 walletFinder = re.compile(r'\[\W*"([A-z0-9]+)"\W*\]')
 f = open("Skynet.log", "r")

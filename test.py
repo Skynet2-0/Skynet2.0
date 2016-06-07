@@ -1,9 +1,5 @@
 #!/usr/bin/python
 
-#modify pythonpath
-import sys
-sys.path.append('~/Skynet2.0')
-
 from agent.Birthchamber import Birthchamber
 from agent.DNA import DNA
 from agent.Settings import Settings

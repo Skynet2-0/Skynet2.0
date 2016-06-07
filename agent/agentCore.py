@@ -11,10 +11,6 @@ At most it will make 1 child.
 It will log all output of the child.
 """
 
-#modify pythonpath
-import sys
-sys.path.append('~/Skynet2.0')
-
 from ExitNode import Tunnel
 from Birthchamber import Birthchamber
 from Wallet import Wallet

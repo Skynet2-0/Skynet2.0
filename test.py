@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 from agent.Birthchamber import Birthchamber
 from agent.DNA import DNA
 from agent.Settings import Settings
@@ -43,12 +45,12 @@ def customIntall(ssh):
     ssh._checkStreams(out0, err0, 'Changing Branch Failed', 'Changed Branch.')
     
     print("starting the actual installing of programs on the child, this can take up to 15 minutes.")
-    command = """sh Skynet2.0/build.sh"""
+    command = """sh ~/Skynet2.0/build.sh"""
     (_, out0, err0) = ssh.run(command)
     ssh._checkStreams(out0, err0, 'Preqrequisite installation failed', 'Preqrequisite installation succesfull.')
 
 
-#customInstall(ssh)
+customIntall(ssh)
 
 
 
@@ -60,7 +62,7 @@ print('Installation finished.')
 
 bc.giveChildGeneticCode(DNA())
 bc.startChild()
-(_, out0, err0) = ssh.run('cd Skynet2.0 && env -i PYTHONPATH=${PYTHONPATH}:. nohup python agent/agentCore.py')
+#(_, out0, err0) = ssh.run('cd Skynet2.0 && env -i PYTHONPATH=${PYTHONPATH}:. nohup python agent/agentCore.py')
 print("agentcore running on the server")
 
 #check wallet

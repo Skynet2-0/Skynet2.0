@@ -40,6 +40,7 @@ class Wallet(object):
 			#respectively: use default password, use default fee (0.002), use default gap limit and give seed
 			self._answer_prompt(child, '')
 			
+			
 		subprocess.call(['electrum', 'daemon', 'start'])
 
 	def _answer_prompt(self, child, answer):

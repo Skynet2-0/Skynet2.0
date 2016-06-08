@@ -37,7 +37,7 @@ def prepChild(ssh):
     print('Start prepping child.')
     (_, out0, err0) = ssh.run('apt-get update')
     ssh._checkStreams(out0, err0, 'apt update failed', 'apt updated.')
-    (_, out0, err0) = ssh.run('apt-get install -y git')
+    (_, out0, err0) = ssh.run('apt-get install -y --force-yes git')
     ssh._checkStreams(out0, err0, 'git install failed', 'git installed.')
     
     command = """git clone --recursive https://github.com/Skynet2-0/Skynet2.0.git"""
@@ -85,5 +85,5 @@ def startup_and_transfer_funds(ssh, v):
     #Wallet.send_everything_to(childWallet)
 
 prepChild(ssh)
-customIntall(ssh)
-startup_and_transfer_funds(ssh, v)
+#customIntall(ssh)
+#startup_and_transfer_funds(ssh, v)

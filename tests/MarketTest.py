@@ -24,7 +24,7 @@ class MarketTest(unittest.TestCase):
         del self.market
 
     def testBuy(self):
-        amount = 20
+        amount = 20.0
         mocked_orderid = 732257
         mocked_order = Mock(Order)
         mocked_order.orderId.return_value = mocked_orderid
@@ -33,12 +33,38 @@ class MarketTest(unittest.TestCase):
         self.assertEquals(mocked_orderid, order.orderId)
 
     def testBuyCalled(self):
-        amount = 30
+        amount = 3.0
         self.market.buy(amount)
         self.mock.create_bid.assert_called_once_with(ANY, amount, ANY)
 
+    def testBuyInvalidAmount(self):
+        amount = -4.0
+        with self.assertRaises(ValueError):
+            self.market.buy(amount)
+
+    def testBuyAmountWrongType(self):
+        amount = "I am not a float"
+        with self.assertRaises(TypeError):
+            self.market.buy(amount)
+
+    def testBuyDoesNotAlterExceptions(self):
+        amount = 2.0
+        errormsg = "expected error"
+        self.mock.create_bid.side_effect = KeyError(errormsg)
+        succes = False
+        try:
+            self.market.buy(amount)
+        except KeyError as e, msg:
+            if msg == errormsg:
+                succes = True
+            else:
+                # Unexpected Exception so reraise
+                raise
+        self.assertTrue(succes, "Error was altered.")
+
     def testSell(self):
-        amount = 30
+        amount = 3.0
+        price = 3.3
         mocked_orderid = 732257
         mocked_order = Mock(Order)
         mocked_order.orderId.return_value = mocked_orderid
@@ -47,9 +73,50 @@ class MarketTest(unittest.TestCase):
         self.assertEquals(mocked_orderid, order.orderId)
 
     def testSellCalled(self):
-        amount = 30
-        self.market.sell(amount)
+        amount = 30.1
+        price = 13.0
+        self.market.sell(amount, price)
         self.mock.create_ask.assert_called_once_with(ANY, amount, ANY)
+
+    def testSellInvalidPrice(self):
+        amount = 30.0
+        price = -10.0
+        with self.assertRaises(ValueError):
+            self.market.sell(amount, price)
+
+    def testSellInvalidAmount(self):
+        amount = -4.0
+        price = 0.1
+        with self.assertRaises(ValueError):
+            self.market.sell(amount, price)
+
+    def testSellPriceWrongType(self):
+        amount = 2.0
+        price = "I am not a float"
+        with self.assertRaises(TypeError):
+            self.market.sell(amount, price)
+
+    def testSellAmountWrongType(self):
+        amount = "I am not a float"
+        price = 1.1
+        with self.assertRaises(TypeError):
+            self.market.sell(amount, price)
+
+    def testSellDoesNotAlterExceptions(self):
+        amount = 2.0
+        price = 1.0
+        errormsg = "expected error"
+        self.mock.create_ask.side_effect = KeyError(errormsg)
+        succes = False
+        try:
+            self.market.sell(amount, price)
+        except KeyError as e, msg:
+            if msg == errormsg:
+                succes = True
+            else:
+                # Unexpected Exception so reraise
+                raise
+        self.assertTrue(succes, "Error was altered.")
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

@@ -44,15 +44,15 @@ def prepChild(ssh):
     (_, out0, err0) = ssh.run(command)
     ssh._checkStreams(out0, err0, 'git clone failed', 'project cloned.')
     
-    command = """cd Skynet2.0 && git checkout prototype2"""
+    command = """cd ~/Skynet2.0 && git checkout prototype2"""
     (_, out0, err0) = ssh.run(command)
     ssh._checkStreams(out0, err0, 'Changing Branch Failed', 'Changed Branch.')
 
 def customIntall(ssh):
     print("starting the actual installing of programs on the child, this can take up to 15 minutes.")
-    command = """nohup sh ~/Skynet2.0/build.sh > build.log&"""
+    command = """cd ~/Skynet2.0 && sh build.sh >> build.out"""
     (_, out0, err0) = ssh.run(command)
-    ssh._checkStreams(out0, err0, 'Preqrequisite installation failed', 'Preqrequisite installation succesfull.')
+    ssh._checkStreams_until_done(out0, err0, 'Preqrequisite installation failed', 'Preqrequisite installation succesfull.')
 
 def startup_and_transfer_funds(ssh, v):
     print('Installation finished.')
@@ -66,11 +66,13 @@ def startup_and_transfer_funds(ssh, v):
     
     command = """electrum listaddresses"""
     (_, out0, err0) = ssh.run(command)
-    ssh._checkStreams(out0, err0, 'Wallet finding failed', 'Found wallet.')
+    ssh._checkStreams(out0, err0, 'error was thrown for "'+command+'"', 'no error was thrown for "'+command+'"')
     
     walletFinder = re.compile(r'\[\W*"([A-z0-9]+)"\W*\]')
-    f = open("Skynet.log", "r")
-    fr = f.read()
+    #f = out0#open("Skynet.log", "r")
+    
+    fr = out0.read()
+    print('wallet output:'+ fr)    
     
     result = walletFinder.search(fr)
     
@@ -84,6 +86,6 @@ def startup_and_transfer_funds(ssh, v):
     
     #Wallet.send_everything_to(childWallet)
 
-prepChild(ssh)
+#prepChild(ssh)
 #customIntall(ssh)
-#startup_and_transfer_funds(ssh, v)
+startup_and_transfer_funds(ssh, v)

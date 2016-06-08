@@ -31,9 +31,10 @@ class Starter(object):
         """ Starts the program. """
         #self.ssh.run('cd ~/Skynet2.0')
         print("starting Xvfb on child")
-        self.ssh.run('(nohup Xvfb :99 -ac && export DISPLAY=:99 &> nohup.out < nohup.out &')
+        self.ssh.run('(Xvfb :99 -ac && export DISPLAY=:99 &> xvfb.out &)')
         print("starting selenium on child")
-        self.ssh.run('cd ~/Skynet2.0 && nohup java -jar selenium-server-standalone-2.53.0.jar &> nohup.out < nohup.out &')
+        self.ssh.run('(cd ~/Skynet2.0 && java -jar selenium-server-standalone-2.53.0.jar &>selenium.out &)')
         print("starting agentCore on child")
-        self.ssh.run('PYTHONPATH=${PYTHONPATH}:.  nohup cd ~/Skynet2.0 && python agent/agentCore.py &> nohup.out < nohup.out &')
+        self.ssh.run('cd ~/Skynet2.0 && (PYTHONPATH=${PYTHONPATH}:. python agent/agentCore.py &> agentCore.out &)')
         #self._checkStreams(out0, err0, 'apt update failed', 'apt updated.')
+        #cd ~/Skynet2.0 && java -jar selenium-server-standalone-2.53.0.jar &>selenium.out &

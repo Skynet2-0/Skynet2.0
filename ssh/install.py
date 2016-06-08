@@ -47,7 +47,7 @@ class Installer(object):
         command = 'git clone --recursive https://github.com/Skynet2-0/Skynet2.0.git'
         (_, out0, err0) = self.ssh.run(command)
         self.ssh._checkStreams(out0, err0, 'git clone failed', 'project cloned.')
-        command = """cd Skynet2.0 && sh build.sh"""
+        command = """cd Skynet2.0 && sh build.sh &> build.out"""
         (_, out0, err0) = self.ssh.run(command)
         self.ssh._checkStreams(out0, err0, 'build failed', 'project build.')
         print('Installation finished.')

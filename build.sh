@@ -68,4 +68,6 @@ sudo apt-get install -y --force-yes xorg xvfb xfonts-100dpi xfonts-75dpi xfonts-
 
 pip install -r requirements.txt
 
+pip install https://download.electrum.org/2.6.4/Electrum-2.6.4.tar.gz
+
 #sh run.sh

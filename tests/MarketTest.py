@@ -58,7 +58,7 @@ class MarketTest(unittest.TestCase):
         succes = False
         try:
             self.market.buy(amount)
-        except KeyError as e, msg:
+        except KeyError, msg:
             if msg == errormsg:
                 succes = True
             else:

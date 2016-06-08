@@ -114,7 +114,7 @@ class MarketTest(unittest.TestCase):
         succes = False
         try:
             self.market.sell(amount, price)
-        except KeyError as e, msg:
+        except KeyError, msg:
             if msg == errormsg:
                 succes = True
             else:

@@ -6,9 +6,9 @@ Created June 7, 2016
 
 from market.market import Market
 from market.api import MarketAPI
-from tribler.Tribler.community.market.core.order import *
-from tribler.Tribler.community.market.core.price import Price
-from tribler.Tribler.community.market.core.quantity import Quantity
+from Tribler.community.market.core.order import *
+from Tribler.community.market.core.price import Price
+from Tribler.community.market.core.quantity import Quantity
 import unittest
 from unittest.mock import *
 

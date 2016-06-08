@@ -13,7 +13,7 @@ It will log all output of the child.
 
 from ExitNode import Tunnel
 from Birthchamber import Birthchamber
-from Wallet import Wallet
+from agent.Wallet import Wallet
 from time import sleep
 from Tribler.community.tunnel.tunnel_community import TunnelSettings
 from twisted.internet.stdio import StandardIO

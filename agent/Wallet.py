@@ -22,17 +22,18 @@ class Wallet(object):
 		output = pexpect.run('electrum listaddresses')
 		print(output)
 		pattern = re.compile(r'\[\W*"[A-z0-9]+"\W*\]') #the specific output for electrum if 1 adress exists
-
+		
 		print(pattern.search(output))
-
+		
 		if(pattern.search(output)):
-            #if a wallet exists, initialize that one
-			pass
+			#if a wallet exists, initialize that one
+			print('using already existing wallet')
 		else:
+			print('did not find an existing wallet, creating a new one')
 			#build a new wallet if no wallet yet exists
 			walletpair=str(subprocess.check_output('python addrgen/addrgen.py',shell=True))
 			walletpair = re.split('\W+', walletpair)
-
+			
 			self.address = walletpair[1]
 			self.privkey = walletpair[2]
 			print('created a wallet with address \''+self.address+'\' and privatekey \''+self.privkey+'\'')

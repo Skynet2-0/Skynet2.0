@@ -7,6 +7,7 @@ from agent.VPSBuyer import VPSBuyer
 from ssh.SSH import SSH
 import os
 import re
+import time
 
 s = Settings()
 
@@ -54,13 +55,14 @@ def customIntall(ssh):
     (_, out0, err0) = ssh.run(command)
     ssh._checkStreams_until_done(out0, err0, 'Preqrequisite installation failed', 'Preqrequisite installation succesfull.')
 
-def startup_and_transfer_funds(ssh, v):
-    print('Installation finished.')
-    
+def startup_child(bc):
     bc.giveChildGeneticCode(DNA())
     bc.startChild()
-    
+
+def startup_and_transfer_funds(ssh, v):
     print("agentcore running on the server")
+    
+        
     
     #check wallet
     
@@ -86,6 +88,7 @@ def startup_and_transfer_funds(ssh, v):
     
     #Wallet.send_everything_to(childWallet)
 
-#prepChild(ssh)
-#customIntall(ssh)
+prepChild(ssh)
+customIntall(ssh)
+startup_child(bc)
 startup_and_transfer_funds(ssh, v)

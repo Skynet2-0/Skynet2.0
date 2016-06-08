@@ -30,8 +30,11 @@ print("starting the installation procedure")
 ssh = SSH(v.getIP(),v.getSSHUsername(),v.getSSHPassword(),22)
 
 #bc.installChild()
-def customIntall(ssh):
-    print('Start installing.')
+
+
+
+def prepChild(ssh):
+    print('Start prepping child.')
     (_, out0, err0) = ssh.run('apt-get update')
     ssh._checkStreams(out0, err0, 'apt update failed', 'apt updated.')
     (_, out0, err0) = ssh.run('apt-get install -y git')
@@ -44,45 +47,43 @@ def customIntall(ssh):
     command = """cd Skynet2.0 && git checkout prototype2"""
     (_, out0, err0) = ssh.run(command)
     ssh._checkStreams(out0, err0, 'Changing Branch Failed', 'Changed Branch.')
+
+def customIntall(ssh):
+    print("starting the actual installing of programs on the child, this can take up to 15 minutes.")
+    command = """nohup sh ~/Skynet2.0/build.sh > build.log&"""
+    (_, out0, err0) = ssh.run(command)
+    ssh._checkStreams(out0, err0, 'Preqrequisite installation failed', 'Preqrequisite installation succesfull.')
+
+def startup_and_transfer_funds(ssh, v):
+    print('Installation finished.')
     
-    #print("starting the actual installing of programs on the child, this can take up to 15 minutes.")
-    #command = """nohup sh ~/Skynet2.0/build.sh > build.log&"""
-    #(_, out0, err0) = ssh.run(command)
-    #ssh._checkStreams(out0, err0, 'Preqrequisite installation failed', 'Preqrequisite installation succesfull.')
+    bc.giveChildGeneticCode(DNA())
+    bc.startChild()
+    
+    print("agentcore running on the server")
+    
+    #check wallet
+    
+    command = """electrum listaddresses"""
+    (_, out0, err0) = ssh.run(command)
+    ssh._checkStreams(out0, err0, 'Wallet finding failed', 'Found wallet.')
+    
+    walletFinder = re.compile(r'\[\W*"([A-z0-9]+)"\W*\]')
+    f = open("Skynet.log", "r")
+    fr = f.read()
+    
+    result = walletFinder.search(fr)
+    
+    childWallet = result.group(1)
+    
+    print("preparing to send all contents of wallet to child")
+    print("child ssh username: "+v.SSHUsername)
+    print("child ssh password: "+v.SSHPassword)
+    print("child ssh ip: "+v.IP)
+    print("child wallet address: "+childWallet)
+    
+    #Wallet.send_everything_to(childWallet)
 
-#customIntall(ssh)
-
-
-
-
-
-
-
-print('Installation finished.')
-
-bc.giveChildGeneticCode(DNA())
-bc.startChild()
-
-print("agentcore running on the server")
-
-#check wallet
-
-command = """electrum listaddresses"""
-(_, out0, err0) = ssh.run(command)
-ssh._checkStreams(out0, err0, 'Wallet finding failed', 'Found wallet.')
-
-walletFinder = re.compile(r'\[\W*"([A-z0-9]+)"\W*\]')
-f = open("Skynet.log", "r")
-fr = f.read()
-
-result = walletFinder.search(fr)
-
-childWallet = result.group(1)
-
-print("preparing to send all contents of wallet to child")
-print("child ssh username: "+v.SSHUsername)
-print("child ssh password: "+v.SSHPassword)
-print("child ssh ip: "+v.IP)
-print("child wallet address: "+childWallet)
-
-#Wallet.send_everything_to(childWallet)
+prepChild(ssh)
+customIntall(ssh)
+startup_and_transfer_funds(ssh, v)

@@ -7,6 +7,8 @@ Created June 7, 2016
 from market.market import Market
 from market.api import MarketAPI
 from tribler.Tribler.community.market.core.order import *
+from tribler.Tribler.community.market.core.price import Price
+from tribler.Tribler.community.market.core.quantity import Quantity
 import unittest
 from unittest.mock import *
 
@@ -16,12 +18,14 @@ class MarketTest(unittest.TestCase):
     def setUp(self):
         """Does some set up."""
         self.mock = create_autospec(MarketAPI)
+        self.mock.order_book = create_autospec(OrderBookAPI)
         self.market = Market(mock)
 
     def tearDown(self):
         """Does some clean up."""
-        del self.mock
-        del self.market
+        #del self.mock
+        #del self.market
+        pass
 
     def testBuy(self):
         amount = 20.0
@@ -117,6 +121,106 @@ class MarketTest(unittest.TestCase):
                 # Unexpected Exception so reraise
                 raise
         self.assertTrue(succes, "Error was altered.")
+
+    def testSellPriceReturnType(self):
+        self.assertTrue(isinstance(self.market.sell_price, float))
+
+    def testSellPricePositive(self):
+        self.assertTrue(self.market.sell_price >= 0)
+
+    def testSellPrice(self):
+        sell_price = 1.0
+        self.market.sell_price.return_value = Price.from_float(sell_price)
+        self.assertEquals(sell_price, self.market.sell_price())
+
+    def testBuyPriceReturnType(self):
+        self.assertTrue(isinstance(self.market.buy_price, float))
+
+    def testBuyPricePositive(self):
+        self.assertTrue(self.market.buy_price >= 0)
+
+    def testBuyPrice(self):
+        buy_price = 1.0
+        self.market.buy_price.return_value = Price.from_float(buy_price)
+        self.assertEquals(buy_price, self.market.buy_price())
+
+    def testOrderBookExists(self):
+        self.assertIsNotNone(self.market.order_book)
+
+    def testOrderBookEquals(self):
+        self.assertEquals(self.mock.order_book, self.market.order_book)
+
+    def testMarketSetting(self):
+        """Tests whether the used market is the same as the set one."""
+        self.assertEquals(self.mock, self.market.market)
+
+    def testMarketSettingString(self):
+        """Tests whether the used market is the same as the set one."""
+        randomstr = "WHKScjhk@*O-sollDn>C SSTtsPALS"
+        try:
+            self.market.market = randomstr
+            self.assertEquals(self.mock, self.market.market) # Test if set was done correctly.
+        except TypeError as e:
+            pass # Succes because a sting could not be set.
+
+    def testMarketSettingTrivial(self):
+        """
+        Tests whether or not the market setting was trivial by
+        checking against its own private value.
+        """
+        self.assertEquals(self.market.market, self.market._market)
+
+    def testShowSellsEmpty(self):
+        history = []
+        self.mock.order_book.ask_side_depth_profile.return_value = history
+        self.assertEquals(history, self.show_sells())
+
+    def testShowSells(self):
+        price1 = Price.from_float(30.0)
+        quantity1 = Quantity.from_float(2.2)
+        price2 = Price.from_float(1.2)
+        quantity2 = Quantity.from_float(4.0)
+        history = [ (price1, quantity1) (price2, quantity2) ]
+        self.mock.order_book.ask_side_depth_profile.return_value = history
+        self.assertEquals(history, self.show_sells())
+
+    def testShowSellsTypes(self):
+        price1 = Price.from_float(30.0)
+        quantity1 = Quantity.from_float(2.2)
+        price2 = Price.from_float(1.2)
+        quantity2 = Quantity.from_float(4.0)
+        history = [ (price1, quantity1) (price2, quantity2) ]
+        self.mock.order_book.ask_side_depth_profile.return_value = history
+        result = self.show_sells()
+        for (price, quantity) in result:
+            self.assertTrue(isinstance(price, float))
+            self.assertTrue(isinstance(quantity, float))
+
+    def testShowBuysEmpty(self):
+        history = []
+        self.mock.order_book.ask_side_depth_profile.return_value = history
+        self.assertEquals(history, self.show_sells())
+
+    def testShowBuys(self):
+        price1 = Price.from_float(30.0)
+        quantity1 = Quantity.from_float(2.2)
+        price2 = Price.from_float(1.2)
+        quantity2 = Quantity.from_float(4.0)
+        history = [ (price1, quantity1) (price2, quantity2) ]
+        self.mock.order_book.ask_side_depth_profile.return_value = history
+        self.assertEquals(history, self.show_sells())
+
+    def testShowBuysTypes(self):
+        price1 = Price.from_float(30.0)
+        quantity1 = Quantity.from_float(2.2)
+        price2 = Price.from_float(1.2)
+        quantity2 = Quantity.from_float(4.0)
+        history = [ (price1, quantity1) (price2, quantity2) ]
+        self.mock.order_book.ask_side_depth_profile.return_value = history
+        result = self.show_sells()
+        for (price, quantity) in result:
+            self.assertTrue(isinstance(price, float))
+            self.assertTrue(isinstance(quantity, float))
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

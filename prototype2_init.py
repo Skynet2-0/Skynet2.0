@@ -59,11 +59,32 @@ def startup_child(bc):
     bc.giveChildGeneticCode(DNA())
     bc.startChild()
 
-def startup_and_transfer_funds(ssh, v):
+def transfer_funds_to_child_wallet(ssh, v):
     print("agentcore running on the server")
     
     #check wallet
     
+    childWallet = get_child_wallet_address(ssh)
+    
+    print("preparing to send all contents of wallet to child, but first writing the following to child.out")
+    print("child ssh username: "+v.SSHUsername)
+    print("child ssh password: "+v.SSHPassword)
+    print("child ssh ip: "+v.IP)
+    print("child wallet address: "+childWallet)
+    
+    f = open("child.out", "a+")
+    f.write('created a child:')
+    f.write("child ssh username: "+v.SSHUsername)
+    f.write("child ssh password: "+v.SSHPassword)
+    f.write("child ssh ip: "+v.IP)
+    f.write("child wallet address: "+childWallet)
+    
+    #Wallet.send_everything_to(childWallet)
+    
+def get_child_wallet_address(ssh):
+    """
+    returns the child's wallet address if one exists. Else it will create one and return this.
+    """
     command = """electrum listaddresses"""
     (_, out0, err0) = ssh.run(command)
     ssh._checkStreams(out0, err0, 'error was thrown for "'+command+'"', 'no error was thrown for "'+command+'"')
@@ -76,26 +97,18 @@ def startup_and_transfer_funds(ssh, v):
     
     result = walletFinder.search(fr)
     
-    childWallet = result.group(1)
+    try:
+        return result.group(1)
+    except:
+        ssh.run('''(cd ~/Skynet2.0 && PYTHONPATH=${PYTHONPATH}:. python agent/agentCore.py &> agentCore.out &)''')
+        return get_child_wallet_address(ssh)
     
-    print("preparing to send all contents of wallet to child, but first writing the following to child.out")
-    print("child ssh username: "+v.SSHUsername)
-    print("child ssh password: "+v.SSHPassword)
-    print("child ssh ip: "+v.IP)
-    print("child wallet address: "+childWallet)
     
-    f = open("child.out", "A+")
-    f.write('created a child:')
-    f.write("child ssh username: "+v.SSHUsername)
-    f.write("child ssh password: "+v.SSHPassword)
-    f.write("child ssh ip: "+v.IP)
-    f.write("child wallet address: "+childWallet)
     
-    #Wallet.send_everything_to(childWallet)
 
 prepChild(ssh)
 customIntall(ssh)
 startup_child(bc)
 #sleep for a while to let all programs startup
-time.sleep(300)
-startup_and_transfer_funds(ssh, v)
+#time.sleep(300)
+transfer_funds_to_child_wallet(ssh, v)

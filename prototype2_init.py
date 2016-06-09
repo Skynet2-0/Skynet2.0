@@ -97,6 +97,9 @@ def get_child_wallet_address(ssh):
     
     result = walletFinder.search(fr)
     
+    #This horrible feedback loop is here due to a quirk of electrum.
+    #Needs refactoring, but do not refactor without extensive testing (i.e. multiple vps all from clean install)
+    #Because electrum behaviour right after startup tends to differ from server to server (i suspect something to do wtih specs)
     try:
         return result.group(1)
     except:
@@ -109,6 +112,4 @@ def get_child_wallet_address(ssh):
 prepChild(ssh)
 customIntall(ssh)
 startup_child(bc)
-#sleep for a while to let all programs startup
-#time.sleep(300)
 transfer_funds_to_child_wallet(ssh, v)

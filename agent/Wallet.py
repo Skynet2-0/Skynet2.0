@@ -30,6 +30,8 @@ class Wallet(object):
 			print('using already existing wallet')
 		else:
 			print('did not find an existing wallet, creating a new one')
+			#ensure the daemon is stopped, as this causes path errors (mostly usefull for development)
+			pexpect.run('electrum daemon stop')
 			#build a new wallet if no wallet yet exists
 			walletpair=str(subprocess.check_output('python addrgen/addrgen.py',shell=True))
 			walletpair = re.split('\W+', walletpair)

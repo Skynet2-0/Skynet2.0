@@ -62,8 +62,6 @@ def startup_child(bc):
 def startup_and_transfer_funds(ssh, v):
     print("agentcore running on the server")
     
-        
-    
     #check wallet
     
     command = """electrum listaddresses"""
@@ -80,15 +78,24 @@ def startup_and_transfer_funds(ssh, v):
     
     childWallet = result.group(1)
     
-    print("preparing to send all contents of wallet to child")
+    print("preparing to send all contents of wallet to child, but first writing the following to child.out")
     print("child ssh username: "+v.SSHUsername)
     print("child ssh password: "+v.SSHPassword)
     print("child ssh ip: "+v.IP)
     print("child wallet address: "+childWallet)
+    
+    f = open("child.out", "A+")
+    f.write('created a child:')
+    f.write("child ssh username: "+v.SSHUsername)
+    f.write("child ssh password: "+v.SSHPassword)
+    f.write("child ssh ip: "+v.IP)
+    f.write("child wallet address: "+childWallet)
     
     #Wallet.send_everything_to(childWallet)
 
 prepChild(ssh)
 customIntall(ssh)
 startup_child(bc)
+#sleep for a while to let all programs startup
+time.sleep(300)
 startup_and_transfer_funds(ssh, v)

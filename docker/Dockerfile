@@ -1,7 +1,6 @@
 FROM ubuntu:14.04
 MAINTAINER Skynet2.0 <Skynet2dev@gmail.com>
 RUN apt-get update && apt-get install -y git
-RUN git clone --recursive https://github.com/Skynet2-0/Skynet2.0.git
 
 #RUN /Users/parallels/Skynet2.0/build.sh
 
@@ -15,6 +14,7 @@ RUN git clone --recursive https://github.com/Skynet2-0/Skynet2.0.git
 ######################################
 
 #allow for add-apt-repository
+RUN apt-get update
 RUN apt-get install -y software-properties-common python-software-properties
 
 #ensure wxgtk2.8 and all requirements are available for 16.04, also twisted 15.x+
@@ -56,7 +56,7 @@ RUN wget http://launchpadlibrarian.net/200479300/python-cryptography_0.8-1ubuntu
 RUN dpkg -i python-cryptography_0.8-1ubuntu2_amd64.deb
 
 #install tribler itself
-RUN pip install git+https://github.com/Tribler/tribler
+RUN pip install git+https://github.com/mitchellolsthoorn/tribler.git@feature/market #git+https://github.com/Tribler/tribler
 
 RUN rm python-cryptography_0.8-1ubuntu2_amd64.deb
 #RUN rm tribler_6.5.2_all.deb
@@ -81,7 +81,10 @@ RUN pip install paramiko==1.17.0
 RUN pip install pexpect-u==2.5.1
 # RUN pip install Yappi==0.94
 RUN pip install https://download.electrum.org/2.6.4/Electrum-2.6.4.tar.gz
+RUN pip install mock==2.0.0
 
 #############################################################
 #################### End of build.sh ########################
 #############################################################
+
+RUN git clone --recursive https://github.com/Skynet2-0/Skynet2.0.git

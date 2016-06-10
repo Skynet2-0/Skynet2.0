@@ -43,7 +43,13 @@ class Market(object):
         raises ValueError -- when num_multicoins or price is invalid.
         raises TypeError -- when num_multicoins or price is not a float.
         """
-        self.market.create_ask(price, quantity)
+        if timeout is None:
+            timeout = self.default_timeout
+        else:
+            check_positive_float(timeout)
+        check_positive_float(num_multicoins)
+        check_positive_float(price)
+        self.market.create_ask(price, quantity, timeout)
 
     def buy(self, num_multicoins, timeout=None):
         """
@@ -58,10 +64,8 @@ class Market(object):
         if timeout is None:
             timeout = self.default_timeout
         else:
-            check_type(timeout, float)
-            check_positive(timeout)
-        check_type(num_multicoins, float)
-        check_positive(num_multicoins)
+            check_positive_float(timeout)
+        check_positive_float(num_multicoins)
         price = self.buy_price()
         self.market.create_bid(price, num_multicoins, timeout)
 

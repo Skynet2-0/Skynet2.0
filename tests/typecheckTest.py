@@ -5,7 +5,7 @@ Created June 10, 2016
 """
 
 import unittest
-from typing.typechecker import *
+from typing.typecheck import *
 
 
 class TypeCheckTest(unittest.TestCase):

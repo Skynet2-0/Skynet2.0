@@ -30,6 +30,7 @@ from Tribler.Main.globals import DefaultDownloadStartupConfig
 from Tribler.community.tunnel.hidden_community import HiddenTunnelCommunity
 from Tribler.community.multichain.community import MultiChainCommunity
 from Tribler.community.multichain.community import MultiChainCommunityCrawler
+from Tribler.community.market.community import MarketCommunity
 
 import logging.config
 from Tribler.Core.simpledefs import dlstatus_strings
@@ -81,6 +82,7 @@ class Tunnel(object):
         self.dispersy = self.session.lm.dispersy
         self.multichain_community = None
         self.community = None
+        self.market_community = None
         self.clean_messages_lc = LoopingCall(self.clean_messages)
         self.clean_messages_lc.start(1800)
         self.build_history_lc = LoopingCall(self.build_history)
@@ -142,13 +144,13 @@ class Tunnel(object):
         config.set_enable_torrent_search(False)
         config.set_enable_channel_search(False)
         config.set_enable_multichain(True)
-        
+
         self.session = Session(config)
         upgrader = self.session.prestart()
         while not upgrader.is_done:
             time.sleep(0.1)
         self.session.start()
-        
+
         logger.info("Using port %d" % self.session.get_dispersy_port())
 
     def start(self, introduce_port):
@@ -156,8 +158,8 @@ class Tunnel(object):
         This will add and then run in a seperate thead the relevant tribler community's
         """
         self.session.set_anon_proxy_settings(
-                2, ("127.0.0.1", self.session.get_tunnel_community_socks5_listen_ports()))        
-        
+                2, ("127.0.0.1", self.session.get_tunnel_community_socks5_listen_ports()))
+
         def start_multichain_community():
             """
             This will init the multichain community, do not forget to start this in a seperate thread.
@@ -167,10 +169,10 @@ class Tunnel(object):
             dispersy_member = self.dispersy.get_member(private_key=self.dispersy.crypto.key_to_bin(keypair),)
             cls = MultiChainCommunityCrawler
             self.multichain_community = self.dispersy.define_auto_load(cls, dispersy_member, load=True)
-            
+
             if introduce_port:
                 self.multichain_community.add_discovered_candidate(Candidate(('127.0.0.1', introduce_port), tunnel=False))
-            
+
         def start_tunnel_community():
             """
             This will init the hidden tunnel community, do not forget to start this in a seperate thread.
@@ -183,15 +185,31 @@ class Tunnel(object):
                 member = self.dispersy.get_new_member(u"curve25519")
                 cls = HiddenTunnelCommunity
             self.community = self.dispersy.define_auto_load(cls, member, (self.session, self.settings), load=True)[0]
-            
+
             if introduce_port:
                 self.community.add_discovered_candidate(Candidate(('127.0.0.1', introduce_port), tunnel=False))
-              
+
+        def start_market_community():
+            """This will start the market community, do not forget to start this in a seperate thread."""
+            if self.crawl_keypair_filename:
+                keypair = read_keypair(self.crawl_keypair_filename)
+                member = self.dispersy.get_member(private_key=self.dispersy.crypto.key_to_bin(keypair))
+                cls = TunnelCommunityCrawler
+            else:
+                member = self.dispersy.get_new_member(u"curve25519")
+                cls = HiddenTunnelCommunity
+            self.community = self.dispersy.define_auto_load(cls, member, (self.session, self.settings), load=True)[0]
+
+            if introduce_port:
+                self.community.add_discovered_candidate(Candidate(('127.0.0.1', introduce_port), tunnel=False))
+
+
         """
         Start the communities in a seperate thread.
         """
-        blockingCallFromThread(reactor, start_multichain_community)        
-        blockingCallFromThread(reactor, start_tunnel_community)        
+        blockingCallFromThread(reactor, start_multichain_community)
+        blockingCallFromThread(reactor, start_tunnel_community)
+        blockingCallFromThread(reactor, start_market_community)
 
         self.session.set_download_states_callback(self.download_states_callback, False)
 

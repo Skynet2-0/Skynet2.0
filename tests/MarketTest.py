@@ -123,7 +123,7 @@ class MarketTest(unittest.TestCase):
         self.assertTrue(succes, "Error was altered.")
 
     def testSellPriceReturnType(self):
-        self.assertTrue(isinstance(self.market.sell_price, float))
+        self.assertIsInstance(self.market.sell_price, float)
 
     def testSellPricePositive(self):
         self.assertTrue(self.market.sell_price >= 0)
@@ -134,7 +134,7 @@ class MarketTest(unittest.TestCase):
         self.assertEquals(sell_price, self.market.sell_price())
 
     def testBuyPriceReturnType(self):
-        self.assertTrue(isinstance(self.market.buy_price, float))
+        self.assertIsInstance(self.market.buy_price, float)
 
     def testBuyPricePositive(self):
         self.assertTrue(self.market.buy_price >= 0)
@@ -193,8 +193,8 @@ class MarketTest(unittest.TestCase):
         self.mock.order_book.ask_side_depth_profile.return_value = history
         result = self.show_sells()
         for (price, quantity) in result:
-            self.assertTrue(isinstance(price, float))
-            self.assertTrue(isinstance(quantity, float))
+            self.assertIsInstance(price, float)
+            self.assertIsInstance(quantity, float)
 
     def testShowBuysEmpty(self):
         history = []
@@ -219,8 +219,8 @@ class MarketTest(unittest.TestCase):
         self.mock.order_book.ask_side_depth_profile.return_value = history
         result = self.show_sells()
         for (price, quantity) in result:
-            self.assertTrue(isinstance(price, float))
-            self.assertTrue(isinstance(quantity, float))
+            self.assertIsInstance(price, float)
+            self.assertIsInstance(quantity, float)
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

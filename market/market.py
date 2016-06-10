@@ -102,21 +102,34 @@ class Market(object):
         """
         pass
 
-    def show_sells(self):
+    def get_sells(self):
         """
-        Show all sells in a list of tuples (price, quantity).
+        Get all sells in a list of tuples (price, quantity).
 
         returns -- a list of (price, quantity) in which both quantity and price
         are floats.
         """
-        pass
+        sells = self.market.order_book.ask_side_depth_profile()
+        return self._convert_trade_list(sells)
 
-    def show_buys(self):
+    def get_buys(self):
         """
-        Show all buys in a list of tuples (price, quantity).
+        Get all buys in a list of tuples (price, quantity).
 
         returns -- a list of (price, quantity) in which both quantity and price
         are floats.
+        """
+        buys = self.market.order_book.bid_side_depth_profile()
+        return self._convert_trade_list(buys)
+
+    def _convert_trade_list(self, trades):
+        """
+        Converts the trade list in trades in the format
+        [(price, quantity) ... ] to a list in which price and
+        quantity are floats.
+
+        trades -- list of trades to convert.
+        returns -- The list of converted trades.
         """
         pass
 

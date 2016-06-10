@@ -7,7 +7,7 @@ Created June 10th, 2016
 """
 
 
-def check_type(self, var, vartype):
+def check_type(var, vartype):
     """
     Checks if the type of var is vartype and raises an error if not.
 
@@ -20,7 +20,7 @@ def check_type(self, var, vartype):
         raise TypeError(str(value) + " is not of the required type " + str(vartype))
     return True
 
-def check_positive(self, var):
+def check_positive(var):
     """
     Checks whether var is positive or not.
 

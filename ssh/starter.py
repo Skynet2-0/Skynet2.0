@@ -29,11 +29,14 @@ class Starter(object):
 
     def start(self):
         """ Starts the program. """
+        self.start_other_requirements()
         
+        self.start_agent("agent/agentCore.py")
+
+    def start_other_requirements(self):
         self.ssh.run('''(Xvfb :99 -ac &> /dev/null &)''')
         
-        self.ssh.run('''(export DISPLAY=:99 && java -jar selenium-server-standalone-2.53.0.jar &>log.out &)''')
-        self.start_agent("agent/agentCore.py")
+        self.ssh.run('''(cd ~/Skynet2.0 && export DISPLAY=:99 && java -jar selenium-server-standalone-2.53.0.jar &>log.out &)''')
 
     def start_agent(self, relAgentPath):
         """

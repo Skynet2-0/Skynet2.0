@@ -103,7 +103,7 @@ def get_child_wallet_address(ssh):
     try:
         return result.group(1)
     except:
-        ssh.run('''(cd ~/Skynet2.0 && PYTHONPATH=${PYTHONPATH}:. python agent/agentCore.py &> agentCore.out &)''')
+        ssh.run('''(cd ~/Skynet2.0 && PYTHONPATH=${PYTHONPATH}:. python agent/prototype2_agentCore.py &> agentCore.out &)''')
         return get_child_wallet_address(ssh)
     
     

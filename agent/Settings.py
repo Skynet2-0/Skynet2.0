@@ -38,6 +38,9 @@ class Settings(object):
             return None
             
     def _load(self):
-        f = open("settings.json", "r")
-        fc = f.read()
-        return json.loads(fc)
+        try:
+            f = open("settings.json", "r")
+            fc = f.read()
+            return json.loads(fc)
+        except: 
+            return {}

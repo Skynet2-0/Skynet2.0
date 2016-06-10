@@ -5,7 +5,7 @@ Created June 7, 2016.
 
 @author Stefan
 """
-from abc import ABCMeta
+from abc import *
 
 class MarketAPI(object):
     """Abstract class documenting the API of the market that is wrapped around."""

@@ -17,7 +17,7 @@ def check_type(var, vartype):
     return True -- If succesfull.
     """
     if not isinstance(var, vartype):
-        raise TypeError(str(value) + " is not of the required type " + str(vartype))
+        raise TypeError(str(var) + " is not of the required type " + str(vartype))
     return True
 
 def check_positive(var):

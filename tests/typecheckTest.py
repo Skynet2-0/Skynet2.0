@@ -33,32 +33,15 @@ class TypeCheckTest(unittest.TestCase):
         self.assertTrue(check_positive(1))
 
     def testPositiveMinus4(self):
-        self.assertTrue(check_positive(-4))
-
-    def testPositiveComplexNumber(self):
-        complex_number = complex(2, 1)
-        self.assertTrue(check_positive(complex_number))
-
-    def testPositiveComplexNumber2(self):
-        complex_number = complex(2, -1)
-        self.assertTrue(check_positive(complex_number))
-
-    def testPositiveComplexNumber3(self):
-        complex_number = complex(-2, 1)
-        self.assertTrue(check_positive(complex_number))
-
-    def testPositiveComplexNumber4(self):
-        complex_number = complex(-2, -1)
         with self.assertRaises(ValueError):
-            self.check_positive(complex_number)
+            check_positive(-4)
 
-    def testPositiveComplexNumber2(self):
-        complex_number = complex(0, 1)
-        self.assertTrue(check_positive(complex_number))
+    def testPositive0(self):
+        self.assertTrue(check_positive(0))
 
-    def testPositiveString(self):
-        with self.assertRaises(Exception):
-            self.check_positive("jsConsa997")
+    def testPositiveComplex(self):
+        with self.assertRaises(TypeError):
+            check_positive(complex(2, 1)) # Complex numbers do not have < operator.
 
     def testCheckPositiveFloatOfFloat1(self):
         self.assertTrue(check_positive_float(1.0))

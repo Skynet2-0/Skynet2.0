@@ -26,8 +26,12 @@ class TypeCheckTest(unittest.TestCase):
         with self.assertRaises(TypeError):
             check_type("xjSLA.fiv", unittest.TestCase)
 
-    def testCheckTypeTypeCheckTestIsUnittest(self):
-        self.assertTrue(check_type(TypeCheckTest(), unittest.TestCase))
+    def testCheckTypeSubclass(self):
+        class A(object):
+            pass
+        class B(A):
+            pass
+        self.assertTrue(check_type(B(), A))
 
     def testPositiveInteger1(self):
         self.assertTrue(check_positive(1))

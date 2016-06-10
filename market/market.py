@@ -7,6 +7,7 @@ Created June 6, 2016.
 """
 
 from api import *
+from Tribler.community.market.community import MarketCommunity
 
 class Market(object):
     """
@@ -95,5 +96,6 @@ class Market(object):
 
     @market.setter
     def market(self, value):
-        #assert isinstance(value, MarketAPI)
+        if not isinstance(value, MarketAPI):
+            raise TypeError(str(value) + " is not of the required type MarketAPI")
         self._market = value

@@ -5,12 +5,16 @@ Created June 7, 2016.
 
 @author Stefan
 """
+from abc import ABCMeta
 
 class MarketAPI(object):
     """Abstract class documenting the API of the market that is wrapped around."""
+    __metaclass__ = ABCMeta
+
     def _init_(self):
         pass
 
+    @abstractmethod
     def create_ask(self, price, quantity, timeout):
         """
         Creates a sell order.
@@ -22,6 +26,7 @@ class MarketAPI(object):
         """
         pass
 
+    @abstractmethod
     def create_bid(self, price, quantity, timeout):
         """
         Creates a buy order.
@@ -33,7 +38,7 @@ class MarketAPI(object):
         """
         pass
 
-
+    @abstractmethod
     def get_multichain_balance(self):
         """
         returns -- (Quantity object) the current amount of multichain in ~MB
@@ -43,7 +48,9 @@ class MarketAPI(object):
 
 class OrderBookAPI(object):
     """Abstract class registering the behaviour of the orderbook."""
+    __metaclass__ = ABCMeta
 
+    @abstractmethod
     def bid_price(self):
         """
         Return the price an ask needs to have to make a trade.
@@ -52,6 +59,7 @@ class OrderBookAPI(object):
         """
         pass
 
+    @abstractmethod
     def ask_price(self):
         """
         Return the price a bid needs to have to make a trade.
@@ -60,6 +68,7 @@ class OrderBookAPI(object):
         """
         pass
 
+    @abstractmethod
     def bid_side_depth_profile(self):
         """
         Returns the list of bids in the format provided.
@@ -68,6 +77,7 @@ class OrderBookAPI(object):
         """
         pass
 
+    @abstractmethod
     def ask_side_depth_profile(self):
         """
         Returns the list of asks in the format provided
@@ -75,3 +85,15 @@ class OrderBookAPI(object):
         format: [(price (Price object), depth (Quantity object)), (price, depth), ...]
         """
         pass
+
+
+try :
+    from Tribler.community.market.community import MarketCommunity
+    MarketAPI.register(MarketCommunity) # MarketCommunity extends MarketAPI
+except:
+    print("MarketCommunity not registered as MarketAPI.")
+try:
+    from Tribler.community.market.core.orderbook import Orderbook
+    OrderBookAPI.register(Orderbook) # Orderbook extends OrderbookAPI
+except:
+    print("Orderbook is not registered as OrderBookAPI")

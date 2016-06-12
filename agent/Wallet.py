@@ -56,7 +56,10 @@ class Wallet(object):
 		#wait for prompt, then send answer
 		child.waitnoecho()
 		child.sendline(answer)
-		child.read()
+		try:
+			child.read()
+		except:
+			pass #somethimes no output is generated, and eof would cash read...
 		
 	def _create_wallet(self):
 		print('did not find an existing wallet, creating a new one')

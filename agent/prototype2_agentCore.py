@@ -61,7 +61,7 @@ class Prototype2(object):
             while(wallet.balance()<bc.getChildCost()):
                 print("Not enough bitcoins, waiting for money to arrive")
                 time.sleep(600)
-            bc.getChild('prototype2')
+            bc.getChild('prototype2', 'prototype2_agentCore.py')
         
         
     

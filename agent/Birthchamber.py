@@ -38,7 +38,7 @@ class Birthchamber(object):
         self.install_and_run_child(d,s.get_test_server_VPSBuyer(), otherBranch)
         
 
-    def getChild(self, useTestServer = False, otherBranch = None):
+    def getChild(self, useTestServer = False, otherBranch = None, otherCore = None):
         """
         Buys a child server.
          
@@ -55,17 +55,17 @@ class Birthchamber(object):
         result = self.VPSBuyer.buy(vps)
 
         if result == True:
-            self.install_and_run_child(d, vpsname, otherBranch)
+            self.install_and_run_child(d, vpsname, otherBranch, otherCore)
         else:
             print("Failed to buy the VPS...")
             #maybe do an alternative vps?
             
-    def install_and_run_child(self, dna, vpsname, otherBranch = None):
+    def install_and_run_child(self, dna, vpsname, otherBranch = None, otherCore = None):
         self.printChildInfo()
         
         self.giveChildGeneticCode(dna, vpsname)
         self.installChild(otherBranch)        
-        self.startChild()
+        self.startChild(otherCore)
             
     def printChildInfo(self):
         print("VPS Child Details:")
@@ -107,12 +107,12 @@ class Birthchamber(object):
         fc = FileCreator(self.vps.getIP(),self.vps.getSSHUsername(),self.vps.getSSHPassword(),22)
         fc.create("~/Skynet2.0/dna.json", text)
 
-    def startChild(self):
+    def startChild(self, otherCore = None):
         """ Starts the program on the child. """
         #start the core program on child
         print("starting the agent node")
         s = Starter(self.vps.getIP(),self.vps.getSSHUsername(),self.vps.getSSHPassword(),22)
-        s.start()
+        s.start(otherCore)
         
     def start_child_other_version(self, otherVersion):
         """Starts the specified other program on the child

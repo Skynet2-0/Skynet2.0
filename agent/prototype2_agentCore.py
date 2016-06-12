@@ -140,7 +140,7 @@ class Prototype2(object):
         try:
             return result.group(1)
         except:
-            ssh.run('''(cd ~/Skynet2.0 && PYTHONPATH=${PYTHONPATH}:. python agent/prototype2_agentCore.py -t True -x True &> agentCore.out &)''')
+            #ssh.run('''(cd ~/Skynet2.0 && PYTHONPATH=${PYTHONPATH}:. python agent/prototype2_agentCore.py -t True -x True &> agentCore.out &)''')
             return self.get_child_wallet_address(ssh)
     
     

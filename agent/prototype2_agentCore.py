@@ -84,8 +84,8 @@ class Prototype2(object):
         (_, out0, err0) = ssh.run(command)
         ssh._checkStreams_until_done(out0, err0, 'Preqrequisite installation failed', 'Preqrequisite installation succesfull.')
     
-    def startup_child(self, bc):
-        bc.giveChildGeneticCode(DNA())
+    def startup_child(self, bc, vps):
+        bc.giveChildGeneticCode(DNA(), vps)
         bc.start_child_other_version("agent/prototype2_agentCore.py")
         
     
@@ -140,7 +140,7 @@ class Prototype2(object):
     def run(self, ssh,bc,v):    
         self.prepChild(ssh)
         self.customIntall(ssh)
-        self.startup_child(bc)
+        self.startup_child(bc, c)
         self.transfer_funds_to_child_wallet(ssh, v)
         
 def main(argv):

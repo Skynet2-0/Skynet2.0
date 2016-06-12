@@ -53,7 +53,7 @@ class Birthchamber(object):
         if result == True:
             self.printChildInfo()
             
-            self.giveChildGeneticCode()
+            self.giveChildGeneticCode(d)
             self.installChild()        
             self.startChild()
         else:

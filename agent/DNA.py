@@ -19,7 +19,7 @@ class DNA(object):
             self._save(DNA.default())
             self.json = self._load()
         
-    def getMutation(self):
+    def getMutation(self, winner):
         """
         returns a mutated version of the own DNA
         """
@@ -29,6 +29,23 @@ class DNA(object):
         
                 
         return self.json
+        
+#    def _normalize_as_vector(dictionary)
+#        """
+#           uses the values in the dictionary as a vector and then normalizes this vector.
+#           returns the corrected dictionary
+#        """
+#        
+#        normalized_d = {}
+#        sum = 0.0
+#        for value in dictionary.values():
+#            sum+=value
+#        
+#        for key, value in dictionary.itteritems():
+#            normalized_d[key] = value
+#            
+#            
+#         #finish this
                 
     def getVPSBuyer(self):
         """

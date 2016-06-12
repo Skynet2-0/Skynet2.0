@@ -31,7 +31,7 @@ class Starter(object):
         """ Starts the program. """
         self.start_other_requirements()
         
-        self.start_agent("agent/agentCore.py")
+        self.start_agent("agent/agentCore.py -x True -t False")
 
     def start_other_requirements(self):
         self.ssh.run('''(Xvfb :99 -ac &> /dev/null &)''')

@@ -33,7 +33,7 @@ class Installer(object):
         else:
             self.ssh = SSH(hostip, user, password, port, use_log)
 
-    def install(self):
+    def install(self, otherBranch = None):
         """
         Makes the class install itself through SSH.
 
@@ -47,10 +47,17 @@ class Installer(object):
         command = 'git clone --recursive https://github.com/Skynet2-0/Skynet2.0.git'
         (_, out0, err0) = self.ssh.run(command)
         self.ssh._checkStreams(out0, err0, 'git clone failed', 'project cloned.')
-        command = """cd Skynet2.0 && sh build.sh &> build.out"""
+        if isinstance(otherBranch, basestring):
+            command = 'cd ~/Skynet2.0 && git checkout '+otherBranch
+            (_, out0, err0) = self.ssh.run(command)
+            self.ssh._checkStreams(out0, err0, 'git checkout failed', 'git checkout succeeeded.')
+        command = """cd ~/Skynet2.0 && sh build.sh >> build.out"""
+        print("starting the actual installing of programs on the child, this can take up to 15 minutes.")
         (_, out0, err0) = self.ssh.run(command)
-        self.ssh._checkStreams(out0, err0, 'build failed', 'project build.')
+        self.ssh._checkStreams_until_done(out0, err0, 'Preqrequisite installation failed', 'Preqrequisite installation succesfull.')
         print('Installation finished.')
+
+
 
     def finish(self):
         "Does some clean up."

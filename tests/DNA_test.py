@@ -23,8 +23,18 @@ class DNATest(unittest.TestCase):
         
     def test_returns_vpsBuyer(self):
         d = DNA()
-        instance = d.getVPSBuyer()
+        (instance, winner) = d.getVPSBuyer()
         self.assertTrue(isinstance(instance, VPSBuyer))
+        self.assertTrue(isinstance(winner, basestring))
+        
+    def test_normalizing(self):
+        dictionary = {'a': 2, 'b': 3, 'c': 4}
+        d = DNA()
+        (normalized, length) = d._normalize_as_vector(dictionary)
+        self.assertEqual(length, 9)
+        self.assertEqual(normalized['a'], 2.0/9)
+        self.assertEqual(normalized['b'], 3.0/9)
+        self.assertEqual(normalized['c'], 4.0/9)
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

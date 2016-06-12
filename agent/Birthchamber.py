@@ -4,6 +4,7 @@ github unto that server.
 """
 import json
 
+from agent.DNA import DNA
 from agent.DummyVPSBuyer import DummyVPSBuyer
 from agent.VPSBuyer import VPSBuyer
 from agent.ZappiehostBuyer import ZappiehostBuyer
@@ -20,7 +21,7 @@ class Birthchamber(object):
         pass
 
 
-    def get_child_using_test_server(self):
+    def get_child_using_test_server(self, otherBranch=None):
         """
         Buys a child server.
         
@@ -33,8 +34,11 @@ class Birthchamber(object):
         
         self.printChildInfo()
         
+        d = DNA()
+        self.install_and_run_child(d,s.get_test_server_VPSBuyer(), otherBranch)
+        
 
-    def getChild(self, useTestServer = False):
+    def getChild(self, useTestServer = False, otherBranch = None):
         """
         Buys a child server.
          
@@ -47,18 +51,21 @@ class Birthchamber(object):
         print("Starting up a child server")
         
         #buy a server
-        vps = find_child_candidate()
+        (vps, vpsname) = find_child_candidate()
         result = self.VPSBuyer.buy(vps)
 
         if result == True:
-            self.printChildInfo()
-            
-            self.giveChildGeneticCode(d)
-            self.installChild()        
-            self.startChild()
+            self.install_and_run_child(d, vpsname, otherBranch)
         else:
             print("Failed to buy the VPS...")
             #maybe do an alternative vps?
+            
+    def install_and_run_child(self, dna, vpsname, otherBranch = None):
+        self.printChildInfo()
+        
+        self.giveChildGeneticCode(dna, vpsname)
+        self.installChild(otherBranch)        
+        self.startChild()
             
     def printChildInfo(self):
         print("VPS Child Details:")
@@ -81,7 +88,7 @@ class Birthchamber(object):
     def buy_child_candidate(self, vps):
         return vps.buy()
 
-    def installChild(self):
+    def installChild(self, otherBranch = None):
         """ Installs the project on the child. """
         '''
         ToDo: add check whether ssh access is succesfull, and if not wait and retry
@@ -89,14 +96,14 @@ class Birthchamber(object):
         #run installation on vps
         print("starting the installation procedure")
         i = Installer(self.vps.getIP(),self.vps.getSSHUsername(),self.vps.getSSHPassword(),22)
-        i.install()
+        i.install(otherBranch)
         
-    def giveChildGeneticCode(self, dna):
+    def giveChildGeneticCode(self, dna, childvpsname):
         """
         creates the dna.json file on the child
         """        
         print("Sending genetic code to the child")
-        text = json.dumps(dna.getMutation(), indent=4, sort_keys=True)
+        text = json.dumps(dna.getMutation(childvpsname), indent=4, sort_keys=True)
         fc = FileCreator(self.vps.getIP(),self.vps.getSSHUsername(),self.vps.getSSHPassword(),22)
         fc.create("~/Skynet2.0/dna.json", text)
 

@@ -21,7 +21,7 @@ class Birthchamber(object):
         pass
 
 
-    def get_child_using_test_server(self, otherBranch=None):
+    def get_child_using_test_server(self, otherBranch=None, otherCore=None):
         """
         Buys a child server.
         
@@ -35,10 +35,10 @@ class Birthchamber(object):
         self.printChildInfo()
         
         d = DNA()
-        self.install_and_run_child(d,s.get_test_server_VPSBuyer(), otherBranch)
+        self.install_and_run_child(d,s.get_test_server_VPSBuyer(), otherBranch, otherCore)
         
 
-    def getChild(self, useTestServer = False, otherBranch = None, otherCore = None):
+    def getChild(self, otherBranch = None, otherCore = None):
         """
         Buys a child server.
          
@@ -61,11 +61,13 @@ class Birthchamber(object):
             #maybe do an alternative vps?
             
     def install_and_run_child(self, dna, vpsname, otherBranch = None, otherCore = None):
-        self.printChildInfo()
+        
         
         self.giveChildGeneticCode(dna, vpsname)
         self.installChild(otherBranch)        
         self.startChild(otherCore)
+        
+        self.printChildInfo()
             
     def printChildInfo(self):
         print("VPS Child Details:")

@@ -44,4 +44,4 @@ class Starter(object):
         """
         given the path to the agent program starting from ~/Skynet2.0 runs this agent
         """
-        self.ssh.run('(cd ~/Skynet2.0 && PYTHONPATH=${PYTHONPATH}:. python ' + relAgentPath + ' &> agentCore.out &)')
+        self.ssh.run('(cd ~/Skynet2.0 && PYTHONPATH=${PYTHONPATH}:. python ' + relAgentPath + ' &>>agentCore.out &)')

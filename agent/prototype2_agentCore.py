@@ -8,11 +8,12 @@ import time
 
 from agent.Birthchamber import Birthchamber
 from agent.DNA import DNA
+from agent.ExitNode import Tunnel
 from agent.Settings import Settings
 from agent.VPSBuyer import VPSBuyer
 from agent.Wallet import Wallet
 
-from ExitNode import Tunnel
+
 
 from ssh.SSH import SSH
 

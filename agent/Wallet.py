@@ -29,20 +29,7 @@ class Wallet(object):
 			#if a wallet exists, initialize that one
 			print('using already existing wallet')
 		else:
-			print('did not find an existing wallet, creating a new one')
-			#ensure the daemon is stopped, as this causes path errors (mostly usefull for development)
-			pexpect.run('electrum daemon stop')
-			#build a new wallet if no wallet yet exists
-			walletpair=str(subprocess.check_output('python addrgen/addrgen.py',shell=True))
-			walletpair = re.split('\W+', walletpair)
-			
-			self.address = walletpair[1]
-			self.privkey = walletpair[2]
-			print('created a wallet with address \''+self.address+'\' and privatekey \''+self.privkey+'\'')
-			child = pexpect.spawn('electrum', ['restore', self.privkey])
-			#respectively: use default password, use default fee (0.002), use default gap limit and give seed
-			self._answer_prompt(child, '')
-			
+			self._create_wallet()
 			
 		subprocess.call(['electrum', 'daemon', 'start'])
 

@@ -113,7 +113,12 @@ class ZappiehostBuyer(VPSBuyer):
 
             self.driver.find_element_by_css_selector("input[type='submit'][class='cartbutton green ui-button ui-widget ui-state-default ui-corner-all']").click() # Submit the form
 
-            self.driver.find_element_by_css_selector("input[type='submit'][value='Pay Now']").click()
+            # While the page is waiting to be redirected, click the pay now button to go there faster
+            try:
+                self.driver.find_element_by_css_selector('input[value="Pay Now"]').click()
+            except Exception as e:
+                # The pay now button was not found, but this is usually not a problem, because this usually means the page already redirected to the payment screen
+                print("Warning: Pay now button not found")
 
 
             self.driver.implicitly_wait(10)
@@ -130,7 +135,7 @@ class ZappiehostBuyer(VPSBuyer):
 
             wallet = Wallet()
             paymentSucceeded = wallet.payToAutomatically(toWallet, bitcoinAmount)
-            if paymentSucceeded == False:
+            if not paymentSucceeded:
                 print "payment failed"
                 return False
 
@@ -182,7 +187,7 @@ class ZappiehostBuyer(VPSBuyer):
 
             self.driver.find_element_by_css_selector(".icon-btn.icon-reinstall").click()
 
-
+            self.driver.implicitly_wait(10)
             #driver.find_element_by_id('password')._execute(command, params)
             self.driver.find_element_by_id('password').send_keys(self.SSHPassword)
             #fillInElement("rebuild[password]", SSHPassword)

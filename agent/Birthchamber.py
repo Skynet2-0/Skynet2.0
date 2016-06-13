@@ -51,8 +51,9 @@ class Birthchamber(object):
         print("Starting up a child server")
         
         #buy a server
-        (vps, vpsname) = find_child_candidate()
-        result = self.VPSBuyer.buy(vps)
+        (vps, vpsname) = self.find_child_candidate(d)
+        self.vps = vps
+        result = self.vps.buy()
 
         if result == True:
             self.install_and_run_child(d, vpsname, otherBranch, otherCore)
@@ -85,8 +86,8 @@ class Birthchamber(object):
         """
         return 0.02
         
-    def find_child_candidate(self):
-        return d.getVPSBuyer()
+    def find_child_candidate(self, dna):
+        return dna.getVPSBuyer()
         
     def buy_child_candidate(self, vps):
         return vps.buy()

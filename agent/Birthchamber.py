@@ -84,7 +84,7 @@ class Birthchamber(object):
         """
         Returns the price of the child in bitcoin
         """
-        return 0.02
+        return 0.015
         
     def find_child_candidate(self, dna):
         return dna.getVPSBuyer()

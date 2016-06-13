@@ -8,12 +8,14 @@ and if it's wallet has enough money it will procure, install and start exactly 1
 """
 
 from ExitNode import ExitNode
+from market.market import Market
 from Birthchamber import Birthchamber
 from ZappiehostBuyer import ZappiehostBuyer
 from Wallet import Wallet
 from time import sleep
 
 en = ExitNode()
+market = Market(en.market_community)
 
 wallet = Wallet()
 

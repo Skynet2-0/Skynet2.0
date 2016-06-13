@@ -63,8 +63,9 @@ class Birthchamber(object):
     def install_and_run_child(self, dna, vpsname, otherBranch = None, otherCore = None):
         
         
-        self.giveChildGeneticCode(dna, vpsname)
+        
         self.installChild(otherBranch)        
+        self.giveChildGeneticCode(dna, vpsname)
         self.startChild(otherCore)
         
         self.printChildInfo()

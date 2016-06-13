@@ -5,12 +5,12 @@ Created June 7, 2016
 """
 
 from market.market import Market
-from market.api import MarketAPI
+from market.api import MarketAPI, OrderBookAPI
 from Tribler.community.market.core.order import *
 from Tribler.community.market.core.price import Price
 from Tribler.community.market.core.quantity import Quantity
 import unittest
-from unittest.mock import *
+from mock import *
 
 class MarketTest(unittest.TestCase):
     """Tests the market class."""
@@ -19,7 +19,7 @@ class MarketTest(unittest.TestCase):
         """Does some set up."""
         self.mock = create_autospec(MarketAPI)
         self.mock.order_book = create_autospec(OrderBookAPI)
-        self.market = Market(mock)
+        self.market = Market(self.mock)
 
     def tearDown(self):
         """Does some clean up."""

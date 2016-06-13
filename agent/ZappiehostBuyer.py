@@ -202,7 +202,7 @@ class ZappiehostBuyer(VPSBuyer):
             print("Could not complete the transaction because an error occurred:")
             print(e)
             #raise # Raise the exception that brought you here
-            #self.closeBrowser()
+            self.closeBrowser()
             return False
 
         return True

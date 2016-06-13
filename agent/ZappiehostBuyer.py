@@ -113,7 +113,10 @@ class ZappiehostBuyer(VPSBuyer):
 
             self.driver.find_element_by_css_selector("input[type='submit'][class='cartbutton green ui-button ui-widget ui-state-default ui-corner-all']").click() # Submit the form
 
-            self.driver.find_element_by_css_selector("input[type='submit'][value='Pay Now']").click()
+            try:
+                self.driver.find_element_by_css_selector('input[value="Pay Now"]').click()
+            except Exception as e:
+                print("Warning: Pay now button not found")
 
 
             self.driver.implicitly_wait(10)
@@ -183,7 +186,7 @@ class ZappiehostBuyer(VPSBuyer):
 
             self.driver.find_element_by_css_selector(".icon-btn.icon-reinstall").click()
 
-
+            self.driver.implicitly_wait(10)
             #driver.find_element_by_id('password')._execute(command, params)
             self.driver.find_element_by_id('password').send_keys(self.SSHPassword)
             #fillInElement("rebuild[password]", SSHPassword)
@@ -199,7 +202,7 @@ class ZappiehostBuyer(VPSBuyer):
             print("Could not complete the transaction because an error occurred:")
             print(e)
             #raise # Raise the exception that brought you here
-            self.closeBrowser()
+            #self.closeBrowser()
             return False
 
         return True

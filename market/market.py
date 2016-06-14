@@ -21,17 +21,13 @@ class Market(object):
     changes by the developers of the other market.
     """
 
-    def __init__(self, wrapped_market=None):
+    def __init__(self, wrapped_market):
         """
         Initializes a market.
 
         wrapped_market -- The market to wrap. The type is api.MarketAPI
-        (Default is None)
         """
-        if wrapped_market is None:
-            pass
-        else:
-            self.market = wrapped_market
+        self.market = wrapped_market
         self.default_timeout = 7200.0 # Two hours.
 
     def sell(self, num_multicoins, price, timeout=None):
@@ -140,8 +136,8 @@ class Market(object):
         """
         converted = []
         for (p, q) in trades:
-            price = _convert_price_to_float(p)
-            quantity = _convert_quantity_to_float(q)
+            price = self._convert_price_to_float(p)
+            quantity = self._convert_quantity_to_float(q)
             t = (price, quantity)
             converted.append(t)
         return converted

@@ -191,7 +191,7 @@ class Tunnel(object):
 
         def start_market_community():
             """This will start the market community, do not forget to start this in a seperate thread."""
-            keypair = self.crypto.generate_key(u"curve25519")
+            keypair = self.dispersy.crypto.generate_key(u"curve25519")
             member = dispersy.get_member(private_key=self.dispersy.crypto.key_to_bin(keypair))
             cls = MarketCommunity
             self.market_community = self.dispersy.define_auto_load(cls, member, (self.session, self.settings), load=True)[0]

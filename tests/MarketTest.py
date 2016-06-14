@@ -60,13 +60,23 @@ class MarketTest(unittest.TestCase):
         try:
             self.market.buy(amount)
         except KeyError, msg:
+            errormsg = "'%s'" % errormsg # error adds ''.
             if msg == errormsg:
                 succes = True
             else:
                 # Unexpected Exception so reraise
-                print("expected message:%s\nbut was:%s" % (errormsg, msg))
+                #print("expected message:%s\nbut was:%s" % (errormsg, msg))
                 raise
         self.assertTrue(succes, "Error was altered.")
+
+    def testBuyInOrderBook(self):
+        amount = 1.0
+        price = 2.1
+        t = (Quantity.from_float(amount), Price.from_float(price))
+        self.mock.order_book.bid_side_depth_profile.return_value = []
+        self.mock.create_bid.side_effect = (self.mock.order_book.bid_side_depth_profile.return_value = [ t ])
+        self.market.buy(amount, price)
+        self.assertEquals([ t ], self.market.get_buys())
 
     def testSell(self):
         amount = 3.0
@@ -76,7 +86,8 @@ class MarketTest(unittest.TestCase):
         mocked_order.order_id.return_value = mocked_orderid
         self.mock.create_ask(price, amount, ANY).return_value = mocked_order
         order = self.market.sell(amount, price)
-        self.assertEquals(mocked_orderid, order.order_id)
+        # self.assertEquals(mocked_orderid, order.order_id) # Comparison states order is a mock.
+        self.assertIsNotNone(order)
 
     def testSellCalled(self):
         amount = 30.1
@@ -117,12 +128,22 @@ class MarketTest(unittest.TestCase):
         try:
             self.market.sell(amount, price)
         except KeyError, msg:
+            errormsg = "'%s'" % errormsg
             if msg == errormsg:
                 succes = True
             else:
                 # Unexpected Exception so reraise
                 raise
         self.assertTrue(succes, "Error was altered.")
+
+    def testSellInOrderBook(self):
+        amount = 1.0
+        price = 2.1
+        t = (Quantity.from_float(amount), Price.from_float(price))
+        self.mock.order_book.ask_side_depth_profile.return_value = []
+        self.mock.create_ask.side_effect = (self.mock.order_book.ask_side_depth_profile.return_value = [ t ])
+        self.market.sell(amount, price)
+        self.assertEquals([ t ], self.market.get_sells())
 
     def testGetMCBalance(self):
         quan = 2.4

@@ -50,11 +50,12 @@ class Market(object):
         check_positive_float(price)
         return self.market.create_ask(price, num_multicoins, timeout)
 
-    def buy(self, num_multicoins, timeout=None):
+    def buy(self, num_multicoins, price=None, timeout=None):
         """
         Buys num_multicoins multicoins.
 
         num_multicoins -- The number of multicoins to buy as float.
+        price -- The price that is being wanted to pay. (Default is None)
         timeout -- The timeout of the trade. (Default is None which will
         be mapped to default_timeout)
         raises ValueError -- when num_multicoins or timeout is invalid.
@@ -66,7 +67,10 @@ class Market(object):
         else:
             check_positive_float(timeout)
         check_positive_float(num_multicoins)
-        price = self.buy_price()
+        if price is None:
+            price = self.buy_price()
+        else:
+            check_positive_float(price)
         return self.market.create_bid(price, num_multicoins, timeout)
 
     def get_multichain_balance(self):

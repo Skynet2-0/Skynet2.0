@@ -189,7 +189,7 @@ class MarketTest(unittest.TestCase):
         quantity2 = Quantity.from_float(4.0)
         t1 = (price1, quantity1)
         t2 = (price2, quantity2)
-        history = [ t1 t2 ]
+        history = [ t1, t2 ]
         self.mock.order_book.ask_side_depth_profile.return_value = history
         self.assertEquals(history, self.get_sells())
 
@@ -200,7 +200,7 @@ class MarketTest(unittest.TestCase):
         quantity2 = Quantity.from_float(4.0)
         t1 = (price1, quantity1)
         t2 = (price2, quantity2)
-        history = [ t1 t2 ]
+        history = [ t1, t2 ]
         self.mock.order_book.ask_side_depth_profile.return_value = history
         result = self.get_sells()
         for (price, quantity) in result:
@@ -219,7 +219,7 @@ class MarketTest(unittest.TestCase):
         quantity2 = Quantity.from_float(4.0)
         t1 = (price1, quantity1)
         t2 = (price2, quantity2)
-        history = [ t1 t2 ]
+        history = [ t1, t2 ]
         self.mock.order_book.ask_side_depth_profile.return_value = history
         self.assertEquals(history, self.get_buys())
 
@@ -230,7 +230,7 @@ class MarketTest(unittest.TestCase):
         price2 = Price.from_float(1.2)
         quantity2 = Quantity.from_float(4.0)
         t2 = (price2, quantity2)
-        history = [ t1 t2 ]
+        history = [ t1, t2 ]
         self.mock.order_book.ask_side_depth_profile.return_value = history
         result = self.get_buys()
         for (price, quantity) in result:

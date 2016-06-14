@@ -156,3 +156,8 @@ class Market(object):
     def default_timeout(self, value):
         check_positive_float(value)
         self._default_timeout = value
+
+    @property
+    def order_book(self):
+        """The order book used."""
+        return self.market.order_book

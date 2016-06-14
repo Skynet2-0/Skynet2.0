@@ -20,17 +20,13 @@ from CountryGetter import CountryGetter
 
 
 class SharkserversBuyer(VPSBuyer):
-    '''
+    """
     This class orders a VPS from sharkservers.co.uk
-    '''
+    """
     def __init__(self, email = "", password = "", SSHPassword = ""):
         super(SharkserversBuyer, self).__init__(email, password, SSHPassword)
-        self.email = email
-        if self.email == "":
-            self.email = self.generator.getEmail()
-            
         if self.password != password or self.password == "":
-            self.password = self.generator.getRAString(32) + "!"
+            self.password = self.generator.getRAString(32) + "!" # End this password with an exclamation mark so the password is strong enough to be used on Sharkservers
             
         if self.SSHPassword != SSHPassword or self.SSHPassword == "":
             self.SSHPassword = self.generator.getRAString(32) # Generate new password
@@ -41,9 +37,9 @@ class SharkserversBuyer(VPSBuyer):
 
 
     def buy(self):
-        '''
+        """
         Walks through the entire process of buying a VPS from Sharkservers. Returns True if it succeeded, returns False otherwise
-        '''
+        """
         succeeded = self.placeOrder() # places the order
         if succeeded == False:
             return False
@@ -58,9 +54,9 @@ class SharkserversBuyer(VPSBuyer):
 
 
     def placeOrder(self):
-        '''
+        """
         Places an order on Sharkservers for a new VPS
-        '''
+        """
         try:
             self.spawnBrowser()
             self.driver.get("https://www.sharkservers.co.uk/clients/cart.php?a=add&pid=11")
@@ -155,9 +151,9 @@ class SharkserversBuyer(VPSBuyer):
 
 
     def getSSHInfo(self):
-        '''
+        """
         Obtains the bought VPS' IP Address from Sharkservers
-        '''
+        """
         try:
             self.spawnBrowser()
             self.driver.get("https://www.sharkservers.co.uk/clients/clientarea.php")

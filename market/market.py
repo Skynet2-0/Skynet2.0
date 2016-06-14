@@ -19,7 +19,7 @@ class Market(object):
     changes by the developers of the other market.
     """
 
-    def _init_(self, wrapped_market=None):
+    def __init__(self, wrapped_market=None):
         """
         Initializes a market.
 

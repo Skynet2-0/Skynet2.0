@@ -6,6 +6,7 @@ Created on Apr 29, 2016
 from paramiko.client import *
 import paramiko
 import time
+from Settings import Settings
 
 
 class SSH(object):
@@ -14,6 +15,8 @@ class SSH(object):
 
     It works by wrapping the paramiko client class.
     """
+
+    default_use_logfile = False
 
     def __init__(self, sshhost, username, pwd, port=None, use_log=False):
         """
@@ -37,7 +40,12 @@ class SSH(object):
         self.client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         self.client.load_system_host_keys()
         self.connect(port=port)
-        self.use_logfile(use_log)
+        
+        s = Settings()
+        if s.enable_global_ssh_logging():
+            self.use_logfile(True)
+        else:
+            self.use_logfile(use_log)
 
     def connect(self, sshhost = None, user = None, pwd = None, port = None):
         """
@@ -75,6 +83,24 @@ class SSH(object):
                 file.write("%s\n" % err.read().decode())
                 file.write("Exit status: %i\n\n" % out.channel.recv_exit_status())
         return (ins, out, err)
+        
+    def run_as_stream(self, command, logpath):
+        """
+        runs a command over SSH on the client as a stream.
+        i.e. for every line written by the client during running of command write this to logfile
+        do not stop untill ssh has no more lines to write
+        
+        returns -- the output of the command as a string        
+        """
+        (ins, stdout, stderr) = self.client.exec_command(command)
+        f = open(logpath, "a+")
+        
+        for line in stdout.readlines():
+            print line
+            f.write(line)
+        for line in stderr.readlines():
+            print line
+            f.write(line)
 
     def close_connection(self):
         """
@@ -104,6 +130,32 @@ class SSH(object):
                 done = True
             else:
                 time.sleep(1)
+                
+        if time.time() > timeout and not done:
+            print("timeout met, disconnecting ssh")
+            
+            
+    def _checkStreams_until_done(self, out, err, errmessage='', succesmessage=None):
+        """
+        Checks the streams for error message and exit code.
+
+        out -- the output stream.
+        err -- the error stream.
+        errmessage -- the message at the start after error. (Default is '')
+        succesmessage -- the message on succes. (Default is None)
+        """
+        done = False
+        while not done:
+            if out.channel.exit_status_ready():
+                exitcode = out.channel.recv_exit_status()
+                if exitcode != 0:
+                    print("Error %s: %s\nexit status: %i" % (errmessage,
+                                err.read().decode(), exitcode))
+                elif succesmessage is not None:
+                    print(succesmessage)
+                done = True
+            else:
+                time.sleep(1)
 
     def use_logfile(self, use_log=True):
         """
@@ -113,3 +165,5 @@ class SSH(object):
         """
         assert type(use_log) == bool
         self.use_log = use_log
+
+    

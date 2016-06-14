@@ -57,6 +57,7 @@ class ZappiehostBuyer(VPSBuyer):
             #Click the continue button
             self.driver.find_element_by_css_selector('.cartbutton.green.ui-button.ui-widget.ui-state-default.ui-corner-all').click()
             succeeded = self._do_transaction()
+
             # Wait for the transaction to be accepted
             wait = ui.WebDriverWait(self.driver, 666)
             wait.until(lambda driver: driver.find_element_by_css_selector('.payment--paid'))
@@ -144,6 +145,8 @@ class ZappiehostBuyer(VPSBuyer):
 
             self._get_ip_address()
             self.driver.find_element_by_css_selector(".icon-btn.icon-reinstall").click()
+
+            self.driver.implicitly_wait(10)
             #driver.find_element_by_id('password')._execute(command, params)
             self.driver.find_element_by_id('password').send_keys(self.SSHPassword)
             #fillInElement("rebuild[password]", SSHPassword)

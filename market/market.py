@@ -31,7 +31,7 @@ class Market(object):
             pass
         else:
             self.market = wrapped_market
-        self.default_timeout = 7200 # Two hours.
+        self.default_timeout = 7200.0 # Two hours.
 
     def sell(self, num_multicoins, price, timeout=None):
         """

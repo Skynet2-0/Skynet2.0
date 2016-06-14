@@ -1,5 +1,5 @@
 """
-This class can start a child once it has been installed unto
+This class can start a child once it has been installed unto.
 """
 
 from SSH import SSH

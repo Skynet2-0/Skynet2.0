@@ -15,17 +15,26 @@ class VPSBuyer(object):
 
     By itself, it does nothing; this class is supposed to be extended by other
     classes, each for a specific VPS Provider.
+
+    email -- The email address. (Default is '')
+    password -- The password for the account on the site. (Default is '')
+    SSHUsername -- The user for the SSH Connection. (Default is 'root')
+    SSHPassword -- The password for ssh connections. (Default is '')
     """
-    def __init__(self):
+    def __init__(self, email='', password='', SSHUsername='root', SSHPassword=''):
         self.generator = BogusFormBuilder()
-        self.email = self.generator.getEmail()
         #password = generator.getPassword()
-        self.password = self.generator.getRAString(32)
-        self.SSHUsername = ""
-        self.SSHPassword = ""
+        if email == "":
+            self.email = self.generator.getEmail()
+        else:
+            self.email = email
+        if password == "":
+            self.password = self.generator.getRAString(32)
+        else:
+            self.password = password
+        self.SSHUsername = SSHUsername
+        self.SSHPassword = SSHPassword
         self.IP = ""
-        self.price = 0.02
-        pass
 
     def getFormValue(self, name):
        "function_docstring"
@@ -57,6 +66,18 @@ class VPSBuyer(object):
         option = options[num]
         option.click()
 
+    def clickSelectElement(self, fieldId, value):
+        '''
+        Chooses one the element in a select list that has value 'value', or return false
+        '''
+        el = self.driver.find_element_by_id(fieldId)
+        options = el.find_elements_by_tag_name('option')
+        for option in options:
+            if option.get_attribute('value') == value:
+                option.click()
+                return True
+        return False
+
     def chooseSelectElement(self, fieldName, fieldText):
         """
         Chooses one of the elements in a select list, by its visible text
@@ -69,7 +90,6 @@ class VPSBuyer(object):
     def getSSHUsername(self):
         """Returns the SSH Username to log in on the bought VPS."""
         return self.SSHUsername
-
 
     def getSSHPassword(self):
         """Returns the SSH Password to log in on the bought VPS."""

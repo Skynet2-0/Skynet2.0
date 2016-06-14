@@ -30,7 +30,6 @@ class Wallet(object):
 			print('using already existing wallet')
 		else:
 			self._create_wallet()
-			
 		subprocess.call(['electrum', 'daemon', 'start'])
 
 	def _answer_prompt(self, child, answer):

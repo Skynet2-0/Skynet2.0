@@ -38,7 +38,9 @@ class Birthchamber(object):
         self.install_and_run_child(d,s.get_test_server_VPSBuyer(), otherBranch, otherCore)
         
 
+
     def getChild(self, otherBranch = None, otherCore = None):
+        
         """
         Buys a child server.
          
@@ -51,6 +53,7 @@ class Birthchamber(object):
         print("Starting up a child server")
         
         #buy a server
+
         (vps, vpsname) = self.find_child_candidate(d)
         self.vps = vps
         result = self.vps.buy()
@@ -59,6 +62,7 @@ class Birthchamber(object):
             self.install_and_run_child(d, vpsname, otherBranch, otherCore)
         else:
             print("Failed to buy the VPS...")
+
             #maybe do an alternative vps?
             
     def install_and_run_child(self, dna, vpsname, otherBranch = None, otherCore = None):
@@ -92,10 +96,11 @@ class Birthchamber(object):
     def buy_child_candidate(self, vps):
         return vps.buy()
 
+
     def installChild(self, otherBranch = None):
         """ Installs the project on the child. """
         '''
-        ToDo: add check whether ssh access is succesfull, and if not wait and retry
+        ToDo: add check whether ssh access is succesfull, and if not wait and retry.
         '''
         #run installation on vps
         print("starting the installation procedure")

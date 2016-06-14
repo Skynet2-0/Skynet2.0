@@ -50,7 +50,7 @@ class Market(object):
             check_positive_float(timeout)
         check_positive_float(num_multicoins)
         check_positive_float(price)
-        self.market.create_ask(price, quantity, timeout)
+        self.market.create_ask(price, num_multicoins, timeout)
 
     def buy(self, num_multicoins, timeout=None):
         """

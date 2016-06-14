@@ -1,7 +1,7 @@
 """
 Created June 7, 2016
 
-@author Stefan
+@author: Stefan
 """
 
 from market.market import Market
@@ -31,10 +31,10 @@ class MarketTest(unittest.TestCase):
         amount = 20.0
         mocked_orderid = 732257
         mocked_order = Mock(Order)
-        mocked_order.orderId.return_value = mocked_orderid
+        mocked_order.order_id.return_value = mocked_orderid
         self.mock.create_bid(ANY, amount, ANY).return_value = mocked_order
         order = self.market.buy(amount)
-        self.assertEquals(mocked_orderid, order.orderId)
+        self.assertEquals(mocked_orderid, order.order_id)
 
     def testBuyCalled(self):
         amount = 3.0
@@ -71,16 +71,16 @@ class MarketTest(unittest.TestCase):
         price = 3.3
         mocked_orderid = 732257
         mocked_order = Mock(Order)
-        mocked_order.orderId.return_value = mocked_orderid
-        self.mock.create_ask(ANY, amount, ANY).return_value = mocked_order
+        mocked_order.order_id.return_value = mocked_orderid
+        self.mock.create_ask(price, amount, ANY).return_value = mocked_order
         order = self.market.sell(amount, price)
-        self.assertEquals(mocked_orderid, order.orderId)
+        self.assertEquals(mocked_orderid, order.order_id)
 
     def testSellCalled(self):
         amount = 30.1
         price = 13.0
         self.market.sell(amount, price)
-        self.mock.create_ask.assert_called_once_with(ANY, amount, ANY)
+        self.mock.create_ask.assert_called_once_with(amount, price, ANY)
 
     def testSellInvalidPrice(self):
         amount = 30.0
@@ -123,32 +123,39 @@ class MarketTest(unittest.TestCase):
         self.assertTrue(succes, "Error was altered.")
 
     def testSellPriceReturnType(self):
-        self.assertIsInstance(self.market.sell_price, float)
+        sell_price = 1.0
+        # self.mock.ask_price = Mock()
+        self.mock.ask_price.return_value = Price.from_float(sell_price)
+        self.assertIsInstance(self.market.sell_price(), float)
 
     def testSellPricePositive(self):
-        self.assertTrue(self.market.sell_price >= 0)
+        sell_price = 1.0
+        # self.mock.ask_price = Mock()
+        self.mock.ask_price.return_value = Price.from_float(sell_price)
+        self.assertTrue(self.market.sell_price() >= 0.0)
 
     def testSellPrice(self):
         sell_price = 1.0
-        self.market.sell_price.return_value = Price.from_float(sell_price)
+        # self.mock.ask_price = Mock()
+        self.mock.ask_price.return_value = Price.from_float(sell_price)
         self.assertEquals(sell_price, self.market.sell_price())
 
     def testBuyPriceReturnType(self):
-        self.assertIsInstance(self.market.buy_price, float)
+        buy_price = 1.0
+        # self.mock.bid_price = Mock()
+        self.mock.bid_price = Price.from_float(buy_price)
+        self.assertIsInstance(self.market.buy_price(), float)
 
     def testBuyPricePositive(self):
-        self.assertTrue(self.market.buy_price >= 0)
+        buy_price = 1.0
+        # self.mock.bid_price = Mock()
+        self.mock.bid_price = Price.from_float(buy_price)
+        self.assertTrue(self.market.buy_price() >= 0)
 
     def testBuyPrice(self):
         buy_price = 1.0
         self.market.buy_price.return_value = Price.from_float(buy_price)
         self.assertEquals(buy_price, self.market.buy_price())
-
-    def testOrderBookExists(self):
-        self.assertIsNotNone(self.market.order_book)
-
-    def testOrderBookEquals(self):
-        self.assertEquals(self.mock.order_book, self.market.order_book)
 
     def testMarketSetting(self):
         """Tests whether the used market is the same as the set one."""
@@ -173,25 +180,29 @@ class MarketTest(unittest.TestCase):
     def testShowSellsEmpty(self):
         history = []
         self.mock.order_book.ask_side_depth_profile.return_value = history
-        self.assertEquals(history, self.show_sells())
+        self.assertEquals(history, self.get_sells())
 
     def testShowSells(self):
         price1 = Price.from_float(30.0)
         quantity1 = Quantity.from_float(2.2)
         price2 = Price.from_float(1.2)
         quantity2 = Quantity.from_float(4.0)
-        history = [ (price1, quantity1) (price2, quantity2) ]
+        t1 = (price1, quantity1)
+        t2 = (price2, quantity2)
+        history = [ t1 t2 ]
         self.mock.order_book.ask_side_depth_profile.return_value = history
-        self.assertEquals(history, self.show_sells())
+        self.assertEquals(history, self.get_sells())
 
     def testShowSellsTypes(self):
         price1 = Price.from_float(30.0)
         quantity1 = Quantity.from_float(2.2)
         price2 = Price.from_float(1.2)
         quantity2 = Quantity.from_float(4.0)
-        history = [ (price1, quantity1) (price2, quantity2) ]
+        t1 = (price1, quantity1)
+        t2 = (price2, quantity2)
+        history = [ t1 t2 ]
         self.mock.order_book.ask_side_depth_profile.return_value = history
-        result = self.show_sells()
+        result = self.get_sells()
         for (price, quantity) in result:
             self.assertIsInstance(price, float)
             self.assertIsInstance(quantity, float)
@@ -199,28 +210,41 @@ class MarketTest(unittest.TestCase):
     def testShowBuysEmpty(self):
         history = []
         self.mock.order_book.ask_side_depth_profile.return_value = history
-        self.assertEquals(history, self.show_sells())
+        self.assertEquals(history, self.get_buys())
 
     def testShowBuys(self):
         price1 = Price.from_float(30.0)
         quantity1 = Quantity.from_float(2.2)
         price2 = Price.from_float(1.2)
         quantity2 = Quantity.from_float(4.0)
-        history = [ (price1, quantity1) (price2, quantity2) ]
+        t1 = (price1, quantity1)
+        t2 = (price2, quantity2)
+        history = [ t1 t2 ]
         self.mock.order_book.ask_side_depth_profile.return_value = history
-        self.assertEquals(history, self.show_sells())
+        self.assertEquals(history, self.get_buys())
 
     def testShowBuysTypes(self):
         price1 = Price.from_float(30.0)
         quantity1 = Quantity.from_float(2.2)
+        t1 = (price1, quantity1)
         price2 = Price.from_float(1.2)
         quantity2 = Quantity.from_float(4.0)
-        history = [ (price1, quantity1) (price2, quantity2) ]
+        t2 = (price2, quantity2)
+        history = [ t1 t2 ]
         self.mock.order_book.ask_side_depth_profile.return_value = history
-        result = self.show_sells()
+        result = self.get_buys()
         for (price, quantity) in result:
             self.assertIsInstance(price, float)
             self.assertIsInstance(quantity, float)
+
+    def testOrderBookExists(self):
+        self.assertIsNotNone(self.market.order_book)
+
+    def testOrderBookEquals(self):
+        self.assertEquals(self.mock.order_book, self.market.order_book)
+
+    def testOrderBookType(self):
+        self.assertTrue(isinstance(self.market.order_book, OrderBookAPI))
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

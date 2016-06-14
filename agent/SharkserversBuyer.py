@@ -73,63 +73,24 @@ class SharkserversBuyer(VPSBuyer):
             #Click the pay by bitcoin button
             self.driver.find_element_by_css_selector("input[type='radio'][value='bitpay']").click()
 
-            
-            #driver.find_element_by_css_selector("input[name='firstname']").send_keys(getFormValue('firstname'))
-
-            self.fillInElement('firstname', self.generator.getFirstName())
-            self.fillInElement('lastname', self.generator.getSurname())
-            self.fillInElement('email', self.email)
-            self.fillInElement('address1', self.generator.getRAString(randint(8, 15)) + ' ' + self.generator.getRNString(randint(1, 2)))
-            self.fillInElement('city', self.generator.getCity())
-            self.fillInElement('postcode', self.generator.getZipcode())
-
-            # Select the country that the machine is currently in in the list of countries to seem more legible, because apparently the country you selected sometimes gets compared to your IP address
-            country_found = self.clickSelectElement('country', CountryGetter.get_country())
-            if(country_found != True):
-                self.clickRandomSelectElement('country')
-
-
-            select = Select(self.driver.find_element_by_id('country'))
-            selected_text = select.first_selected_option.text;
-
-            if selected_text == 'United States' or selected_text == 'Spain' or selected_text == 'Australia' or selected_text == 'Brazil' or selected_text == 'Canada' or selected_text == 'France' or selected_text == 'Germany' or selected_text == 'India' or selected_text == 'Italy' or selected_text == 'Netherlands' or selected_text == 'New Zealand' or selected_text == 'United Kingdom':
-                # For US, Brazil, Canada, France, Germany, India, Italia, Netherlands, New Zealand and United Kingdom select state option in a select
-                self.clickRandomSelectElement('stateselect')
-            else:
-                # For all other countries, fill in string
-                self.fillInElement('state', self.generator.getRAString(randint(6, 12)))
-
-
-            self.fillInElement('phonenumber', self.generator.getPhoneNum())
-
-            # password =  # Generate a password
-            self.driver.find_element_by_id('inputNewPassword1').send_keys(self.password)
-            self.fillInElement('password2', self.password)
-
+            self._fill_in_form()
             
             self.driver.find_element_by_id('btnCompleteOrder').click() # Submit the form
 
             try:
             	self.driver.find_element_by_css_selector("input[type='submit'][value='Pay Now']").click()
             except Exception as e:
-				print("Warning: Pay now button not found")
+            	print("Warning: Pay now button not found")
 
             self.driver.implicitly_wait(10)
 
-            bitcoinAmount = self.driver.find_element_by_css_selector(".ng-binding.payment__details__instruction__btc-amount").text
-            toWallet = self.driver.find_element_by_css_selector(".payment__details__instruction__btc-address.ng-binding").text
-
-            print("Bitcoin amount to transfer: " + bitcoinAmount)
-
-            print("To wallet: " + toWallet)
 
             print("Username:" + self.email)
             print("Password:" + self.password)
 
+            paymentSucceeded = self._pay()
 
-            wallet = Wallet()
-            paymentSucceeded = wallet.payToAutomatically(toWallet, bitcoinAmount)
-            if paymentSucceeded == False:
+            if not paymentSucceeded:
                 print "payment failed"
                 return False
 
@@ -149,6 +110,47 @@ class SharkserversBuyer(VPSBuyer):
 
         return True
 
+    def _fill_in_form(self):
+        """Fills the form with values."""
+        self.fillInElement('firstname', self.generator.getFirstName())
+        self.fillInElement('lastname', self.generator.getSurname())
+        self.fillInElement('email', self.email)
+        self.fillInElement('address1', self.generator.getRAString(randint(8, 15)) + ' ' + self.generator.getRNString(randint(1, 2)))
+        self.fillInElement('city', self.generator.getCity())
+        self.fillInElement('postcode', self.generator.getZipcode())
+        self._fill_in_country()
+        self.fillInElement('phonenumber', self.generator.getPhoneNum())
+        self.driver.find_element_by_id('inputNewPassword1').send_keys(self.password)
+        self.fillInElement('password2', self.password)
+
+    def _fill_in_country(self):
+        """Fill in the country on the form."""
+        # Select the country that the machine is currently in in the list of countries to seem more legible, because apparently the country you selected sometimes gets compared to your IP address
+        country_found = self.clickSelectElement('country', CountryGetter.get_country())
+        if(country_found != True):
+            self.clickRandomSelectElement('country')
+        select = Select(self.driver.find_element_by_id('country'))
+        selected_text = select.first_selected_option.text;
+        if (selected_text == 'United States' or selected_text == 'Spain' or selected_text == 'Australia'
+                or selected_text == 'Brazil' or selected_text == 'Canada' or selected_text == 'France' or selected_text == 'Germany'
+                or selected_text == 'India' or selected_text == 'Italy' or selected_text == 'Netherlands'
+                or selected_text == 'New Zealand' or selected_text == 'United Kingdom'):
+            # For US, Brazil, Canada, France, Germany, India, Italia, Netherlands, New Zealand and United Kingdom select state option in a select
+            self.clickRandomSelectElement('stateselect')
+        else:
+            # For all other countries, fill in string
+            self.fillInElement('state', self.generator.getRAString(randint(6, 12)))
+
+    def _pay(self):
+        """Extract the invoice information and pay for the VPS"""
+        bitcoinAmount = self.driver.find_element_by_css_selector(".ng-binding.payment__details__instruction__btc-amount").text
+        toWallet = self.driver.find_element_by_css_selector(".payment__details__instruction__btc-address.ng-binding").text
+
+        print("Bitcoin amount to transfer: " + bitcoinAmount)
+        print("To wallet: " + toWallet)
+
+        wallet = Wallet()
+        return wallet.payToAutomatically(toWallet, bitcoinAmount)
 
     def getSSHInfo(self):
         """

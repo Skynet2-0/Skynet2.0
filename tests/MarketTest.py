@@ -153,18 +153,18 @@ class MarketTest(unittest.TestCase):
     def testBuyPriceReturnType(self):
         buy_price = 1.0
         # self.mock.bid_price = Mock()
-        self.mock.order_book.bid_price = Price.from_float(buy_price)
+        self.mock.order_book.bid_price.return_value = Price.from_float(buy_price)
         self.assertIsInstance(self.market.buy_price(), float)
 
     def testBuyPricePositive(self):
         buy_price = 1.0
         # self.mock.bid_price = Mock()
-        self.mock.order_book.bid_price = Price.from_float(buy_price)
+        self.mock.order_book.bid_price.return_value = Price.from_float(buy_price)
         self.assertTrue(self.market.buy_price() >= 0)
 
     def testBuyPrice(self):
         buy_price = 1.0
-        self.market.buy_price.return_value = Price.from_float(buy_price)
+        self.mock.order_book.bid_price.return_value = Price.from_float(buy_price)
         self.assertEquals(buy_price, self.market.buy_price())
 
     def testMarketSetting(self):

@@ -63,6 +63,7 @@ class MarketTest(unittest.TestCase):
                 succes = True
             else:
                 # Unexpected Exception so reraise
+		print("expected message:%s\nbut was:%s" % (errormsg, msg))
                 raise
         self.assertTrue(succes, "Error was altered.")
 
@@ -242,7 +243,7 @@ class MarketTest(unittest.TestCase):
         t2 = (price2, quantity2)
         history = [ t1, t2 ]
         self.mock.order_book.ask_side_depth_profile.return_value = history
-        result = self.get_buys()
+        result = self.market.get_buys()
         for (price, quantity) in result:
             self.assertIsInstance(price, float)
             self.assertIsInstance(quantity, float)
@@ -257,8 +258,8 @@ class MarketTest(unittest.TestCase):
         self.assertTrue(isinstance(self.market.order_book, OrderBookAPI))
 
     def testConvertPriceToFloat(self):
-        price = Price.fromfloat(2.035)
-        self.assertEquals(price, Price.fromfloat(self.market._convert_price_to_float(price)))
+        price = Price.from_float(2.035)
+        self.assertEquals(price, Price.from_float(self.market._convert_price_to_float(price)))
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

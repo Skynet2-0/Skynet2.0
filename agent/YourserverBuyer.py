@@ -15,6 +15,9 @@ from Wallet import Wallet
 import selenium.webdriver.support.ui as ui
 
 import time
+from tempmail import TempMail
+
+from pprint import pprint
 
 
 class YourserverBuyer(VPSBuyer):
@@ -27,6 +30,9 @@ class YourserverBuyer(VPSBuyer):
         email -- The email address to use.
         password -- The password to use for creating an account.
         """
+        self.tm = TempMail()
+        if email == "":
+            email = self.tm.get_email_address()
         super(YourserverBuyer, self).__init__(email, password, "root", BogusFormBuilder().getRNString(30))
 
 
@@ -58,21 +64,37 @@ class YourserverBuyer(VPSBuyer):
             self.driver.find_element_by_css_selector('.ordernow').click()
             
             print("Email used: " + self.email)
-            print("password used: " + self.password)
             
             try:
                 self.driver.find_element_by_css_selector('input[value="Pay Now"]').click()
             except Exception as e:
                 print("Warning: Pay now button not found")
 
-            paymentSucceeded = self._pay()
-            if paymentSucceeded == False:
+            #paymentSucceeded = self._pay()
+            paymentSucceeded = True
+            if not paymentSucceeded:
                 return False
 
             # Wait for the transaction to be accepted
-            wait = ui.WebDriverWait(self.driver, 666)
-            wait.until(lambda driver: driver.find_element_by_css_selector('.payment--paid'))
+            #wait = ui.WebDriverWait(self.driver, 666)
+            #wait.until(lambda driver: driver.find_element_by_css_selector('.payment--paid'))
+
+            time.sleep(60)
+
+            emails = self.tm.get_mailbox(self.email)
+
+            verify_url = emails.split('clicking the link below:<br>\n<a href="')[1].split('"')[0]
+            print("verify URL: " +verify_url)
+
+            self.password = emails.split('Password ')[1].split('\n')[0]
+            print("password used: " + self.password)
+
+            self.driver.get(verify_url)
+
+            time.sleep(10)
             self.closeBrowser()
+
+
 
         except Exception as e:
             print("Could not complete the transaction because an error occurred:")
@@ -129,8 +151,8 @@ class YourserverBuyer(VPSBuyer):
 
     def _login(self):
         """login on the website of Yourserver."""
-        self.driver.find_element_by_id('inputEmail').send_keys(self.email)
-        self.driver.find_element_by_id('inputPassword').send_keys(self.password)
+        self.fillInElement('username', self.email)
+        self.fillInElement('password', self.password)
         self.driver.find_elements_by_name('rememberme').pop().click()
         self.driver.find_element_by_id('login').click()
 

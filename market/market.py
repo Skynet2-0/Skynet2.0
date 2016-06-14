@@ -10,6 +10,7 @@ from api import *
 from Tribler.community.market.community import MarketCommunity
 from typing.typecheck import *
 
+
 class Market(object):
     """
     The class handling the market.
@@ -140,7 +141,7 @@ class Market(object):
 
     @market.setter
     def market(self, value):
-        self.check_type(value, MarketAPI)
+        check_type(value, MarketAPI)
         self._market = value
 
     @property
@@ -153,6 +154,5 @@ class Market(object):
 
     @default_timeout.setter
     def default_timeout(self, value):
-        self._check_type(value, float)
-        self._check_positive(value)
+        check_positive_float(value)
         self._default_timeout = value

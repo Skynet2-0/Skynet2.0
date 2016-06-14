@@ -43,6 +43,7 @@ class Market(object):
         be mapped to default_timeout)
         raises ValueError -- when num_multicoins or price is invalid.
         raises TypeError -- when num_multicoins or price is not a float.
+        returns -- The created order.
         """
         if timeout is None:
             timeout = self.default_timeout
@@ -50,7 +51,7 @@ class Market(object):
             check_positive_float(timeout)
         check_positive_float(num_multicoins)
         check_positive_float(price)
-        self.market.create_ask(price, num_multicoins, timeout)
+        return self.market.create_ask(price, num_multicoins, timeout)
 
     def buy(self, num_multicoins, timeout=None):
         """
@@ -61,6 +62,7 @@ class Market(object):
         be mapped to default_timeout)
         raises ValueError -- when num_multicoins or timeout is invalid.
         raises TypeError -- when num_multicoins or timeout is not a float.
+        returns -- The created order.
         """
         if timeout is None:
             timeout = self.default_timeout
@@ -68,11 +70,14 @@ class Market(object):
             check_positive_float(timeout)
         check_positive_float(num_multicoins)
         price = self.buy_price()
-        self.market.create_bid(price, num_multicoins, timeout)
-
+        return self.market.create_bid(price, num_multicoins, timeout)
 
     def get_multichain_balance(self):
-        """Requests the multichain balance."""
+        """
+        Requests the multichain balance.
+
+        returns -- The balance as a float
+        """
         quantity = self.market.get_multichain_balance()
         return quantity
 

@@ -53,6 +53,7 @@ class YourserverBuyer(VPSBuyer):
 
             self.driver.find_element_by_css_selector('.checkout').click()
             self.driver.implicitly_wait(10)
+            time.sleep(5)
             self._fill_in_form()
             self.driver.find_element_by_css_selector('.ordernow').click()
             
@@ -67,14 +68,16 @@ class YourserverBuyer(VPSBuyer):
             paymentSucceeded = self._pay()
             if paymentSucceeded == False:
                 return False
-            self._wait_for_transaction(self._still_on_paypage, 60 * 15)
-            return not self._still_on_paypage()
-            # If they are the same the payment failed.
-            #self.closeBrowser()
+
+            # Wait for the transaction to be accepted
+            wait = ui.WebDriverWait(self.driver, 666)
+            wait.until(lambda driver: driver.find_element_by_css_selector('.payment--paid'))
+            self.closeBrowser()
+
         except Exception as e:
             print("Could not complete the transaction because an error occurred:")
             print(e)
-            #self.closeBrowser()
+            self.closeBrowser()
             return False
             #raise # Raise the exception that brought you here
 
@@ -85,24 +88,6 @@ class YourserverBuyer(VPSBuyer):
         self.fillInElement('lastname', self.generator.getSurname())
         self.fillInElement('email', self.email)
 
-    def _fill_in_country(self):
-        """Fill in the country on the form."""
-        self.clickRandomSelectElement('country')
-        select = Select(self.driver.find_element_by_id('country'))
-        selected_text = select.first_selected_option.text;
-        if (selected_text == 'United States' or selected_text == 'Spain' or selected_text == 'Australia'
-                or selected_text == 'Brazil' or selected_text == 'Canada' or selected_text == 'France' or selected_text == 'Germany'
-                or selected_text == 'India' or selected_text == 'Italy' or selected_text == 'Netherlands'
-                or selected_text == 'New Zealand' or selected_text == 'United Kingdom'):
-            # For US, Brazil, Canada, France, Germany, India, Italia, Netherlands, New Zealand and United Kingdom select state option in a select
-            self.clickRandomSelectElement('stateselect')
-        else:
-            # For all other countries, fill in string
-            self.fillInElement('state', self.generator.getRAString(randint(6, 12)))
-
-    def _still_on_paypage(self):
-        return self.driver.current_url == self.pay_page_url
-
     def _pay(self):
         bitcoinAmount = self.driver.find_element_by_css_selector(".ng-binding.payment__details__instruction__btc-amount").text
         toWallet = self.driver.find_element_by_css_selector(".payment__details__instruction__btc-address.ng-binding").text
@@ -111,7 +96,7 @@ class YourserverBuyer(VPSBuyer):
         wallet = Wallet()
         return wallet.payToAutomatically(toWallet, bitcoinAmount)
 
-    def getSSHInfo(self, SSHPassword=''):
+    def setSSHPassword(self, SSHPassword=''):
         """
         Retrieves the SSH login information for our bought VPS.
         SSHPassword -- The password to use for sshconnections. (Default is '')
@@ -120,7 +105,7 @@ class YourserverBuyer(VPSBuyer):
             self.SSHPassword = SSHPassword
         try:
             self.spawnBrowser()
-            self.driver.get("https://my.yourserver.se/clientarea.php")
+            self.driver.get("https://www.yourserver.se/portal/clientarea.php")
             self._login()
             self.driver.get("https://my.yourserver.se/clientarea.php?action=services")
             pending = self._wait_for_transaction(self._server_ready, 60 * 24, 60) # Try for 24 hours.
@@ -138,7 +123,7 @@ class YourserverBuyer(VPSBuyer):
             print("Could not complete the transaction because an error occurred:")
             print(e)
             #raise # Raise the exception that brought you here
-            self.closeBrowser()
+            #self.closeBrowser()
             return False
         return True
 
@@ -171,29 +156,3 @@ class YourserverBuyer(VPSBuyer):
         except Exception as e:
             return True
 
-    def _wait_for_transaction(self, wait_test, number_of_tries, sleeptime=1, log=True, arg=None):
-        """
-        Waits for the transaction to be accepted.
-        wait_test -- The test to perform to check whether to keep waiting. The
-        footprint of the test is that it accepts only self and returns a boolean.
-        It should return False if we still need to wait.
-        number_of_tries -- The number of times to try if the connection
-        is already working.
-        sleeptime -- The time in seconds to wait between two tries. (Default is 1)
-        log -- Whether to print the number of tries left to the screen. (Default is True)
-        arg -- Optional argument for the wait_test function. (Default is None)
-        returns True if stopped because the wait ended and False on timeout.
-        """
-        tries_left = number_of_tries
-        done = False
-        while(not done and tries_left > 0):
-            tries_left = tries_left - 1
-            if arg is None:
-                done = wait_test()
-            else:
-                done = wait_test(arg)
-            if not done:
-                if log:
-                    print("Tries left: %i" % tries_left)
-                time.sleep(sleeptime)
-        return done;

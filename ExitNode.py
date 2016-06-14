@@ -184,7 +184,7 @@ class Tunnel(object):
             else:
                 member = self.dispersy.get_new_member(u"curve25519")
                 cls = HiddenTunnelCommunity
-            self.community = self.dispersy.define_auto_load(cls, member, load=True)[0]
+            self.community = self.dispersy.define_auto_load(cls, member, (self.session, self.settings), load=True)[0]
 
             if introduce_port:
                 self.community.add_discovered_candidate(Candidate(('127.0.0.1', introduce_port), tunnel=False))
@@ -194,7 +194,7 @@ class Tunnel(object):
             keypair = self.dispersy.crypto.generate_key(u"curve25519")
             member = self.dispersy.get_member(private_key=self.dispersy.crypto.key_to_bin(keypair))
             cls = MarketCommunity
-            self.market_community = self.dispersy.define_auto_load(cls, member, (self.session, self.settings), load=True)[0]
+            self.market_community = self.dispersy.define_auto_load(cls, member, load=True)[0]
             if introduce_port:
                 self.market_community.add_discovered_candidate(Candidate(('127.0.0.1', introduce_port), tunnel=False))
 

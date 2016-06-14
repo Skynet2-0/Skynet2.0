@@ -72,7 +72,7 @@ class MarketTest(unittest.TestCase):
     def testBuyInOrderBook(self):
         amount = 1.0
         price = 2.1
-        t = (Quantity.from_float(amount), Price.from_float(price))
+        t = (Price.from_float(price), Quantity.from_float(amount))
         self.mock.order_book.bid_side_depth_profile.return_value = []
         def addOrder(*args, **kwargs):
             self.mock.order_book.bid_side_depth_profile.return_value = [ t ]
@@ -141,7 +141,7 @@ class MarketTest(unittest.TestCase):
     def testSellInOrderBook(self):
         amount = 1.0
         price = 2.1
-        t = (Quantity.from_float(amount), Price.from_float(price))
+        t = (Price.from_float(price), Quantity.from_float(amount))
         self.mock.order_book.ask_side_depth_profile.return_value = []
         def addOrder(*args, **kwargs):
             self.mock.order_book.ask_side_depth_profile.return_value = [ t ]
@@ -290,3 +290,4 @@ class MarketTest(unittest.TestCase):
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()
+

@@ -7,6 +7,7 @@ Created June 6, 2016.
 """
 
 from api import *
+from decimal import *
 from Tribler.community.market.community import MarketCommunity
 from typing.typecheck import *
 
@@ -79,7 +80,7 @@ class Market(object):
         returns -- The balance as a float
         """
         quantity = self.market.get_multichain_balance()
-        return quantity
+        return self._convert_quantity_to_float(quantity)
 
     def sell_price(self):
         """
@@ -106,7 +107,7 @@ class Market(object):
         price -- A price object of the price.
         returns -- A float of the price.
         """
-        pass
+        return float(price)
 
     def get_sells(self):
         """
@@ -137,7 +138,24 @@ class Market(object):
         trades -- list of trades to convert.
         returns -- The list of converted trades.
         """
-        pass
+        converted = []
+        for (p, q) in trades:
+            price = _convert_price_to_float(p)
+            quantity = _convert_quantity_to_float(q)
+            t = (price, quantity)
+            converted.append(t)
+        return converted
+
+    def _convert_quantity_to_float(self, quantity):
+        """
+        Converts quantity to float.
+
+        It uses the str method to do so.
+
+        quantity -- The quantity to convert.
+        returns -- A float version of the quantity.
+        """
+        return float(str(quantity)) # Decimal(str(quantity))
 
     @property
     def market(self):

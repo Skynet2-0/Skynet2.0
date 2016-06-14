@@ -72,13 +72,14 @@ class MarketTest(unittest.TestCase):
     def testBuyInOrderBook(self):
         amount = 1.0
         price = 2.1
+        expected = [ (1.0, 2.1) ]
         t = (Price.from_float(price), Quantity.from_float(amount))
         self.mock.order_book.bid_side_depth_profile.return_value = []
         def addOrder(*args, **kwargs):
             self.mock.order_book.bid_side_depth_profile.return_value = [ t ]
         self.mock.create_bid.side_effect = addOrder
         self.market.buy(amount, price)
-        self.assertEquals([ t ], self.market.get_buys())
+        self.assertEquals(expected, self.market.get_buys())
 
     def testSell(self):
         amount = 3.0
@@ -141,13 +142,14 @@ class MarketTest(unittest.TestCase):
     def testSellInOrderBook(self):
         amount = 1.0
         price = 2.1
+        expected = [ (1.0, 2.1) ]
         t = (Price.from_float(price), Quantity.from_float(amount))
         self.mock.order_book.ask_side_depth_profile.return_value = []
         def addOrder(*args, **kwargs):
             self.mock.order_book.ask_side_depth_profile.return_value = [ t ]
         self.mock.create_ask.side_effect = addOrder
         self.market.sell(amount, price)
-        self.assertEquals([ t ], self.market.get_sells())
+        self.assertEquals(expected, self.market.get_sells())
 
     def testGetMCBalance(self):
         quan = 2.4
@@ -227,8 +229,9 @@ class MarketTest(unittest.TestCase):
         t1 = (price1, quantity1)
         t2 = (price2, quantity2)
         history = [ t1, t2 ]
+        expected = [ (30.0, 2.2), (1.2, 4.0) ]
         self.mock.order_book.ask_side_depth_profile.return_value = history
-        self.assertEquals(history, self.market.get_sells())
+        self.assertEquals(expected, self.market.get_sells())
 
     def testShowSellsTypes(self):
         price1 = Price.from_float(30.0)
@@ -257,8 +260,9 @@ class MarketTest(unittest.TestCase):
         t1 = (price1, quantity1)
         t2 = (price2, quantity2)
         history = [ t1, t2 ]
+        answer = [ (30.0, 2.2), (1.2, 4.0) ]
         self.mock.order_book.bid_side_depth_profile.return_value = history
-        self.assertEquals(history, self.market.get_buys())
+        self.assertEquals(answer, self.market.get_buys())
 
     def testShowBuysTypes(self):
         price1 = Price.from_float(30.0)
@@ -290,4 +294,3 @@ class MarketTest(unittest.TestCase):
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()
-

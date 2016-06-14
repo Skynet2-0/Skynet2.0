@@ -52,7 +52,8 @@ class VPSBuyer(object):
         #driver.find_element_by_css_selector("input[name='" + fieldname + "']").send_keys(value)
 
         # ^ send_keys has some issues, using javascript to set an attribute instead:
-        self.driver.execute_script('arguments[0].setAttribute("value", "' + value + '")', self.driver.find_element_by_css_selector("input[name='" + fieldname + "']"))
+        self.driver.find_element_by_name(fieldname) # Selenium waits until this element exists
+        self.driver.execute_script('document.getElementsByName("'+fieldname+'")[0].setAttribute("value", "' + value + '")')
 
     def clickRandomSelectElement(self, fieldId):
         """

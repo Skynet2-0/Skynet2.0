@@ -47,22 +47,23 @@ class YourserverBuyer(VPSBuyer):
         try:
             self.spawnBrowser()
             self.driver.get("https://www.yourserver.se/cart.php?a=confproduct&i=0")
-            self.fillInElement("configoption[2]", "Ubuntu 14.04")
+            self.driver.find_element_by_css_selector('.ordernow').click()
+            self.driver.implicitly_wait(5)
+            self.chooseSelectElement("configoption[2]", "Ubuntu 14.04")
 
             self.driver.find_element_by_css_selector('.checkout').click()
             self.driver.implicitly_wait(10)
             self._fill_in_form()
             self.driver.find_element_by_css_selector('.ordernow').click()
-            #self.fillInElement("hostname", self.generator.getRAString(10))
-            #self.fillInElement("ns1prefix", "ns1")
-            #self.fillInElement("ns2prefix", "ns2")
-            #self.fillInElement("rootpw", self.SSHPassword)
+            
             print("Email used: " + self.email)
             print("password used: " + self.password)
-            #self.driver.find_element_by_id('btnCompleteOrder').click()
+            
+            try:
+                self.driver.find_element_by_css_selector('input[value="Pay Now"]').click()
+            except Exception as e:
+                print("Warning: Pay now button not found")
 
-
-            self.driver.find_element_by_name('paynow').click()
             paymentSucceeded = self._pay()
             if paymentSucceeded == False:
                 return False
@@ -79,6 +80,7 @@ class YourserverBuyer(VPSBuyer):
 
     def _fill_in_form(self):
         """Fills the form with values."""
+        print(self.generator.getFirstName())
         self.fillInElement('firstname', self.generator.getFirstName())
         self.fillInElement('lastname', self.generator.getSurname())
         self.fillInElement('email', self.email)
@@ -102,13 +104,8 @@ class YourserverBuyer(VPSBuyer):
         return self.driver.current_url == self.pay_page_url
 
     def _pay(self):
-        self.driver.switch_to_frame(self.driver.find_element_by_tag_name("iframe"))
-        text = self.driver.find_element_by_tag_name('body').text
-        lines = text.split('\n')
-        firstlinesplit = lines[0].split(' ')
-        bitcoinAmount = firstlinesplit[2]
-        toWallet = lines[2]
-        self.pay_page_url = self.driver.current_url
+        bitcoinAmount = self.driver.find_element_by_css_selector(".ng-binding.payment__details__instruction__btc-amount").text
+        toWallet = self.driver.find_element_by_css_selector(".payment__details__instruction__btc-address.ng-binding").text
         print("amount: " + bitcoinAmount)
         print("to wallet: " + toWallet)
         wallet = Wallet()

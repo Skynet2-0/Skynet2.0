@@ -37,7 +37,17 @@ class Settings(object):
         except:
             return None
             
+    def get_test_server_VPSBuyer(self):
+        try:
+            return self.json['testserver']['VPSBuyer']
+        except:
+            return None
+            
     def _load(self):
-        f = open("settings.json", "r")
-        fc = f.read()
-        return json.loads(fc)
+        try:
+            f = open("settings.json", "r")
+            fc = f.read()
+            return json.loads(fc)
+        except: 
+            print "failed to load settings.json, do not expect this program to run properly without it"
+            return {}

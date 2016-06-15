@@ -29,35 +29,57 @@ class Wallet(object):
 			#if a wallet exists, initialize that one
 			print('using already existing wallet')
 		else:
-			print('did not find an existing wallet, creating a new one')
-			#ensure the daemon is stopped, as this causes path errors (mostly usefull for development)
-			pexpect.run('electrum daemon stop')
-			#build a new wallet if no wallet yet exists
-			walletpair=str(subprocess.check_output('python addrgen/addrgen.py',shell=True))
-			walletpair = re.split('\W+', walletpair)
-			
-			self.address = walletpair[1]
-			self.privkey = walletpair[2]
-			print('created a wallet with address \''+self.address+'\' and privatekey \''+self.privkey+'\'')
-			child = pexpect.spawn('electrum', ['restore', self.privkey])
-			#respectively: use default password, use default fee (0.002), use default gap limit and give seed
-			self._answer_prompt(child, '')
-			
-			
+			self._create_wallet()
 		subprocess.call(['electrum', 'daemon', 'start'])
 
 	def _answer_prompt(self, child, answer):
 		"""
 		Wait for a prompt, then send the answer. Answering with '' is the same as no answer
-
+		
 		child -- a result from pexpect.spawn and is thus of the pexpect.spawn class.
 		"""
 		
 		#wait for prompt, then send answer
 		child.waitnoecho()
 		child.sendline(answer)
-		child.read()
-    
+		try:
+			child.read()
+		except:
+			pass #somethimes no output is generated, and eof would cash read...
+		
+	def _create_wallet(self):
+		print('did not find an existing wallet, creating a new one')
+		#ensure the daemon is stopped, as this causes path errors (mostly usefull for development)
+		pexpect.run('electrum daemon stop')
+		#build a new wallet if no wallet yet exists
+		walletpair=str(subprocess.check_output('python addrgen/addrgen.py',shell=True))
+		walletpair = re.split('\W+', walletpair)
+		
+		self.address = walletpair[1]
+		self.privkey = walletpair[2]
+		print('created a wallet with address \''+self.address+'\' and privatekey \''+self.privkey+'\'')
+		child = pexpect.spawn('electrum', ['restore', self.privkey])
+		#respectively: use default password, use default fee (0.002), use default gap limit and give seed
+		self._answer_prompt(child, '')
+		
+		#check if wallet was created succesfulyl
+		command = """electrum listaddresses"""
+		output = pexpect.run(command)
+		
+		walletFinder = re.compile(r'\[\W*"([A-z0-9]+)"\W*\]')
+		
+		result = walletFinder.search(output)
+		
+		#This horrible feedback loop is here due to a quirk of electrum.
+		#Needs refactoring, but do not refactor without extensive testing (i.e. multiple vps all from clean install)
+		#Because electrum behaviour right after startup tends to differ from server to server (i suspect something to do wtih specs)
+		try:
+			print result.group(1)
+			return result.group(1)
+		except:
+			return self._create_wallet()
+	
+	
 
 	# def __del__(self):
 	#     '''

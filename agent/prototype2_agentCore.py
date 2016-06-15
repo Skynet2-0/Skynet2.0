@@ -8,11 +8,12 @@ import time
 
 from agent.Birthchamber import Birthchamber
 from agent.DNA import DNA
+from agent.ExitNode import Tunnel
 from agent.Settings import Settings
 from agent.VPSBuyer import VPSBuyer
 from agent.Wallet import Wallet
 
-from ExitNode import Tunnel
+
 
 from ssh.SSH import SSH
 
@@ -45,23 +46,28 @@ class Prototype2(object):
         if useTestServer:
             #this part works for this version, and since this script is just for doing integration it should be fine
             #i still need to write a dummy vpsbuyer that simply takes these values
-            bc.get_child_using_test_server()
+            bc.get_child_using_test_server('prototype2', 'prototype2_agentCore.py')
             v = bc.vps
+            
+            print("preparing to run protoype2_agentcore on the following server:")
+            print("SSHUsername: "+v.SSHUsername)
+            print("SSHPassword: "+v.SSHPassword)
+            print("SSHIP: "+v.IP)
+            
+            
+            
         else:
-            bc.getChild()
-            v = bc.vps
             while(wallet.balance()<bc.getChildCost()):
                 print("Not enough bitcoins, waiting for money to arrive")
                 time.sleep(600)
+            bc.getChild('prototype2', 'prototype2_agentCore.py')
         
-        print("preparing to run protoype2_agentcore on the following server:")
-        print("SSHUsername: "+v.SSHUsername)
-        print("SSHPassword: "+v.SSHPassword)
-        print("SSHIP: "+v.IP)
+        
     
-        print("starting the installation procedure")
-        ssh = SSH(v.getIP(),v.getSSHUsername(),v.getSSHPassword(),s.get_test_server_ssh_port())
-        self.run(ssh, bc, v)
+        print("started up agentCore on child, transferring own funds to child")
+        v= bc.vps
+        ssh = SSH(v.getIP(),v.getSSHUsername(),v.getSSHPassword(),22)
+        self.transfer_funds_to_child_wallet(ssh, v)
     
     def prepChild(self, ssh):
         print('Start prepping child.')
@@ -78,15 +84,15 @@ class Prototype2(object):
         (_, out0, err0) = ssh.run(command)
         ssh._checkStreams(out0, err0, 'Changing Branch Failed', 'Changed Branch.')
     
-    def customIntall(self, ssh):
-        print("starting the actual installing of programs on the child, this can take up to 15 minutes.")
-        command = """cd ~/Skynet2.0 && sh build.sh >> build.out"""
-        (_, out0, err0) = ssh.run(command)
-        ssh._checkStreams_until_done(out0, err0, 'Preqrequisite installation failed', 'Preqrequisite installation succesfull.')
+#    def customIntall(self, ssh):
+#        print("starting the actual installing of programs on the child, this can take up to 15 minutes.")
+ #       command = """cd ~/Skynet2.0 && sh build.sh >> build.out"""
+ #       (_, out0, err0) = ssh.run(command)
+ #       ssh._checkStreams_until_done(out0, err0, 'Preqrequisite installation failed', 'Preqrequisite installation succesfull.')
     
-    def startup_child(self, bc):
-        bc.giveChildGeneticCode(DNA())
-        bc.start_child_other_version("agent/prototype2_agentCore.py")
+#    def startup_child(self, bc, vps):
+#        bc.giveChildGeneticCode(DNA(), vps)
+#        bc.start_child_other_version("agent/prototype2_agentCore.py")
         
     
     def transfer_funds_to_child_wallet(self, ssh, v):
@@ -109,7 +115,8 @@ class Prototype2(object):
         f.write("child ssh ip: "+v.IP)
         f.write("child wallet address: "+childWallet)
         
-        #Wallet.send_everything_to(childWallet)
+        w = Wallet()
+        w.send_everything_to(childWallet)
         
     def get_child_wallet_address(self, ssh):
         """
@@ -133,15 +140,15 @@ class Prototype2(object):
         try:
             return result.group(1)
         except:
-            ssh.run('''(cd ~/Skynet2.0 && PYTHONPATH=${PYTHONPATH}:. python agent/protype2_agentCore.py -t True -x True &> agentCore.out &)''')
+            #ssh.run('''(cd ~/Skynet2.0 && PYTHONPATH=${PYTHONPATH}:. python agent/prototype2_agentCore.py -t True -x True &> agentCore.out &)''')
             return self.get_child_wallet_address(ssh)
     
     
-    def run(self, ssh,bc,v):    
-        self.prepChild(ssh)
-        self.customIntall(ssh)
-        self.startup_child(bc)
-        self.transfer_funds_to_child_wallet(ssh, v)
+#    def run(self, ssh,bc,v):    
+ #       self.prepChild(ssh)
+#        self.customIntall(ssh)
+#        self.startup_child(bc)
+#        self.transfer_funds_to_child_wallet(ssh, v)
         
 def main(argv):
     parser = argparse.ArgumentParser(description='Prototype 2 of the Autonomous self-replicating code.')

@@ -14,6 +14,7 @@ class VPSBuyer(object):
     This is the standard class to buy a VPS host.
     By itself, it does nothing; this class is supposed to be extended by other
     classes, each for a specific VPS Provider.
+
     email -- The email address. (Default is '')
     password -- The password for the account on the site. (Default is '')
     SSHUsername -- The user for the SSH Connection. (Default is 'root')

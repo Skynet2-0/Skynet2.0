@@ -19,20 +19,57 @@ class DNA(object):
             self._save(DNA.default())
             self.json = self._load()
         
-    def getMutation(self):
+    def getMutation(self, winner):
         """
         returns a mutated version of the own DNA
         """
-        #mutateRate = self.json.mutateRate
+        mutateRate = self.json["mutate rate"]
         
-        #first reweigh
         
+        #rebuild vps_buyers with enw values, keeping it's original length
+        (normalized, length) = self._normalize_as_vector(self.json["vps buyers"])
+        
+        try:
+            self.json["vps buyers"][winner] = self.json["vps buyers"][winner] + mutateRate 
+        except:
+            print("did not find winning vps in vps buyers, not mutating dna at getMutation in dna.py")
+        
+        self.json["vps buyers"] =  self._denormalize_as_vector(normalized, length)
                 
         return self.json
+        
+    def _normalize_as_vector(self,dictionary):
+        """
+           uses the values in the dictionary as a vector and then normalizes this vector.
+           returns the corrected dictionary
+           returns -- the pair of the normalized dictionary and the original length (normalized, length)
+        """
+        
+        normalized_d = {}
+        length = 0.0
+        for value in dictionary.values():
+            length+=value
+        
+        for key, value in dictionary.iteritems():
+            normalized_d[key] = value/length
+        
+        return (normalized_d, length)
+        
+    def _denormalize_as_vector(self, dictionary, length):
+        """
+            denormalizes a vector back length=length
+            returns the denormalized dictionary
+        """
+        denormalized_d = {}
+        for key, value in dictionary.iteritems():
+            denormalized_d[key] = value*length
+        
+        return denormalized_d
                 
     def getVPSBuyer(self):
         """
-        returns a random vps buyer class according to the odds described in the "vps buyers" entry of the dna
+        Returns a random vps buyer class according to the odds described in the "vps buyers" entry of the dna
+        Also returns the name of the picked instance in vps_buyers so dna can be mutated
         """
         
         vpsb = self.json["vps buyers"]
@@ -43,7 +80,10 @@ class DNA(object):
         #also that no init parameters are required
         module = importlib.import_module("agent."+key)
         class_ = getattr(module, key)
-        return class_()
+        
+        #now mutate the dna        
+        
+        return (class_(), key)
         
     def _select_winner(self, dictionary):
         """

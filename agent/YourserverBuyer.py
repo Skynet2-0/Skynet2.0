@@ -70,23 +70,24 @@ class YourserverBuyer(VPSBuyer):
             except Exception as e:
                 print("Warning: Pay now button not found")
 
-            #paymentSucceeded = self._pay()
-            paymentSucceeded = True
+            paymentSucceeded = self._pay()
             if not paymentSucceeded:
                 return False
 
             # Wait for the transaction to be accepted
-            #wait = ui.WebDriverWait(self.driver, 666)
-            #wait.until(lambda driver: driver.find_element_by_css_selector('.payment--paid'))
+            wait = ui.WebDriverWait(self.driver, 666)
+            wait.until(lambda driver: driver.find_element_by_css_selector('.payment--paid'))
 
             time.sleep(60)
 
             emails = self.tm.get_mailbox(self.email)
+            mails_html = emails[0][u'mail_html'] + emails[1][u'mail_html']
+            #print(mails_html)
 
-            verify_url = emails.split('clicking the link below:<br>\n<a href="')[1].split('"')[0]
+            verify_url = mails_html.split('clicking the link below:<br>\n<a href=\'')[1].split('\'')[0]
             print("verify URL: " +verify_url)
 
-            self.password = emails.split('Password ')[1].split('\n')[0]
+            self.password = mails_html.split('Password: ')[1].split(' \n')[0]
             print("password used: " + self.password)
 
             self.driver.get(verify_url)
@@ -95,13 +96,15 @@ class YourserverBuyer(VPSBuyer):
             self.closeBrowser()
 
 
-
         except Exception as e:
             print("Could not complete the transaction because an error occurred:")
             print(e)
             self.closeBrowser()
             return False
             #raise # Raise the exception that brought you here
+
+        return True
+
 
     def _fill_in_form(self):
         """Fills the form with values."""
@@ -129,23 +132,20 @@ class YourserverBuyer(VPSBuyer):
             self.spawnBrowser()
             self.driver.get("https://www.yourserver.se/portal/clientarea.php")
             self._login()
-            self.driver.get("https://my.yourserver.se/clientarea.php?action=services")
-            pending = self._wait_for_transaction(self._server_ready, 60 * 24, 60) # Try for 24 hours.
-            if pending:
-                return False # The VPS is still pending!
-            self.driver.get("https://my.yourserver.se/clientarea.php?action=emails")
-            onclick = self.driver.find_elements_by_css_selector(".btn.btn-info.btn-sm").pop().get_attribute('onclick')
-            explode = onclick.split('\'')
-            url = explode[1]
-            print(url)
-            self.driver.get("https://my.yourserver.se/" + url)
+            self.driver.get("https://www.yourserver.se/portal/clientarea.php?action=emails")
+
+
+            action = self.driver.find_element_by_css_selector('.btn.btn-info').get_attribute('onclick')
+            email_url = "https://www.yourserver.se/portal/viewemail.php?id=" + action.split('?id=')[1].split('\'')[0]
+            self.driver.get(email_url)
+
             self._extract_information()
             self.closeBrowser()
         except Exception as e:
             print("Could not complete the transaction because an error occurred:")
             print(e)
             #raise # Raise the exception that brought you here
-            #self.closeBrowser()
+            self.closeBrowser()
             return False
         return True
 
@@ -161,20 +161,7 @@ class YourserverBuyer(VPSBuyer):
         Extract the IP address and SSH Password.
         The values can then be found in self.SSHPassword and self.IP.
         """
-        email = self.driver.find_element_by_css_selector(".bodyContent").text
+        email = self.driver.find_element_by_css_selector(".popupcontainer").text
         lines = email.split('\n')
-        ipsplit = lines[7].split(',')
-        ipsplit2 = ipsplit[0].split(' ')
-        self.IP = ipsplit2[2]
-        self.SSHPassword = lines[8].split(' ')[2]
-
-    def _server_ready(self):
-        # Check if the server is ready.
-        try:
-            # The block dissappears when done loading.
-            self.driver.find_element_by_css_selector(".label.status.status-pending")
-            self.driver.get("https://my.yourserver.se/clientarea.php?action=services")
-            return False
-        except Exception as e:
-            return True
-
+        self.IP = lines[4].split(': ')[1]
+        self.SSHPassword = lines[7].split(': ')[1]

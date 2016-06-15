@@ -44,7 +44,6 @@ class AutoBuyBotTest(unittest.TestCase):
         self._run(0.01)
         self.assertEquals(2, self.mockmarket.buy.call_count)
 
-
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

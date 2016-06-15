@@ -4,7 +4,7 @@ This file arranges the API for the market.
 Created June 6, 2016.
 
 @author: Stefan
-""""
+"""
 
 from agent.Wallet import Wallet
 import ExitNode

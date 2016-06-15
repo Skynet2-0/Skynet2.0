@@ -7,7 +7,7 @@ Created June 6, 2016.
 """
 
 from agent.Wallet import Wallet
-import ExitNode
+import agent.ExitNode
 from market import Market
 import time
 from typing.typecheck import *
@@ -21,7 +21,7 @@ class AutoBuyBot(object):
         if market is None:
             self.market = self._initialize_market_if_none()
         else:
-            check_type(market)
+            check_type(market, Market)
             self.market = market
         if wallet is None:
             self.wallet = Wallet()
@@ -64,7 +64,7 @@ class AutoBuyBot(object):
             elif not order.is_valid():
                 order = None
             time.sleep(10)
-        return True.
+        return True
 
     @property
     def market(self):

@@ -30,7 +30,7 @@ class Market(object):
         self.market = wrapped_market
         self.default_timeout = 7200.0 # Two hours.
 
-    def sell(self, num_multicoins, price, timeout=None):
+    def sell(self, num_multicoins, price=None, timeout=None):
         """
         Sells num_multicoins multicoins for price bitcoins each.
 
@@ -47,7 +47,10 @@ class Market(object):
         else:
             check_positive_float(timeout)
         check_positive_float(num_multicoins)
-        check_positive_float(price)
+        if price is None:
+            price = self.sell_price()
+        else:
+            check_positive_float(price)
         return self.market.create_ask(price, num_multicoins, timeout)
 
     def buy(self, num_multicoins, price=None, timeout=None):

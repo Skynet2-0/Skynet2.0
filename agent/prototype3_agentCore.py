@@ -21,7 +21,6 @@ import time
 from typing.typecheck import *
 
 from Tribler.community.tunnel.tunnel_community import TunnelSettings
-# from Tribler.community.market.community import MarketCommunity
 
 class Prototype3(object):
 
@@ -60,20 +59,6 @@ class Prototype3(object):
             print("SSHPassword: "+v.SSHPassword)
             print("SSHIP: "+v.IP)
 
-
-
-        else:
-            while(wallet.balance()<bc.getChildCost()):
-                print("Not enough bitcoins, waiting for money to arrive")
-                time.sleep(600)
-            bc.getChild('market', 'prototype3_agentCore.py')
-
-
-
-        print("started up agentCore on child, transferring own funds to child")
-        v= bc.vps
-        ssh = SSH(v.getIP(),v.getSSHUsername(),v.getSSHPassword(),22)
-        self.transfer_funds_to_child_wallet(ssh, v)
 
     def prepChild(self, ssh):
         print('Start prepping child.')
@@ -156,7 +141,7 @@ class Prototype3(object):
             sleeptime = 1
             while(True):
                 if wallet.balance() >= bc.getChildCost():
-                    bc.getChild()
+                    bc.getChild('market', 'prototype3_agentCore.py')
                     sleeptime = 60
                 elif self.market.get_multichain_balance() >= amount:
                     market.sell(amount)

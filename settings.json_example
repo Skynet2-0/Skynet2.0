@@ -1,0 +1,10 @@
+{
+    "enableglobalsshlogging": true,
+    "testserver": {
+        "sship": "",
+        "sshport": 22,
+        "sshpassword": "",
+        "sshusername": "",
+        "VPSBuyer" : ""
+    }
+}

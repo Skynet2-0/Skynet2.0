@@ -64,13 +64,8 @@ class AutoBuyBot(object):
                 order = self.market.buy(amount)
             elif not order.is_valid():
                 order = None
-<<<<<<< HEAD
             time.sleep(sleeptime)
-        return True.
-=======
-            time.sleep(10)
         return True
->>>>>>> 13088f0daa568d7fe78edafea24d9f23018450de
 
     @property
     def market(self):

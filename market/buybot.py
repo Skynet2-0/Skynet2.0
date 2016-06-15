@@ -51,11 +51,12 @@ class AutoBuyBot(object):
         print("Out of funds")
         return result
 
-    def _run(self, amount):
+    def _run(self, amount, sleeptime=10):
         """
         Does the same as run.
 
         amount -- The amount to buy at a time.
+        sleeptime -- The time to sleep. (Default is 10)
         """
         order = None
         while self.wallet.balance() >= 0:
@@ -63,7 +64,7 @@ class AutoBuyBot(object):
                 order = self.market.buy(amount)
             elif not order.is_valid():
                 order = None
-            time.sleep(10)
+            time.sleep(sleeptime)
         return True.
 
     @property

@@ -6,7 +6,7 @@ Created on Apr 29, 2016
 from paramiko.client import *
 import paramiko
 import time
-from Settings import Settings
+from agent.Settings import Settings
 
 
 class SSH(object):

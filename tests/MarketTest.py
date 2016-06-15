@@ -42,6 +42,14 @@ class MarketTest(unittest.TestCase):
         self.market.buy(amount)
         self.mock.create_bid.assert_called_once_with(ANY, amount, ANY)
 
+    def testBuyCalledDefaultPresent(self):
+        amount = 30.1
+        price = 13.0
+        timeout = 2.0
+        self.mock.bid_price.return_value = Price.from_float(price)
+        self.market.buy(amount, price, timeout)
+        self.mock.create_bid.assert_called_once_with(price, amount, timeout)
+
     def testBuyInvalidAmount(self):
         amount = -4.0
         with self.assertRaises(ValueError):
@@ -97,6 +105,14 @@ class MarketTest(unittest.TestCase):
         price = 13.0
         self.market.sell(amount, price)
         self.mock.create_ask.assert_called_once_with(price, amount, ANY)
+
+    def testSellCalledDefaultPresent(self):
+        amount = 30.1
+        price = 13.0
+        timeout = 2.0
+        self.mock.ask_price.return_value = Price.from_float(price)
+        self.market.sell(amount, price, timeout)
+        self.mock.create_ask.assert_called_once_with(price, amount, timeout)
 
     def testSellInvalidPrice(self):
         amount = 30.0

@@ -46,7 +46,7 @@ class MarketTest(unittest.TestCase):
         amount = 30.1
         price = 13.0
         timeout = 2.0
-        self.mock.bid_price.return_value = Price.from_float(price)
+        self.mock.order_book.bid_price.return_value = Price.from_float(price)
         self.market.buy(amount, price, timeout)
         self.mock.create_bid.assert_called_once_with(price, amount, timeout)
 
@@ -110,7 +110,7 @@ class MarketTest(unittest.TestCase):
         amount = 30.1
         price = 13.0
         timeout = 2.0
-        self.mock.ask_price.return_value = Price.from_float(price)
+        self.mock.order_book.ask_price.return_value = Price.from_float(price)
         self.market.sell(amount, price, timeout)
         self.mock.create_ask.assert_called_once_with(price, amount, timeout)
 

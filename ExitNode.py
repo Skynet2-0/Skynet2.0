@@ -194,10 +194,7 @@ class Tunnel(object):
             keypair = self.dispersy.crypto.generate_key(u"curve25519")
             member = self.dispersy.get_member(private_key=self.dispersy.crypto.key_to_bin(keypair))
             cls = MarketCommunity
-            self.market_community = self.dispersy.define_auto_load(cls, member, load=True)[0]
-            if introduce_port:
-                self.market_community.add_discovered_candidate(Candidate(('127.0.0.1', introduce_port), tunnel=False))
-
+            self.market_community = self.dispersy.define_auto_load(cls, member, self.multichain_community, load=True)[0]
 
         """
         Start the communities in a seperate thread.
@@ -205,6 +202,7 @@ class Tunnel(object):
         blockingCallFromThread(reactor, start_multichain_community)
         blockingCallFromThread(reactor, start_tunnel_community)
         blockingCallFromThread(reactor, start_market_community)
+        print(str(self.market_community.order_book))
 
         self.session.set_download_states_callback(self.download_states_callback, False)
 

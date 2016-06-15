@@ -11,9 +11,11 @@ from Tribler.community.market.core.order import *
 import unittest
 from mock import *
 
+default_sleeptime = 0.01
+
+
 class AutoBuyBotTest(unittest.TestCase):
     """Tests the market class."""
-    default_sleeptime = 0.1
 
     def setUp(self):
         """Does some set up."""
@@ -27,22 +29,34 @@ class AutoBuyBotTest(unittest.TestCase):
         pass
 
     def testRun(self):
+        def reduce_balance(amount):
+            self.mockwallet.balance.return_value -= amount
+        self.mockmarket.buy.side_effect = reduce_balance
         self.mockwallet.balance.return_value = 0.02
-        self.assertTrue(self._run(0.01, default_sleeptime))
+        self.assertTrue(self.bot._run(0.01, default_sleeptime))
 
     def testRunIsCalledNever(self):
+        def reduce_balance(amount):
+            self.mockwallet.balance.return_value -= amount
+        self.mockmarket.buy.side_effect = reduce_balance
         self.mockwallet.balance.return_value = 0.00
-        self._run(0.01, default_sleeptime)
+        self.bot._run(0.01, default_sleeptime)
         self.assertEquals(0, self.mockmarket.buy.call_count)
 
     def testRunIsCalledOnce(self):
         self.mockwallet.balance.return_value = 0.01
-        self._run(0.01, default_sleeptime)
+        def reduce_balance(amount):
+            self.mockwallet.balance.return_value -= amount
+        self.mockmarket.buy.side_effect = reduce_balance
+        self.bot._run(0.01, default_sleeptime)
         self.assertEquals(1, self.mockmarket.buy.call_count)
 
     def testRunIsCalledTwice(self):
         self.mockwallet.balance.return_value = 0.02
-        self._run(0.01, default_sleeptime)
+        def reduce_balance(amount):
+            self.mockwallet.balance.return_value -= amount
+        self.mockmarket.buy.side_effect = reduce_balance
+        self.bot._run(0.01, default_sleeptime)
         self.assertEquals(2, self.mockmarket.buy.call_count)
 
 if __name__ == "__main__":

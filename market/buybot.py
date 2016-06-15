@@ -59,7 +59,7 @@ class AutoBuyBot(object):
         sleeptime -- The time to sleep. (Default is 10)
         """
         order = None
-        while self.wallet.balance() >= 0:
+        while self.wallet.balance() > 0:
             if order is None:
                 order = self.market.buy(amount)
             elif not order.is_valid():

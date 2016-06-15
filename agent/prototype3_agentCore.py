@@ -17,12 +17,13 @@ from market.market import Market
 
 from ssh.SSH import SSH
 
+import time
 from typing.typecheck import *
 
 from Tribler.community.tunnel.tunnel_community import TunnelSettings
 # from Tribler.community.market.community import MarketCommunity
 
-class Prototype2(object):
+class Prototype3(object):
 
     def __init__(self, enableExitNode, useTestServer):
         #prototype2 starts in development mode unless specifically told otherwise
@@ -65,7 +66,7 @@ class Prototype2(object):
             while(wallet.balance()<bc.getChildCost()):
                 print("Not enough bitcoins, waiting for money to arrive")
                 time.sleep(600)
-            bc.getChild('prototype2', 'prototype2_agentCore.py')
+            bc.getChild('market', 'prototype3_agentCore.py')
 
 
 
@@ -189,7 +190,7 @@ def main(argv):
     usetestserver = False if args.usetestserver in ['False', 'false'] else True
     exitnode = True if args.exitnode in ['True', 'true'] else False
 
-    core = Prototype2(exitnode, usetestserver)
+    core = Prototype3(exitnode, usetestserver)
     core.run()
 
 if __name__=="__main__":

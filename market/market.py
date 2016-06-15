@@ -3,7 +3,7 @@ This file arranges the API for the market.
 
 Created June 6, 2016.
 
-@author Stefan
+@author: Stefan
 """
 
 from api import *

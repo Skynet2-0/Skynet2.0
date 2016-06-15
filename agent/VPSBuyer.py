@@ -66,6 +66,18 @@ class VPSBuyer(object):
         option = options[num]
         option.click()
 
+    def clickSelectElement(self, fieldId, value):
+        '''
+        Chooses one the element in a select list that has value 'value', or return false
+        '''
+        el = self.driver.find_element_by_id(fieldId)
+        options = el.find_elements_by_tag_name('option')
+        for option in options:
+            if option.get_attribute('value') == value:
+                option.click()
+                return True
+        return False
+
     def chooseSelectElement(self, fieldName, fieldText):
         """
         Chooses one of the elements in a select list, by its visible text
@@ -94,6 +106,9 @@ class VPSBuyer(object):
     def getPassword(self):
         """Returns the password to log in on the VPS provider."""
         return self.password
+    
+    def getPrice(self):
+        return self.price
 
     def closeBrowser(self):
         """Closes the current browser instance of Selenium."""

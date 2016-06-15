@@ -67,13 +67,13 @@ class MarketTest(unittest.TestCase):
         succes = False
         try:
             self.market.buy(amount)
-        except KeyError, msg:
-            errormsg = "'%s'" % errormsg # error adds ''.
+        except KeyError as e:
+            msg = e.args[0]
             if msg == errormsg:
                 succes = True
             else:
                 # Unexpected Exception so reraise
-                #print("expected message:%s\nbut was:%s" % (errormsg, msg))
+                print("\nexpected message:%s (%s)\nbut was:%s (%s)\nequal:%s" % (errormsg, str(type(errormsg)), msg, str(type(msg)), str(msg == errormsg)))
                 raise
         self.assertTrue(succes, "Error was altered.")
 

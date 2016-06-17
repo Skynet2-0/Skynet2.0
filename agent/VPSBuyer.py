@@ -109,9 +109,6 @@ class VPSBuyer(object):
     def getPassword(self):
         """Returns the password to log in on the VPS provider."""
         return self.password
-   
-    def getPrice(self):
-        return self.password
     
     def getPrice(self):
         return self.price

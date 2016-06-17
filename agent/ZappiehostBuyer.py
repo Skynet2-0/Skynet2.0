@@ -143,6 +143,7 @@ class ZappiehostBuyer(VPSBuyer):
             self.driver.get("https://billing.zappiehost.com/clientarea.php?action=products")
             self.driver.find_element_by_css_selector(".table.table-striped.table-framed").find_element_by_css_selector(".btn-group").find_element_by_css_selector(".btn").click()
 
+            self.driver.implicitly_wait(10)
             self._get_ip_address()
             self.driver.find_element_by_css_selector(".icon-btn.icon-reinstall").click()
 

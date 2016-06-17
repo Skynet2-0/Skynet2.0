@@ -37,11 +37,13 @@ class OffshoredediBuyerTest(VPSBuyerTest):
     def setUp(self):
         super(OffshoredediBuyerTest, self).setUp()
         self.sshuser = "root"
-        self.sshpassword = ""
         self.buyer = OffshoredediBuyer(self.email, self.password)
 
     def testSSHPassword(self):
-        self.assertEqual(self.sshpassword, self.buyer.getSSHPassword())
+        self.assertIsNotNone(self.buyer.getSSHPassword())
+
+    def testSSHPasswordLength(self):
+        self.assertEquals(30, len(self.buyer.getSSHPassword()))
 
     def testSSHName(self):
         self.assertEqual(self.sshuser, self.buyer.getSSHUsername())

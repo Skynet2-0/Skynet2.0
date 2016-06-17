@@ -5,6 +5,7 @@ import os
 import re
 import sys
 import time
+from datetime import datetime
 
 from agent.Birthchamber import Birthchamber
 from agent.DNA import DNA
@@ -60,8 +61,9 @@ class Prototype2(object):
                 time.sleep(600)
             bc.getChild('prototype2', 'prototype2_agentCore.py')
 
-
-
+        print("")
+        dt = datetime.now()
+        print(dt.strftime("%A, %d. %B %Y %I:%M%p"))
         print("started up agentCore on child, transferring own funds to child")
         v= bc.vps
         ssh = SSH(v.getIP(),v.getSSHUsername(),v.getSSHPassword(),22)

@@ -33,7 +33,10 @@ class VPSBuyer(object):
         else:
             self.password = password
         self.SSHUsername = SSHUsername
+
         self.SSHPassword = SSHPassword
+        if self.SSHPassword == "":
+            self.SSHPassword = self.generator.getRAString(32)
         self.IP = ""
 
     def getFormValue(self, name):

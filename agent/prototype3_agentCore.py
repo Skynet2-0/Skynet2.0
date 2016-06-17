@@ -5,6 +5,7 @@ import os
 import re
 import sys
 import time
+from datetime import datetime
 
 from agent.Birthchamber import Birthchamber
 from agent.DNA import DNA
@@ -13,22 +14,16 @@ from agent.Settings import Settings
 from agent.VPSBuyer import VPSBuyer
 from agent.Wallet import Wallet
 
-from market.market import Market
-
 from ssh.SSH import SSH
-
-import time
-from typing.typecheck import *
 
 from Tribler.community.tunnel.tunnel_community import TunnelSettings
 
-class Prototype3(object):
+class Prototype2(object):
 
     def __init__(self, enableExitNode, useTestServer):
         #prototype2 starts in development mode unless specifically told otherwise
         s = Settings()
         wallet = Wallet()
-        self.market = None
 
         if enableExitNode:
             print("starting Tribler Exitnode")
@@ -44,21 +39,22 @@ class Prototype3(object):
             tunnel = Tunnel(settings, crawl_keypair_filename, dispersy_port)
             #StandardIO(LineHandler(tunnel, profile))
             tunnel.start(None)
-            self.market = Market(tunnel.market_community)
 
         bc = Birthchamber()
 
         if useTestServer:
             #this part works for this version, and since this script is just for doing integration it should be fine
             #i still need to write a dummy vpsbuyer that simply takes these values
-            bc.get_child_using_test_server('prototype3', 'prototype3_agentCore.py')
+            bc.get_child_using_test_server('market', 'prototype3_agentCore.py')
             v = bc.vps
 
             print("preparing to run protoype2_agentcore on the following server:")
             print("SSHUsername: "+v.SSHUsername)
             print("SSHPassword: "+v.SSHPassword)
             print("SSHIP: "+v.IP)
-        else:
+        elif market is not None:
+            dt = datetime.now()
+            print("Start running the market on %s" % dt.strftime("%A, %d. %B %Y %I:%M%p"))
             self.run()
 
     def prepChild(self, ssh):
@@ -141,7 +137,11 @@ class Prototype3(object):
             amount = 0.01 # According to api 10 kb.
             while(True):
                 if wallet.balance() >= bc.getChildCost():
+                    dt = datetime.now()
+                    print("Acquired enough funds for child at %s" % dt.strftime("%A, %d. %B %Y %I:%M%p"))
                     bc.getChild('market', 'prototype3_agentCore.py')
+                    dt = datetime.now()
+                    print("Bought child at %s" % dt.strftime("%A, %d. %B %Y %I:%M%p"))
                 elif self.market.get_multichain_balance() >= amount:
                     market.sell(amount)
                 else:
@@ -172,7 +172,8 @@ def main(argv):
     usetestserver = False if args.usetestserver in ['False', 'false'] else True
     exitnode = True if args.exitnode in ['True', 'true'] else False
 
-    core = Prototype3(exitnode, usetestserver)
+    Prototype3(exitnode, usetestserver)
+
 
 if __name__=="__main__":
     main(sys.argv[1:])

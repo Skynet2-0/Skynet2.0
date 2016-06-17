@@ -3,6 +3,7 @@ This script buys a server automatically and then installs a copy of itself from
 github unto that server.
 """
 import json
+from datetime import datetime
 
 from agent.DNA import DNA
 from agent.DummyVPSBuyer import DummyVPSBuyer
@@ -66,11 +67,22 @@ class Birthchamber(object):
             #maybe do an alternative vps?
             
     def install_and_run_child(self, dna, vpsname, otherBranch = None, otherCore = None):
-        
-        
+        print("starting installon child")
+        dt = datetime.now()
+        print(dt.strftime("%A, %d. %B %Y %I:%M%p"))
         
         self.installChild(otherBranch)        
+        
+        print("sending genetic code to child")
+        dt = datetime.now()
+        print(dt.strftime("%A, %d. %B %Y %I:%M%p"))        
+        
         self.giveChildGeneticCode(dna, vpsname)
+        
+        print("starting child")
+        dt = datetime.now()
+        print(dt.strftime("%A, %d. %B %Y %I:%M%p"))        
+        
         self.startChild(otherCore)
         
         self.printChildInfo()

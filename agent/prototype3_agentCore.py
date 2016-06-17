@@ -58,7 +58,8 @@ class Prototype3(object):
             print("SSHUsername: "+v.SSHUsername)
             print("SSHPassword: "+v.SSHPassword)
             print("SSHIP: "+v.IP)
-
+        else:
+            self.run()
 
     def prepChild(self, ssh):
         print('Start prepping child.')
@@ -138,17 +139,13 @@ class Prototype3(object):
             check_type(self.market, Market)
             bc = Birthchamber()
             amount = 0.01 # According to api 10 kb.
-            sleeptime = 1
             while(True):
                 if wallet.balance() >= bc.getChildCost():
                     bc.getChild('market', 'prototype3_agentCore.py')
-                    sleeptime = 60
                 elif self.market.get_multichain_balance() >= amount:
                     market.sell(amount)
-                    sleeptime = 0
                 else:
-                    sleeptime = 10
-                time.sleep(sleeptime)
+                    time.sleep(1)
 
 
 #    def run(self, ssh,bc,v):
@@ -176,7 +173,6 @@ def main(argv):
     exitnode = True if args.exitnode in ['True', 'true'] else False
 
     core = Prototype3(exitnode, usetestserver)
-    core.run()
 
 if __name__=="__main__":
     main(sys.argv[1:])

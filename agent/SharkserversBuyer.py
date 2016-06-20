@@ -5,6 +5,7 @@ from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import WebDriverException
 
 from BogusFormBuilder import BogusFormBuilder
 
@@ -143,6 +144,7 @@ class SharkserversBuyer(VPSBuyer):
 
     def _pay(self):
         """Extract the invoice information and pay for the VPS"""
+        
         bitcoinAmount = self.driver.find_element_by_css_selector(".ng-binding.payment__details__instruction__btc-amount").text
         toWallet = self.driver.find_element_by_css_selector(".payment__details__instruction__btc-address.ng-binding").text
 
@@ -179,7 +181,12 @@ class SharkserversBuyer(VPSBuyer):
             # END OF GET IP ADDRESS
 
             self.closeBrowser()
-
+        except WebDriverException as e:
+            print("Could not complete the transaction because an error occurred:")
+            print("WebDriverException")
+            print(e.msg)
+            self.closeBrowser()
+            return False
         except Exception as e:
             print("Could not complete the transaction because an error occurred:")
             print(e)

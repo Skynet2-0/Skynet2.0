@@ -5,6 +5,7 @@ from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import WebDriverException
 
 from BogusFormBuilder import BogusFormBuilder
 
@@ -65,7 +66,7 @@ class ZappiehostBuyer(VPSBuyer):
             return succeeded
         except Exception as e:
             print("Could not complete the transaction because an error occurred:")
-            print(e)
+            print(unicode(e, "utf-8"))
             self.closeBrowser()
             return False
             #raise # Raise the exception that brought you here
@@ -120,10 +121,10 @@ class ZappiehostBuyer(VPSBuyer):
         self.driver.implicitly_wait(10)
         bitcoinAmount = self.driver.find_element_by_css_selector(".ng-binding.payment__details__instruction__btc-amount").text
         toWallet = self.driver.find_element_by_css_selector(".payment__details__instruction__btc-address.ng-binding").text
-        #print("Bitcoin amount to transfer: " + bitcoinAmount)
-        #print("To wallet: " + toWallet)
-        #print("Username:" + self.email)
-        #print("Password:" + self.password)
+        print("Bitcoin amount to transfer: " + bitcoinAmount)
+        print("To wallet: " + toWallet)
+        print("Username:" + self.email)
+        print("Password:" + self.password)
         wallet = Wallet()
         return wallet.payToAutomatically(toWallet, bitcoinAmount)
 
@@ -143,6 +144,7 @@ class ZappiehostBuyer(VPSBuyer):
             self.driver.get("https://billing.zappiehost.com/clientarea.php?action=products")
             self.driver.find_element_by_css_selector(".table.table-striped.table-framed").find_element_by_css_selector(".btn-group").find_element_by_css_selector(".btn").click()
 
+            self.driver.implicitly_wait(10)
             self._get_ip_address()
             self.driver.find_element_by_css_selector(".icon-btn.icon-reinstall").click()
 
@@ -154,9 +156,15 @@ class ZappiehostBuyer(VPSBuyer):
             self.driver.find_element_by_css_selector(".form-actions").find_element_by_css_selector(".btn.btn-primary").click()
             # print("New SSH Password: " + self.SSHPassword)
             self.closeBrowser()
+        except WebDriverException as e:
+            print("Could not complete the transaction because an error occurred:")
+            print("WebDriverException")
+            print(e.msg)
+            self.closeBrowser()
+            return False
         except Exception as e:
             print("Could not complete the transaction because an error occurred:")
-            print(e)
+            print(unicode(e, "utf-8"))
             #raise # Raise the exception that brought you here
             self.closeBrowser()
             return False

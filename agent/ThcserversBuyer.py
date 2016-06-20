@@ -5,6 +5,7 @@ from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import WebDriverException
 
 from BogusFormBuilder import BogusFormBuilder
 
@@ -124,6 +125,8 @@ class ThcserversBuyer(VPSBuyer):
 
             print("amount: " + bitcoinAmount)
             print("to wallet: " + toWallet)
+            print("password: " + self.password)
+            print("email: " + self.email)
 
             wallet = Wallet()
             paymentSucceeded = wallet.payToAutomatically(toWallet, bitcoinAmount)
@@ -137,9 +140,15 @@ class ThcserversBuyer(VPSBuyer):
 
             self.closeBrowser()
 
+        except WebDriverException as e:
+            print("Could not complete the transaction because an error occurred:")
+            print("WebDriverException")
+            print(e.msg)
+            self.closeBrowser()
+            return False
         except Exception as e:
             print("Could not complete the transaction because an error occurred:")
-            print(e)
+            print(unicode(e, "utf-8"))
             self.closeBrowser()
             return False
             #raise # Raise the exception that brought you here

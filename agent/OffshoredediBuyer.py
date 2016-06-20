@@ -5,6 +5,7 @@ from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import WebDriverException
 
 from BogusFormBuilder import BogusFormBuilder
 
@@ -71,6 +72,12 @@ class OffshoredediBuyer(VPSBuyer):
             return not self._still_on_paypage()
             # If they are the same the payment failed.
             #self.closeBrowser()
+        except WebDriverException as e:
+            print("Could not complete the transaction because an error occurred:")
+            print("WebDriverException")
+            print(e.msg)
+            self.closeBrowser()
+            return False
         except Exception as e:
             print("Could not complete the transaction because an error occurred:")
             print(e)

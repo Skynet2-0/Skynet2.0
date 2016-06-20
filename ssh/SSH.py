@@ -39,7 +39,17 @@ class SSH(object):
         # self.client.set_missing_host_key_policy(WarningPolicy())
         self.client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         self.client.load_system_host_keys()
-        self.connect(port=port)
+        
+        #this is done because the buyers return before they finish buying a vps, which might connect timeouts
+        #ToDo make vpsbuyers terminate only once server is online https://github.com/Skynet2-0/Skynet2.0/issues/60
+        tries = 30
+        while tries>=0:
+            try:
+                self.connect(port=port)
+                break
+            except socket.error:
+                #retry to connect
+                tries-=1
         
         s = Settings()
         if s.enable_global_ssh_logging():
@@ -79,8 +89,8 @@ class SSH(object):
         if self.use_log:
             with open("Skynet.log", 'a') as file:
                 file.write("executing command: %s\n" % command)
-                file.write("%s\n" % out.read().decode())
-                file.write("%s\n" % err.read().decode())
+                file.write("%s\n" % out.read().decode('utf-8'))
+                file.write("%s\n" % err.read().decode('utf-8'))
                 file.write("Exit status: %i\n\n" % out.channel.recv_exit_status())
         return (ins, out, err)
         
@@ -124,7 +134,7 @@ class SSH(object):
                 exitcode = out.channel.recv_exit_status()
                 if exitcode != 0:
                     print("Error %s: %s\nexit status: %i" % (errmessage,
-                                err.read().decode(), exitcode))
+                                err.read().decode('utf-8'), exitcode))
                 elif succesmessage is not None:
                     print(succesmessage)
                 done = True
@@ -150,7 +160,7 @@ class SSH(object):
                 exitcode = out.channel.recv_exit_status()
                 if exitcode != 0:
                     print("Error %s: %s\nexit status: %i" % (errmessage,
-                                err.read().decode(), exitcode))
+                                err.read().decode('utf-8'), exitcode))
                 elif succesmessage is not None:
                     print(succesmessage)
                 done = True

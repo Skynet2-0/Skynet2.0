@@ -39,7 +39,17 @@ class SSH(object):
         # self.client.set_missing_host_key_policy(WarningPolicy())
         self.client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         self.client.load_system_host_keys()
-        self.connect(port=port)
+        
+        #this is done because the buyers return before they finish buying a vps, which might connect timeouts
+        #ToDo make vpsbuyers terminate only once server is online https://github.com/Skynet2-0/Skynet2.0/issues/60
+        tries = 30
+        while tries>=0
+            try:
+                self.connect(port=port)
+                break
+            except socket.error:
+                #retry to connect
+                tries-=1
         
         s = Settings()
         if s.enable_global_ssh_logging():

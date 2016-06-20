@@ -39,12 +39,6 @@ class Client(object):
         country = CountryGetter.get_country()
         self.server.add(ip, wallet, country, dna)
 
-c = Client('localhost', 8000)
-c.add("A wallet address")
-print(c.server.list_files())
-c.server.remove()
-print(c.server.list_files())
-
 """
 # Code for testing the rpc.
 c = Client('localhost', 8000)

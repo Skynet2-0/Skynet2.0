@@ -89,8 +89,8 @@ class SSH(object):
         if self.use_log:
             with open("Skynet.log", 'a') as file:
                 file.write("executing command: %s\n" % command)
-                file.write("%s\n" % out.read().decode())
-                file.write("%s\n" % err.read().decode())
+                file.write("%s\n" % out.read().decode('utf-8'))
+                file.write("%s\n" % err.read().decode('utf-8'))
                 file.write("Exit status: %i\n\n" % out.channel.recv_exit_status())
         return (ins, out, err)
         
@@ -134,7 +134,7 @@ class SSH(object):
                 exitcode = out.channel.recv_exit_status()
                 if exitcode != 0:
                     print("Error %s: %s\nexit status: %i" % (errmessage,
-                                err.read().decode(), exitcode))
+                                err.read().decode('utf-8'), exitcode))
                 elif succesmessage is not None:
                     print(succesmessage)
                 done = True
@@ -160,7 +160,7 @@ class SSH(object):
                 exitcode = out.channel.recv_exit_status()
                 if exitcode != 0:
                     print("Error %s: %s\nexit status: %i" % (errmessage,
-                                err.read().decode(), exitcode))
+                                err.read().decode('utf-8'), exitcode))
                 elif succesmessage is not None:
                     print(succesmessage)
                 done = True

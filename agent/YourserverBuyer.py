@@ -87,9 +87,8 @@ class YourserverBuyer(VPSBuyer):
             verify_url = mails_html.split('clicking the link below:<br>\n<a href=\'')[1].split('\'')[0]
             print("verify URL: " +verify_url)
 
-            self.password = mails_html.split('Password: ')[1].split('\n')[0]
-            print("password before splitting off last character: " + self.password)
-            self.password = self.password[:-1]
+            password = mails_html.split('Password: ')[1].split('\n')[0]
+            self.password = password[:-2] # Split off the last two characters of the password, those are empty characters that aren't part of the password
             print("password used: " + self.password)
 
             self.driver.get(verify_url)

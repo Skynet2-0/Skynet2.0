@@ -31,8 +31,8 @@ class Client(object):
 
         wallet -- The wallet address used.
         """
-        from DNA import DNA
-        from CountryGetter import CountryGetter
+        from agent.DNA import DNA
+        from agent.CountryGetter import CountryGetter
         import ipgetter
         dna = DNA().json
         ip = ipgetter.myip()

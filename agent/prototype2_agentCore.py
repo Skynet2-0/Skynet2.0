@@ -118,7 +118,8 @@ class Prototype2(object):
         f.write("child wallet address: "+childWallet)
         
         w = Wallet()
-        w.send_everything_to(childWallet)
+        print("sending of all money in wallet is turned off")
+        #w.send_everything_to(childWallet)
         
     def get_child_wallet_address(self, ssh):
         """

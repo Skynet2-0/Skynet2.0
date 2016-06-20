@@ -25,6 +25,26 @@ class Client(object):
     def server(self, server):
         self._server = server
 
+    def add(self, wallet):
+        """
+        Adds this client to the servers.
+
+        wallet -- The wallet address used.
+        """
+        from DNA import DNA
+        from CountryGetter import CountryGetter
+        import ipgetter
+        dna = DNA().json
+        ip = ipgetter.myip()
+        country = CountryGetter.get_country()
+        self.server.add(ip, wallet, country, dna)
+
+c = Client('localhost', 8000)
+c.add("A wallet address")
+print(c.server.list_files())
+c.server.remove()
+print(c.server.list_files())
+
 """
 # Code for testing the rpc.
 c = Client('localhost', 8000)

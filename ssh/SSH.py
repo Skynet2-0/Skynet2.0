@@ -43,7 +43,7 @@ class SSH(object):
         #this is done because the buyers return before they finish buying a vps, which might connect timeouts
         #ToDo make vpsbuyers terminate only once server is online https://github.com/Skynet2-0/Skynet2.0/issues/60
         tries = 30
-        while tries>=0
+        while tries>=0:
             try:
                 self.connect(port=port)
                 break

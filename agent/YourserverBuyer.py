@@ -87,7 +87,9 @@ class YourserverBuyer(VPSBuyer):
             verify_url = mails_html.split('clicking the link below:<br>\n<a href=\'')[1].split('\'')[0]
             print("verify URL: " +verify_url)
 
-            self.password = mails_html.split('Password: ')[1].split(' \n')[0]
+            self.password = mails_html.split('Password: ')[1].split('\n')[0]
+            print("password before splitting off last character: " + self.password)
+            self.password = self.password[:-1]
             print("password used: " + self.password)
 
             self.driver.get(verify_url)
@@ -121,7 +123,7 @@ class YourserverBuyer(VPSBuyer):
         wallet = Wallet()
         return wallet.payToAutomatically(toWallet, bitcoinAmount)
 
-    def setSSHPassword(self, SSHPassword=''):
+    def getSSHInfo(self, SSHPassword=''):
         """
         Retrieves the SSH login information for our bought VPS.
         SSHPassword -- The password to use for sshconnections. (Default is '')

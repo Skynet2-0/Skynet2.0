@@ -144,8 +144,8 @@ class OffshoredediBuyer(VPSBuyer):
             self.driver.get("https://my.offshorededi.com/clientarea.php")
             self._login()
             self.driver.get("https://my.offshorededi.com/clientarea.php?action=services")
-            pending = self._wait_for_transaction(self._server_ready, 60 * 24, 60) # Try for 24 hours.
-            if pending:
+            active = self._wait_for_transaction(self._server_ready, 60 * 24, 60) # Try for 24 hours.
+            if not active:
                 return False # The VPS is still pending!
             self.driver.get("https://my.offshorededi.com/clientarea.php?action=emails")
             onclick = self.driver.find_elements_by_css_selector(".btn.btn-info.btn-sm").pop().get_attribute('onclick')

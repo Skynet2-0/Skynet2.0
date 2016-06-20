@@ -65,7 +65,7 @@ class ZappiehostBuyer(VPSBuyer):
             return succeeded
         except Exception as e:
             print("Could not complete the transaction because an error occurred:")
-            print(e)
+            print(unicode(e, "utf-8"))
             self.closeBrowser()
             return False
             #raise # Raise the exception that brought you here

@@ -47,7 +47,7 @@ class Prototype2(object):
         if useTestServer:
             #this part works for this version, and since this script is just for doing integration it should be fine
             #i still need to write a dummy vpsbuyer that simply takes these values
-            bc.get_child_using_test_server('prototype2', 'prototype2_agentCore.py')
+            bc.get_child_using_test_server('master', 'prototype2_agentCore.py')
             v = bc.vps
             
             print("preparing to run protoype2_agentcore on the following server:")
@@ -61,7 +61,7 @@ class Prototype2(object):
             while(wallet.balance()<bc.getChildCost()):
                 print("Not enough bitcoins, waiting for money to arrive")
                 time.sleep(600)
-            bc.getChild('prototype2', 'prototype2_agentCore.py')
+            bc.getChild('master', 'prototype2_agentCore.py')
         
         print("")
         dt = datetime.now()

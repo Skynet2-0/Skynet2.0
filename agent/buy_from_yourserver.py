@@ -11,9 +11,10 @@ from BogusFormBuilder import BogusFormBuilder
 from VPSBuyer import VPSBuyer
 from YourserverBuyer import YourserverBuyer
 
-
+#buyer = YourserverBuyer('SjPnwvx@oyT.com', 'aeOQGenkFhCTBOpjVaYrZtKzDqQdOByh')
 buyer = YourserverBuyer()
 result = buyer.placeOrder()
+#result = buyer.setSSHPassword()
 
 if result == True:
     print("VPS BOUGHT! Details:")

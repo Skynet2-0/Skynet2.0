@@ -12,7 +12,6 @@ from BogusFormBuilder import BogusFormBuilder
 class VPSBuyer(object):
     """
     This is the standard class to buy a VPS host.
-
     By itself, it does nothing; this class is supposed to be extended by other
     classes, each for a specific VPS Provider.
 
@@ -57,7 +56,8 @@ class VPSBuyer(object):
         #driver.find_element_by_css_selector("input[name='" + fieldname + "']").send_keys(value)
 
         # ^ send_keys has some issues, using javascript to set an attribute instead:
-        self.driver.execute_script('arguments[0].setAttribute("value", "' + value + '")', self.driver.find_element_by_css_selector("input[name='" + fieldname + "']"))
+        self.driver.find_element_by_name(fieldname) # Selenium waits until this element exists
+        self.driver.execute_script('document.getElementsByName("'+fieldname+'")[0].setAttribute("value", "' + value + '")')
 
     def clickRandomSelectElement(self, fieldId):
         """
@@ -109,7 +109,7 @@ class VPSBuyer(object):
     def getPassword(self):
         """Returns the password to log in on the VPS provider."""
         return self.password
-    
+
     def getPrice(self):
         return self.price
 

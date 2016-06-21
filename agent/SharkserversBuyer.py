@@ -86,8 +86,10 @@ class SharkserversBuyer(VPSBuyer):
             self.driver.implicitly_wait(10)
 
 
-            print("Username:" + self.email)
-            print("Password:" + self.password)
+            print("Email used: " + self.email)
+            print("Password used: " + self.password)
+            print("SSHPassword to be used: " + self.SSHPassword)
+            print("SSHUsername to be used: " + self.SSHUsername)
 
             paymentSucceeded = self._pay()
 

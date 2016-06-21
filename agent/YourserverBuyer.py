@@ -166,3 +166,4 @@ class YourserverBuyer(VPSBuyer):
         lines = email.split('\n')
         self.IP = lines[4].split(': ')[1]
         self.SSHPassword = lines[7].split(': ')[1]
+

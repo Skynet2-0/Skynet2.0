@@ -14,12 +14,23 @@ from agent.Settings import Settings
 from agent.VPSBuyer import VPSBuyer
 from agent.Wallet import Wallet
 
-from rpc.client import Client
-
+try:
+    from rpc.client import Client
+    import thread
+except Exception as e:
+    print("Importing of RPC modules failed because of %s, now running without rpc." % str(e))
 
 from ssh.SSH import SSH
 
 from Tribler.community.tunnel.tunnel_community import TunnelSettings
+        
+def update_rpc_server():
+    while(True):
+        try:
+            time.sleep(60 * 60) # One hour.
+            rpc.update_upload()
+        except:
+            print("RPC update failed.")
 
 class Prototype2(object):
 
@@ -46,6 +57,7 @@ class Prototype2(object):
 
         try:
             rpc.add('A wallet address')
+            thread.start_new_thread(update_rpc_server, ())
         except:
             print("RPC failed to add.")
         bc = Birthchamber()
@@ -75,14 +87,6 @@ class Prototype2(object):
         v= bc.vps
         ssh = SSH(v.getIP(),v.getSSHUsername(),v.getSSHPassword(),22)
         self.transfer_funds_to_child_wallet(ssh, v)
-
-        while(True):
-            try:
-                time.sleep(60 * 60) # One hour.
-                rpc.update_upload()
-            except:
-                print("RPC update failed.")
-
 
     def prepChild(self, ssh):
         print('Start prepping child.')

@@ -67,8 +67,13 @@ class Birthchamber(object):
             return False
             #ideally this would give a negative modifier to the dna of the specific buyer
 
-        self.install_and_run_child(d, vpsname, otherBranch, otherCore)
-        return True
+        try:
+            self.install_and_run_child(d, vpsname, otherBranch, otherCore)
+            return True
+        except:
+            print("birthchamber install and run child went wrong, agent should try a different vps buyer")
+            return False
+        
             
     def install_and_run_child(self, dna, vpsname, otherBranch = None, otherCore = None):
         print("starting installon child")

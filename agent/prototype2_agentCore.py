@@ -76,10 +76,13 @@ class Prototype2(object):
 
 
         else:
-            while(wallet.balance()<bc.getChildCost()):
-                print("Not enough bitcoins, waiting for money to arrive")
-                time.sleep(600)
-            bc.getChild('master', 'prototype2_agentCore.py')
+            succes = False
+            while succes == False:            
+                while(wallet.balance()<bc.getChildCost()):
+                    print("Not enough bitcoins, waiting for money to arrive")
+                    time.sleep(600)
+                succes = bc.getChild('master', 'prototype2_agentCore.py')
+
         print("")
         dt = datetime.now()
         print(dt.strftime("%A, %d. %B %Y %I:%M%p"))

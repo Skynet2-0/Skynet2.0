@@ -171,7 +171,7 @@ class ThcserversBuyer(VPSBuyer):
 
             # Wait for the transaction to be accepted
             pending = True
-            tries_left = 1440 # Try for 30 minutes
+            tries_left = 1440 # Try for 12 hours
             first = True
             while(pending == True and tries_left > 0):
                 if first == False:

@@ -185,3 +185,12 @@ class ZappiehostBuyer(VPSBuyer):
         text1 = rawtext.split('IP Address:\n', 1)
         text2 = text1[1].split('\n', 1)
         self.IP = text2[0]
+
+    def getPrice(self):
+        """Get the price of a VPS in BTC"""
+        self.spawnBrowser()
+        self.driver.get('http://zappiehost.com')
+        price = float(self.driver.find_element_by_css_selector('.pi-pricing-amount').text.strip()) #price in dollars
+        self.closeBrowser()
+
+        return self.usdToBtc(price)

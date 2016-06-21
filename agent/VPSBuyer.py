@@ -8,6 +8,8 @@ from selenium.common.exceptions import TimeoutException
 
 from BogusFormBuilder import BogusFormBuilder
 
+import json
+
 
 class VPSBuyer(object):
     """
@@ -112,6 +114,34 @@ class VPSBuyer(object):
 
     def getPrice(self):
         return self.price
+
+    def eurToBtc(self, amount):
+        """Converts a price in EUR to BTC"""
+        return self.getPriceConvertedToBtc(amount, 'EUR')
+
+    def usdToBtc(self, amount):
+        """Converts a price in USD to BTC"""
+        return self.getPriceConvertedToBtc(amount, 'USD')
+
+    def getPriceConvertedToBtc(self, amount, currency_code):
+        """Converts a price from one currency to BTC"""
+        exchange_rate = 1
+        self.spawnBrowser()
+        try:
+            self.driver.get('http://bitpay.com/api/rates')
+            rates = self.driver.find_element_by_tag_name('pre').text
+            rates = json.loads(rates)
+
+            for rate in rates:
+                if(rate[u'code'] == currency_code):
+                    exchange_rate = rate[u'rate']
+
+        except Exception as e:
+            print("Could not complete the transaction because an error occurred:")
+            print(e)
+        self.closeBrowser()
+
+        return amount / exchange_rate
 
     def closeBrowser(self):
         """Closes the current browser instance of Selenium."""

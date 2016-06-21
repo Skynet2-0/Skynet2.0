@@ -55,7 +55,8 @@ apt-get install -y --force-yes gnome-terminal default-jre
 ##############################
 #Install firefox for selenium#
 ##############################
-apt-get install -y --force-yes firefox
+#apt-get install -y --force-yes firefox=45.0.2+build1-0ubuntu1
+apt-get install -y --force-yes firefox=28.0+build2-0ubuntu2
 
 ##################################################
 #Install Xvfb to enable headless Firefox Selenium#

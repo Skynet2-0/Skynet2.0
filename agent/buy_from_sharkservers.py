@@ -2,8 +2,8 @@ from SharkserversBuyer import SharkserversBuyer
 
 
 # The code here will actually buy a VPS from Zappiehost
-zhb = SharkserversBuyer()
-result = zhb.buy()
+zhb = SharkserversBuyer('ReFmFHFad@bBY.co.uk', 'eSGNdcjNdJMnCVTNrXSgzUVMYZDGqoLl!')
+result = zhb.getSSHInfo()
 
 if result == True:
     print("VPS BOUGHT! Details:")

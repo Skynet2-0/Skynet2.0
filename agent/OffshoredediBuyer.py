@@ -5,6 +5,7 @@ from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import WebDriverException
 
 from BogusFormBuilder import BogusFormBuilder
 
@@ -71,6 +72,12 @@ class OffshoredediBuyer(VPSBuyer):
             return not self._still_on_paypage()
             # If they are the same the payment failed.
             #self.closeBrowser()
+        except WebDriverException as e:
+            print("Could not complete the transaction because an error occurred:")
+            print("WebDriverException")
+            print(e.msg)
+            self.closeBrowser()
+            return False
         except Exception as e:
             print("Could not complete the transaction because an error occurred:")
             print(e)
@@ -137,8 +144,8 @@ class OffshoredediBuyer(VPSBuyer):
             self.driver.get("https://my.offshorededi.com/clientarea.php")
             self._login()
             self.driver.get("https://my.offshorededi.com/clientarea.php?action=services")
-            pending = self._wait_for_transaction(self._server_ready, 60 * 24, 60) # Try for 24 hours.
-            if pending:
+            active = self._wait_for_transaction(self._server_ready, 60 * 24, 60) # Try for 24 hours.
+            if not active:
                 return False # The VPS is still pending!
             self.driver.get("https://my.offshorededi.com/clientarea.php?action=emails")
             onclick = self.driver.find_elements_by_css_selector(".btn.btn-info.btn-sm").pop().get_attribute('onclick')

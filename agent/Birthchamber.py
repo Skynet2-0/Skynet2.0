@@ -100,7 +100,7 @@ class Birthchamber(object):
         """
         Returns the price of the child in bitcoin
         """
-        return 0.01
+        return 0.0066
         
     def find_child_candidate(self, dna):
         return dna.getVPSBuyer()
@@ -125,6 +125,9 @@ class Birthchamber(object):
         """        
         print("Sending genetic code to the child")
         text = json.dumps(dna.getMutation(childvpsname), indent=4, sort_keys=True)
+        
+        print(text)        
+        
         fc = FileCreator(self.vps.getIP(),self.vps.getSSHUsername(),self.vps.getSSHPassword(),22)
         fc.create("~/Skynet2.0/dna.json", text)
 

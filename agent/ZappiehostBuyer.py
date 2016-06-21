@@ -5,6 +5,7 @@ from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import WebDriverException
 
 from BogusFormBuilder import BogusFormBuilder
 
@@ -65,7 +66,7 @@ class ZappiehostBuyer(VPSBuyer):
             return succeeded
         except Exception as e:
             print("Could not complete the transaction because an error occurred:")
-            print(e)
+            print(unicode(e, "utf-8"))
             self.closeBrowser()
             return False
             #raise # Raise the exception that brought you here
@@ -122,8 +123,10 @@ class ZappiehostBuyer(VPSBuyer):
         toWallet = self.driver.find_element_by_css_selector(".payment__details__instruction__btc-address.ng-binding").text
         print("Bitcoin amount to transfer: " + bitcoinAmount)
         print("To wallet: " + toWallet)
-        print("Username:" + self.email)
-        print("Password:" + self.password)
+        print("Email used: " + self.email)
+        print("Password used: " + self.password)
+        print("SSHPassword to be used: " + self.SSHPassword)
+        print("SSHUsername to be used: " + self.SSHUsername)
         wallet = Wallet()
         return wallet.payToAutomatically(toWallet, bitcoinAmount)
 
@@ -155,9 +158,15 @@ class ZappiehostBuyer(VPSBuyer):
             self.driver.find_element_by_css_selector(".form-actions").find_element_by_css_selector(".btn.btn-primary").click()
             # print("New SSH Password: " + self.SSHPassword)
             self.closeBrowser()
+        except WebDriverException as e:
+            print("Could not complete the transaction because an error occurred:")
+            print("WebDriverException")
+            print(e.msg)
+            self.closeBrowser()
+            return False
         except Exception as e:
             print("Could not complete the transaction because an error occurred:")
-            print(e)
+            print(unicode(e, "utf-8"))
             #raise # Raise the exception that brought you here
             self.closeBrowser()
             return False

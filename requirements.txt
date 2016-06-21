@@ -1,5 +1,6 @@
 Selenium==2.53.1
 paramiko==1.17.0
 pexpect-u==2.5.1
+temp-mail==0.2
 ipgetter==0.6
 python-geoip-geolite2==2015.303

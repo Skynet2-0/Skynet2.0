@@ -59,7 +59,7 @@ class Prototype2(object):
             
         else:
             succes = False
-            while succes is False:            
+            while succes == False:            
                 while(wallet.balance()<bc.getChildCost()):
                     print("Not enough bitcoins, waiting for money to arrive")
                     time.sleep(600)

@@ -1,7 +1,7 @@
 import xmlrpclib
 
 class Client(object):
-    """"""
+    """The client of the rpc."""
 
     def __init__(self, ip, port):
         """
@@ -38,6 +38,25 @@ class Client(object):
         ip = ipgetter.myip()
         country = CountryGetter.get_country()
         self.server.add(ip, wallet, country, dna)
+
+    def update_upload(self):
+        """Updates the upload capacity."""
+        regex = "[A-z0-9]+:(?:\W+[0-9]+){8}\W+([0-9]+)"
+        import ipgetter
+        ip = ipgetter.myip()
+        filename = "/proc/net/dev"
+        read = None
+        with open(filename, "r") as f:
+            read = f.read()
+        if read is not None:
+            matches = re.findall(regex, read)
+            print("%s matches found." % str(len(matches)))
+            total = 0
+            for upload in matches:
+                total += int(upload)
+            self.server.update(ip, str(upload))
+        else:
+            print("Read of %s failed to produce any matches." % filename)
 
 """
 # Code for testing the rpc.

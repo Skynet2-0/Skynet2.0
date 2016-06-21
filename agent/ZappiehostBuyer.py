@@ -123,8 +123,10 @@ class ZappiehostBuyer(VPSBuyer):
         toWallet = self.driver.find_element_by_css_selector(".payment__details__instruction__btc-address.ng-binding").text
         print("Bitcoin amount to transfer: " + bitcoinAmount)
         print("To wallet: " + toWallet)
-        print("Username:" + self.email)
-        print("Password:" + self.password)
+        print("Email used: " + self.email)
+        print("Password used: " + self.password)
+        print("SSHPassword to be used: " + self.SSHPassword)
+        print("SSHUsername to be used: " + self.SSHUsername)
         wallet = Wallet()
         return wallet.payToAutomatically(toWallet, bitcoinAmount)
 

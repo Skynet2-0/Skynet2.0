@@ -64,6 +64,9 @@ class YourserverBuyer(VPSBuyer):
             self.driver.find_element_by_css_selector('.ordernow').click()
             
             print("Email used: " + self.email)
+            print("Password used: " + self.password)
+            print("SSHPassword to be used: " + self.SSHPassword)
+            print("SSHUsername to be used: " + self.SSHUsername)
             
             try:
                 self.driver.find_element_by_css_selector('input[value="Pay Now"]').click()

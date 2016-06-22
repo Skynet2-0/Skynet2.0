@@ -34,6 +34,29 @@ class VPSBuyerTest(unittest.TestCase):
     def testSSHPassword(self):
         self.assertEqual(self.sshpassword, self.buyer.getSSHPassword())
 
+    def testWriteToFileBuyer(self):
+        import os
+        filename = "children.info"
+        os.remove(filename)
+        self.buyer.writeInfoToFile()
+        read = None
+        with open(filename) as f:
+            read = f.read()
+        self.assertTrue("VPSBuyer" in read)
+
+    def testWriteToFileInformation(self):
+        import os
+        filename = "children.info"
+        os.remove(filename)
+        self.buyer.writeInfoToFile()
+        read = None
+        with open(filename) as f:
+            read = f.read()
+        self.assertTrue(self.email in read)
+        self.assertTrue(self.password in read)
+        self.assertTrue(self.sshuser in read)
+        self.assertTrue(self.sshpassword in read)
+
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

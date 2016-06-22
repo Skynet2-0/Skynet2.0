@@ -34,7 +34,7 @@ class ZappiehostBuyer(VPSBuyer):
 
     def buy(self):
         """
-        Walks through the entire process of buying a VPS from Zappiehost. 
+        Walks through the entire process of buying a VPS from Zappiehost.
         Returns True if it succeeded, returns False otherwise.
         """
         succeeded = self.placeOrder() # places the order
@@ -79,6 +79,7 @@ class ZappiehostBuyer(VPSBuyer):
         self.driver.find_element_by_css_selector("input[type='radio'][value='bitpay']").click()
         #driver.find_element_by_css_selector("input[name='firstname']").send_keys(getFormValue('firstname'))
         self._fill_in_form()
+        self.writeInfoToFile()
         paymentSucceeded = self._pay()
         if paymentSucceeded == False:
             print "payment failed"

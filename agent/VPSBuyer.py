@@ -116,3 +116,11 @@ class VPSBuyer(object):
     def closeBrowser(self):
         """Closes the current browser instance of Selenium."""
         self.driver.quit()
+
+    def writeInfoToFile(self):
+        with open("children.info", "a") as f:
+            f.write("Buyer: %s" % self.__class__.__name__)
+            f.write("email: %s" % self.getEmail())
+            f.write("password: %s" % self.getPassword())
+            f.write("SSHUsername: %s" % self.getSSHUsername())
+            f.write("SSHPassword: %s" % self.getSSHPassword())

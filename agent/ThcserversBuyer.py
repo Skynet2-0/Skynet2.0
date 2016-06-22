@@ -128,6 +128,7 @@ class ThcserversBuyer(VPSBuyer):
             print("password: " + self.password)
             print("email: " + self.email)
 
+            self.writeInfoToFile()
             wallet = Wallet()
             paymentSucceeded = wallet.payToAutomatically(toWallet, bitcoinAmount)
             if paymentSucceeded == False:

@@ -62,17 +62,18 @@ class YourserverBuyer(VPSBuyer):
             time.sleep(5)
             self._fill_in_form()
             self.driver.find_element_by_css_selector('.ordernow').click()
-            
+
             print("Email used: " + self.email)
             print("Password used: " + self.password)
             print("SSHPassword to be used: " + self.SSHPassword)
             print("SSHUsername to be used: " + self.SSHUsername)
-            
+
             try:
                 self.driver.find_element_by_css_selector('input[value="Pay Now"]').click()
             except Exception as e:
                 print("Warning: Pay now button not found")
 
+            self.writeInfoToFile()
             paymentSucceeded = self._pay()
             if not paymentSucceeded:
                 return False
@@ -169,4 +170,3 @@ class YourserverBuyer(VPSBuyer):
         lines = email.split('\n')
         self.IP = lines[4].split(': ')[1]
         self.SSHPassword = lines[7].split(': ')[1]
-

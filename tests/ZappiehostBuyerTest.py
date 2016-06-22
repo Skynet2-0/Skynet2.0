@@ -23,6 +23,17 @@ class ZappiehostBuyerTest(VPSBuyerTest):
     def testSSHName(self):
         self.assertEqual(self.sshuser, self.buyer.getSSHUsername())
 
+    def testWriteToFileBuyer(self):
+        import os
+        filename = "children.info"
+        if os.path.isfile(filename):
+            os.remove(filename)
+        self.buyer.writeInfoToFile()
+        read = None
+        with open(filename) as f:
+            read = f.read()
+        self.assertTrue("ZappiehostBuyer" in read)
+
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

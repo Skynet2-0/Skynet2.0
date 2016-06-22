@@ -92,6 +92,17 @@ class OffshoredediBuyerTest(VPSBuyerTest):
         self.buyer._wait_for_transaction(second_time, 10, 0, False, arg=8)
         self.assertEqual(8, CNTR.getCounter())
 
+    def testWriteToFileBuyer(self):
+        import os
+        filename = "children.info"
+        if os.path.isfile(filename):
+            os.remove(filename)
+        self.buyer.writeInfoToFile()
+        read = None
+        with open(filename) as f:
+            read = f.read()
+        self.assertTrue("OffshoredediBuyer" in read)
+
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

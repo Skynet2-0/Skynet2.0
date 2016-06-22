@@ -124,5 +124,5 @@ class DNA(object):
     @staticmethod
     def default():
         #return json.loads('{"vps buyers": {"zappiehost": 0.34, "offshorededi": 0.33, "vhs": 0.33}}')
-        return {"vps buyers": {"ZappiehostBuyer": 0.34, "OffshoredediBuyer": 0.33, "ThcserversBuyer": 0.33},
+        return {"vps buyers": {"SharkserversBuyer": 0.25, "YourserverBuyer": 0.25, "ZappiehostBuyer": 0.25, "OffshoredediBuyer": 0.01},
                 "mutateRate": 0.05}

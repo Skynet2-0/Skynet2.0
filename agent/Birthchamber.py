@@ -45,6 +45,7 @@ class Birthchamber(object):
         """
         Buys a child server.
          
+        returns true if child was succesfully bought, else returns false
         """
         
         print("fetching genetic code")
@@ -55,16 +56,24 @@ class Birthchamber(object):
         
         #buy a server
 
-        (vps, vpsname) = self.find_child_candidate(d)
-        self.vps = vps
-        result = self.vps.buy()
+        try:
+            (vps, vpsname) = self.find_child_candidate(d)
+            self.vps = vps
+            result = self.vps.buy()
+            if result==False:
+                return False #if server was unsuccesfully bought, the process cant continue
+        except:
+            print("vpsbuyer failed with error agent should try a different vps buyer")
+            return False
+            #ideally this would give a negative modifier to the dna of the specific buyer
 
-        if result == True:
+        try:
             self.install_and_run_child(d, vpsname, otherBranch, otherCore)
-        else:
-            print("Failed to buy the VPS...")
-
-            #maybe do an alternative vps?
+            return True
+        except:
+            print("birthchamber install and run child went wrong, agent should try a different vps buyer")
+            return False
+        
             
     def install_and_run_child(self, dna, vpsname, otherBranch = None, otherCore = None):
         print("starting installon child")

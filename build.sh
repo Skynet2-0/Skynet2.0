@@ -41,7 +41,7 @@ dpkg -i python-cryptography_0.8-1ubuntu2_amd64.deb
 
 #install tribler itself
 #pip install git+https://github.com/Tribler/tribler
-pip install git+https://github.com/mitchellolsthoorn/tribler@feature/market
+pip install git+https://github.com/mitchellolsthoorn/tribler@backup
 
 rm python-cryptography_0.8-1ubuntu2_amd64.deb
 #rm tribler_6.5.2_all.deb

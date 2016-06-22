@@ -65,6 +65,7 @@ class OffshoredediBuyer(VPSBuyer):
             print("password used: " + self.password)
             self.driver.find_element_by_id('btnCompleteOrder').click()
             self.driver.find_element_by_name('paynow').click()
+            self.writeInfoToFile()
             paymentSucceeded = self._pay()
             if paymentSucceeded == False:
                 return False

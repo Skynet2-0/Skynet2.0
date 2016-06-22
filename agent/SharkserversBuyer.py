@@ -28,10 +28,10 @@ class SharkserversBuyer(VPSBuyer):
         super(SharkserversBuyer, self).__init__(email, password, SSHPassword)
         if self.password != password or self.password == "":
             self.password = self.generator.getRAString(32) + "!" # End this password with an exclamation mark so the password is strong enough to be used on Sharkservers
-            
+
         if self.SSHPassword != SSHPassword or self.SSHPassword == "":
             self.SSHPassword = self.generator.getRAString(32) # Generate new password
-            
+
         self.SSHUsername = "root"
         pass
 
@@ -61,13 +61,13 @@ class SharkserversBuyer(VPSBuyer):
         try:
             self.spawnBrowser()
             self.driver.get("https://www.sharkservers.co.uk/clients/cart.php?a=add&pid=11")
-            
+
             self.fillInElement('hostname', self.generator.getRAString(randint(8, 15)))
             self.fillInElement('rootpw', self.SSHPassword)
-            
+
             self.chooseSelectElement("customfield[203]", "ubuntu-14.04-x86_64-minimal")
-            
-            
+
+
             self.driver.find_element_by_id('btnCompleteProductConfig').click()
 
             time.sleep(5)
@@ -75,7 +75,7 @@ class SharkserversBuyer(VPSBuyer):
             self.driver.find_element_by_css_selector("input[type='radio'][value='bitpay']").click()
 
             self._fill_in_form()
-            
+
             self.driver.find_element_by_id('btnCompleteOrder').click() # Submit the form
 
             try:
@@ -85,11 +85,11 @@ class SharkserversBuyer(VPSBuyer):
 
             self.driver.implicitly_wait(10)
 
-
             print("Email used: " + self.email)
             print("Password used: " + self.password)
             print("SSHPassword to be used: " + self.SSHPassword)
             print("SSHUsername to be used: " + self.SSHUsername)
+            self.writeInfoToFile()
 
             paymentSucceeded = self._pay()
 
@@ -101,7 +101,7 @@ class SharkserversBuyer(VPSBuyer):
             wait = ui.WebDriverWait(self.driver, 666)
             wait.until(lambda driver: driver.find_element_by_css_selector('.payment--paid'))
             self.closeBrowser()
-            
+
             return True #payment succeeded
 
         except Exception as e:
@@ -146,7 +146,7 @@ class SharkserversBuyer(VPSBuyer):
 
     def _pay(self):
         """Extract the invoice information and pay for the VPS"""
-        
+
         bitcoinAmount = self.driver.find_element_by_css_selector(".ng-binding.payment__details__instruction__btc-amount").text
         toWallet = self.driver.find_element_by_css_selector(".payment__details__instruction__btc-address.ng-binding").text
 

@@ -37,7 +37,8 @@ class VPSBuyerTest(unittest.TestCase):
     def testWriteToFileBuyer(self):
         import os
         filename = "children.info"
-        os.remove(filename)
+        if os.path.isfile(filename):
+            os.remove(filename)
         self.buyer.writeInfoToFile()
         read = None
         with open(filename) as f:
@@ -47,7 +48,8 @@ class VPSBuyerTest(unittest.TestCase):
     def testWriteToFileInformation(self):
         import os
         filename = "children.info"
-        os.remove(filename)
+        if os.path.isfile(filename):
+            os.remove(filename)
         self.buyer.writeInfoToFile()
         read = None
         with open(filename) as f:
